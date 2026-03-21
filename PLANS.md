@@ -359,6 +359,12 @@ Implement two lighter but highly visual demos.
 - cards are consistent and responsive
 - empty/loading/error states are implemented
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m6-dogs-random-users — commit TBD
+
 ---
 
 # Milestone 7 — Open Trivia DB Demo
