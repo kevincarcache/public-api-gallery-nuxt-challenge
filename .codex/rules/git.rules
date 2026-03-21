@@ -1,0 +1,178 @@
+# Allow safe local Git inspection commands without prompting.
+prefix_rule(
+    pattern = ["git", "status"],
+    decision = "allow",
+    justification = "Allow local repository status checks without prompting.",
+    match = [
+        "git status",
+        "git status --short",
+        "git status --porcelain",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "branch"],
+    decision = "allow",
+    justification = "Allow local branch inspection and creation commands without prompting.",
+    match = [
+        "git branch",
+        "git branch --list",
+        "git branch feature/m1-home-shell",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "checkout"],
+    decision = "allow",
+    justification = "Allow switching branches and checking out files/branches for normal Gitflow work.",
+    match = [
+        "git checkout develop",
+        "git checkout -b feature/m1-home-shell",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "switch"],
+    decision = "allow",
+    justification = "Allow branch switching for normal Gitflow work.",
+    match = [
+        "git switch develop",
+        "git switch -c feature/m1-home-shell",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "pull"],
+    decision = "allow",
+    justification = "Allow updating develop locally before creating or merging feature branches.",
+    match = [
+        "git pull",
+        "git pull origin develop",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "diff"],
+    decision = "allow",
+    justification = "Allow local diff inspection without prompting.",
+    match = [
+        "git diff",
+        "git diff --stat",
+        "git diff HEAD~1..HEAD",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "log"],
+    decision = "allow",
+    justification = "Allow local history inspection without prompting.",
+    match = [
+        "git log",
+        "git log --oneline",
+        "git log --oneline --decorate -5",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "add"],
+    decision = "allow",
+    justification = "Allow staging files for milestone commits.",
+    match = [
+        "git add AGENTS.md",
+        "git add pages/index.vue PLANS.md",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "commit"],
+    decision = "allow",
+    justification = "Allow local commits for autonomous milestone workflows.",
+    match = [
+        'git commit -m "feat(m1): build homepage shell"',
+        'git commit --amend -m "feat(m1): build homepage shell"',
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "merge"],
+    decision = "allow",
+    justification = "Allow merging completed feature branches back into develop.",
+    match = [
+        "git merge feature/m1-home-shell",
+        "git merge --no-ff feature/m1-home-shell",
+    ],
+)
+
+# Prompt for pushes so local autonomous workflows do not automatically publish changes.
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "prompt",
+    justification = "Pushing publishes changes to a remote; require explicit approval.",
+    match = [
+        "git push",
+        "git push origin develop",
+        "git push -u origin feature/m1-home-shell",
+    ],
+)
+
+# Prompt for rebases because they rewrite history and can be disruptive.
+prefix_rule(
+    pattern = ["git", "rebase"],
+    decision = "prompt",
+    justification = "Rebase rewrites history; require approval.",
+    match = [
+        "git rebase develop",
+        "git rebase -i HEAD~3",
+    ],
+)
+
+# Forbid dangerous reset usage.
+prefix_rule(
+    pattern = ["git", "reset", "--hard"],
+    decision = "forbidden",
+    justification = "Do not discard working tree changes with git reset --hard.",
+    match = [
+        "git reset --hard",
+        "git reset --hard HEAD~1",
+    ],
+)
+
+# Forbid force-push by default.
+prefix_rule(
+    pattern = ["git", "push", "--force"],
+    decision = "forbidden",
+    justification = "Do not rewrite remote history with force-push.",
+    match = [
+        "git push --force",
+        "git push --force origin develop",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "push", "--force-with-lease"],
+    decision = "forbidden",
+    justification = "Do not rewrite remote history with force-push, even with lease.",
+    match = [
+        "git push --force-with-lease",
+        "git push --force-with-lease origin develop",
+    ],
+)
+
+# Forbid branch deletion by default.
+prefix_rule(
+    pattern = ["git", "branch", "-D"],
+    decision = "forbidden",
+    justification = "Do not delete branches automatically.",
+    match = [
+        "git branch -D feature/m1-home-shell",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "push", "origin", "--delete"],
+    decision = "forbidden",
+    justification = "Do not delete remote branches automatically.",
+    match = [
+        "git push origin --delete feature/m1-home-shell",
+    ],
+)

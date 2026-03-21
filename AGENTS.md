@@ -78,7 +78,13 @@ Do not optimize for:
 ## Autonomy Rules
 
 ### 1. Act autonomously by default
-Do not stop for confirmation unless blocked by a real ambiguity that prevents safe progress.
+Default to autonomous execution.
+
+Do not stop for confirmation for normal Git, implementation, verification, or commit steps unless blocked by:
+- a real ambiguity that prevents safe progress
+- missing required secrets or environment configuration
+- unsafe unrelated local changes
+- missing project artifacts required for the workflow
 
 If multiple reasonable implementation options exist:
 - choose the simpler option
@@ -94,12 +100,15 @@ Examples:
 - use responsive card-based layouts
 - use safe fallbacks for missing API data
 
-### 3. Work milestone by milestone
-Implement the repository in the order defined in `PLAN.md`.
+### 3. Prefer repo skills for repeatable workflows
+When a relevant skill exists in `.agents/skills/`, prefer using that skill instead of re-deriving the workflow from scratch.
 
-Do not jump ahead unless:
-- the current milestone requires a shared dependency from a later one
-- a small preparatory refactor clearly improves the current milestone
+This applies especially to:
+- milestone execution
+- Gitflow workflows
+- API integration patterns
+- fetch state handling
+- final polish and verification
 
 ### 4. Finish functional slices
 Prefer completing one functional slice at a time over scattering partial scaffolding across many files.
@@ -112,6 +121,33 @@ Do not leave behind:
 
 ### 5. Keep the app runnable
 At the end of each milestone, the app must still run and remain navigable.
+
+---
+
+## Planning Source of Truth
+
+Use `PLANS.md` as the execution roadmap for the repository.
+
+Rules:
+- execute milestones sequentially from `PLANS.md`
+- complete one milestone at a time, but continue to the next pending milestone when an autonomous roadmap skill explicitly defines a continuous execution loop
+- use the milestone scope, acceptance criteria, and verification steps defined in `PLANS.md`
+- update milestone status in `PLANS.md` when milestone-based workflows require it
+- do not invent milestone scope outside `PLANS.md` unless required to fix blocking issues
+
+---
+
+## Gitflow Integration Policy
+
+Autonomous milestone workflows may:
+- create feature branches from `develop`
+- commit completed milestone work
+- merge completed milestones back into `develop` after successful verification
+
+Autonomous workflows must never:
+- merge into `main` unless explicitly instructed
+- discard unrelated local changes
+- push unless explicitly instructed
 
 ---
 
@@ -225,7 +261,7 @@ The project should converge toward this structure:
 ├── data/
 │   └── api-catalog.ts
 └── assets/
-````
+```
 
 ---
 

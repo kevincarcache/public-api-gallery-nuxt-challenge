@@ -1,4 +1,4 @@
-# PLAN.md
+# PLANS.md
 
 ## Objective
 
