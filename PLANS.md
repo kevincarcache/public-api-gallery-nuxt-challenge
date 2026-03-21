@@ -408,6 +408,12 @@ Implement a complete interactive quiz flow.
 
 This is one of the most interactive demos and should feel complete.
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m7-trivia-demo — commit TBD
+
 ---
 
 # Milestone 8 — TheMealDB Demo
