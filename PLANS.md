@@ -449,6 +449,12 @@ Implement a recipe search and detail experience.
 - ingredients are parsed safely
 - null/incomplete fields do not break UI
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m8-mealdb-demo — commit TBD
+
 ---
 
 # Milestone 9 — Studio Ghibli, SWAPI, and Open Library
