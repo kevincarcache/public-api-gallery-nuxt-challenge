@@ -205,6 +205,12 @@ Implement a full Pokédex experience.
 - page is responsive
 - fetch states are handled explicitly
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m3-pokemon-demo — commit TBD
+
 ## Notes
 
 This is one of the flagship demos and should feel polished.
