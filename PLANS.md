@@ -505,6 +505,12 @@ Complete the remaining three APIs with clean, useful demos.
 - layout remains coherent across pages
 - fallbacks exist for missing media/data
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m9-remaining-api-demos — commit TBD
+
 ---
 
 # Milestone 10 — Polish, Refactor, and Portfolio Readiness
