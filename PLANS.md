@@ -16,6 +16,26 @@ The app must include:
 
 This plan is organized as executable milestones for an implementation agent.
 
+## Nuxt Component Naming
+
+With the current `app/components/*` folder structure, Nuxt auto-imports components using directory-based prefixes by default.
+Use names such as:
+
+- `LayoutAppHeader`
+- `LayoutPageContainer`
+- `CommonSearchBar`
+- `CommonFilterBar`
+- `CommonSectionHeader`
+- `CommonLoadingGrid`
+- `CommonErrorState`
+- `CommonEmptyState`
+- `CommonPaginationControls`
+- `CardsApiCard`
+- `CardsCharacterCard`
+- `SectionsHeroSection`
+
+If this naming is changed in the future, it must be done explicitly via Nuxt component configuration rather than by assuming flat component names.
+
 ---
 
 # Milestone 0 — Project Scaffold

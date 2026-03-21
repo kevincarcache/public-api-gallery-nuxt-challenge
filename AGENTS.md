@@ -294,29 +294,38 @@ The homepage must render from this catalog, not from duplicated inline content.
 
 At minimum, implement these reusable components or equivalents if naming differs consistently:
 
+Nuxt auto-import naming must follow directory-based prefixes unless `pathPrefix` is explicitly disabled.
+For example:
+
+* `app/components/layout/AppHeader.vue` is used as `LayoutAppHeader`
+* `app/components/layout/PageContainer.vue` is used as `LayoutPageContainer`
+* `app/components/common/SearchBar.vue` is used as `CommonSearchBar`
+* `app/components/cards/ApiCard.vue` is used as `CardsApiCard`
+* `app/components/sections/HeroSection.vue` is used as `SectionsHeroSection`
+
 ### Layout
 
-* `AppHeader.vue`
-* `AppFooter.vue`
-* `PageContainer.vue`
+* `app/components/layout/AppHeader.vue` -> `LayoutAppHeader`
+* `app/components/layout/AppFooter.vue` -> `LayoutAppFooter`
+* `app/components/layout/PageContainer.vue` -> `LayoutPageContainer`
 
 ### Cards
 
-* `ApiCard.vue`
-* `CharacterCard.vue`
-* `MovieCard.vue`
-* `RecipeCard.vue`
-* `UserCard.vue`
+* `app/components/cards/ApiCard.vue` -> `CardsApiCard`
+* `app/components/cards/CharacterCard.vue` -> `CardsCharacterCard`
+* `app/components/cards/MovieCard.vue` -> `CardsMovieCard`
+* `app/components/cards/RecipeCard.vue` -> `CardsRecipeCard`
+* `app/components/cards/UserCard.vue` -> `CardsUserCard`
 
 ### Common
 
-* `SearchBar.vue`
-* `FilterBar.vue`
-* `PaginationControls.vue`
-* `LoadingGrid.vue`
-* `ErrorState.vue`
-* `EmptyState.vue`
-* `SectionHeader.vue`
+* `app/components/common/SearchBar.vue` -> `CommonSearchBar`
+* `app/components/common/FilterBar.vue` -> `CommonFilterBar`
+* `app/components/common/PaginationControls.vue` -> `CommonPaginationControls`
+* `app/components/common/LoadingGrid.vue` -> `CommonLoadingGrid`
+* `app/components/common/ErrorState.vue` -> `CommonErrorState`
+* `app/components/common/EmptyState.vue` -> `CommonEmptyState`
+* `app/components/common/SectionHeader.vue` -> `CommonSectionHeader`
 
 Equivalent alternatives are acceptable if they are clearly named and consistently used.
 
