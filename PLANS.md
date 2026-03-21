@@ -37,19 +37,19 @@ Create the initial Nuxt project foundation and ensure the repository is runnable
 
 - `package.json`
 - `nuxt.config.ts`
-- `app.vue`
-- `pages/index.vue`
-- `pages/apis/simpsons.vue`
-- `pages/apis/pokemon.vue`
-- `pages/apis/rick-morty.vue`
-- `pages/apis/harry-potter.vue`
-- `pages/apis/ghibli.vue`
-- `pages/apis/dogs.vue`
-- `pages/apis/star-wars.vue`
-- `pages/apis/trivia.vue`
-- `pages/apis/random-users.vue`
-- `pages/apis/meals.vue`
-- `pages/apis/books.vue`
+- `app/app.vue`
+- `app/pages/index.vue`
+- `app/pages/apis/simpsons.vue`
+- `app/pages/apis/pokemon.vue`
+- `app/pages/apis/rick-morty.vue`
+- `app/pages/apis/harry-potter.vue`
+- `app/pages/apis/ghibli.vue`
+- `app/pages/apis/dogs.vue`
+- `app/pages/apis/star-wars.vue`
+- `app/pages/apis/trivia.vue`
+- `app/pages/apis/random-users.vue`
+- `app/pages/apis/meals.vue`
+- `app/pages/apis/books.vue`
 
 ## Acceptance Criteria
 
@@ -93,13 +93,13 @@ Build the shared product shell and the homepage grid driven by a central API cat
 
 ## Files to create or modify
 
-- `data/api-catalog.ts`
-- `components/layout/AppHeader.vue`
-- `components/layout/AppFooter.vue`
-- `components/layout/PageContainer.vue`
-- `components/cards/ApiCard.vue`
-- `components/sections/HeroSection.vue`
-- `pages/index.vue`
+- `app/data/api-catalog.ts`
+- `app/components/layout/AppHeader.vue`
+- `app/components/layout/AppFooter.vue`
+- `app/components/layout/PageContainer.vue`
+- `app/components/cards/ApiCard.vue`
+- `app/components/sections/HeroSection.vue`
+- `app/pages/index.vue`
 
 ## Acceptance Criteria
 
@@ -140,16 +140,16 @@ Create reusable UI primitives and basic fetch-state patterns used across demo pa
 
 ## Files to create or modify
 
-- `components/common/SearchBar.vue`
-- `components/common/FilterBar.vue`
-- `components/common/PaginationControls.vue`
-- `components/common/LoadingGrid.vue`
-- `components/common/ErrorState.vue`
-- `components/common/EmptyState.vue`
-- `components/common/SectionHeader.vue`
-- `composables/useSafeFetch.ts` or equivalent
-- `types/api-catalog.ts`
-- `types/shared.ts`
+- `app/components/common/SearchBar.vue`
+- `app/components/common/FilterBar.vue`
+- `app/components/common/PaginationControls.vue`
+- `app/components/common/LoadingGrid.vue`
+- `app/components/common/ErrorState.vue`
+- `app/components/common/EmptyState.vue`
+- `app/components/common/SectionHeader.vue`
+- `app/composables/useSafeFetch.ts` or equivalent
+- `app/shared/types/api-catalog.ts`
+- `app/shared/types/shared.ts`
 
 ## Acceptance Criteria
 
@@ -189,12 +189,12 @@ Implement a full Pokédex experience.
 
 ## Recommended Files
 
-- `pages/apis/pokemon.vue`
-- `pages/apis/pokemon/[name].vue` optional but recommended
-- `components/cards/CharacterCard.vue` or Pokémon-specific card if needed
+- `app/pages/apis/pokemon.vue`
+- `app/pages/apis/pokemon/[name].vue` optional but recommended
+- `app/components/cards/CharacterCard.vue` or Pokémon-specific card if needed
 - `server/api/pokemon/*` if encapsulation is useful
-- `types/pokemon.ts`
-- `utils/mappers/pokemon.ts`
+- `app/shared/types/pokemon.ts`
+- `app/shared/utils/mappers/pokemon.ts`
 
 ## Acceptance Criteria
 
@@ -235,11 +235,11 @@ Implement a character explorer with search and filters.
 
 ## Recommended Files
 
-- `pages/apis/rick-morty.vue`
-- `pages/apis/rick-morty/character/[id].vue` optional
+- `app/pages/apis/rick-morty.vue`
+- `app/pages/apis/rick-morty/character/[id].vue` optional
 - `server/api/rick-morty/*`
-- `types/rick-morty.ts`
-- `utils/mappers/rick-morty.ts`
+- `app/shared/types/rick-morty.ts`
+- `app/shared/utils/mappers/rick-morty.ts`
 
 ## Acceptance Criteria
 
@@ -279,12 +279,12 @@ Implement two entertainment-focused demos with filtering and gallery behavior.
 
 ## Recommended Files
 
-- `pages/apis/simpsons.vue`
-- `pages/apis/harry-potter.vue`
+- `app/pages/apis/simpsons.vue`
+- `app/pages/apis/harry-potter.vue`
 - `server/api/simpsons/*`
 - `server/api/harry-potter/*`
-- `types/simpsons.ts`
-- `types/harry-potter.ts`
+- `app/shared/types/simpsons.ts`
+- `app/shared/types/harry-potter.ts`
 
 ## Acceptance Criteria
 
@@ -323,13 +323,13 @@ Implement two lighter but highly visual demos.
 
 ## Recommended Files
 
-- `pages/apis/dogs.vue`
-- `pages/apis/random-users.vue`
-- `components/cards/UserCard.vue`
+- `app/pages/apis/dogs.vue`
+- `app/pages/apis/random-users.vue`
+- `app/components/cards/UserCard.vue`
 - `server/api/dogs/*`
 - `server/api/random-users/*`
-- `types/dogs.ts`
-- `types/random-user.ts`
+- `app/shared/types/dogs.ts`
+- `app/shared/types/random-user.ts`
 
 ## Acceptance Criteria
 
@@ -364,9 +364,9 @@ Implement a complete interactive quiz flow.
 
 ## Recommended Files
 
-- `pages/apis/trivia.vue`
+- `app/pages/apis/trivia.vue`
 - `server/api/trivia/*`
-- `types/trivia.ts`
+- `app/shared/types/trivia.ts`
 - quiz-specific components if needed
 
 ## Acceptance Criteria
@@ -402,12 +402,12 @@ Implement a recipe search and detail experience.
 
 ## Recommended Files
 
-- `pages/apis/meals.vue`
-- `pages/apis/meals/[id].vue` optional but recommended
-- `components/cards/RecipeCard.vue`
+- `app/pages/apis/meals.vue`
+- `app/pages/apis/meals/[id].vue` optional but recommended
+- `app/components/cards/RecipeCard.vue`
 - `server/api/meals/*`
-- `types/meals.ts`
-- `utils/mappers/meals.ts`
+- `app/shared/types/meals.ts`
+- `app/shared/utils/mappers/meals.ts`
 
 ## Acceptance Criteria
 
@@ -449,15 +449,15 @@ Complete the remaining three APIs with clean, useful demos.
 
 ## Recommended Files
 
-- `pages/apis/ghibli.vue`
-- `pages/apis/star-wars.vue`
-- `pages/apis/books.vue`
+- `app/pages/apis/ghibli.vue`
+- `app/pages/apis/star-wars.vue`
+- `app/pages/apis/books.vue`
 - `server/api/ghibli/*`
 - `server/api/star-wars/*`
 - `server/api/books/*`
-- `types/ghibli.ts`
-- `types/star-wars.ts`
-- `types/books.ts`
+- `app/shared/types/ghibli.ts`
+- `app/shared/types/star-wars.ts`
+- `app/shared/types/books.ts`
 
 ## Acceptance Criteria
 
@@ -489,11 +489,11 @@ Bring the whole project to a consistent, presentable, portfolio-quality finish.
 
 ## Files to review
 
-- all pages
-- shared components
-- composables
+- all pages under `app/pages`
+- shared components under `app/components`
+- composables under `app/composables`
 - server routes
-- `data/api-catalog.ts`
+- `app/data/api-catalog.ts`
 - `nuxt.config.ts`
 
 ## Acceptance Criteria

@@ -232,35 +232,38 @@ The project should converge toward this structure:
 
 ```bash
 /
-├── app.vue
+├── app/
+│   ├── app.vue
+│   ├── assets/
+│   ├── components/
+│   │   ├── layout/
+│   │   ├── cards/
+│   │   ├── common/
+│   │   └── sections/
+│   ├── composables/
+│   ├── data/
+│   │   └── api-catalog.ts
+│   ├── pages/
+│   │   ├── index.vue
+│   │   └── apis/
+│   │       ├── simpsons.vue
+│   │       ├── pokemon.vue
+│   │       ├── rick-morty.vue
+│   │       ├── harry-potter.vue
+│   │       ├── ghibli.vue
+│   │       ├── dogs.vue
+│   │       ├── star-wars.vue
+│   │       ├── trivia.vue
+│   │       ├── random-users.vue
+│   │       ├── meals.vue
+│   │       └── books.vue
+│   └── shared/
+│       ├── types/
+│       └── utils/
 ├── nuxt.config.ts
-├── pages/
-│   ├── index.vue
-│   └── apis/
-│       ├── simpsons.vue
-│       ├── pokemon.vue
-│       ├── rick-morty.vue
-│       ├── harry-potter.vue
-│       ├── ghibli.vue
-│       ├── dogs.vue
-│       ├── star-wars.vue
-│       ├── trivia.vue
-│       ├── random-users.vue
-│       ├── meals.vue
-│       └── books.vue
-├── components/
-│   ├── layout/
-│   ├── cards/
-│   ├── common/
-│   └── sections/
-├── composables/
 ├── server/
 │   └── api/
-├── types/
-├── utils/
-├── data/
-│   └── api-catalog.ts
-└── assets/
+└── public/
 ```
 
 ---
@@ -269,7 +272,7 @@ The project should converge toward this structure:
 
 Create and use a central catalog file:
 
-* `data/api-catalog.ts`
+* `app/data/api-catalog.ts`
 
 Each item should include:
 
