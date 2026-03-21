@@ -540,6 +540,12 @@ Bring the whole project to a consistent, presentable, portfolio-quality finish.
 - `app/data/api-catalog.ts`
 - `nuxt.config.ts`
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m10-final-polish — commit TBD
+
 ## Acceptance Criteria
 
 - the app feels like one coherent product

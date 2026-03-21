@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { apiCatalog } from '~/data/api-catalog'
+
+useSeoMeta({
+  title: 'Public API Gallery',
+  description: 'A cohesive Nuxt gallery of 11 public API demos with real data, reusable UI patterns, and responsive interactions.'
+})
 </script>
 
 <template>
