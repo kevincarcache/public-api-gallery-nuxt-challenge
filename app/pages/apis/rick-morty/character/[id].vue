@@ -25,11 +25,11 @@ useSeoMeta({
       Back to explorer
     </NuxtLink>
 
-    <SectionHeader title="Character Detail" subtitle="Rick and Morty" />
+    <CommonSectionHeader title="Character Detail" subtitle="Rick and Morty" />
 
     <div v-if="pending" class="h-64 animate-pulse rounded-3xl border border-slate-800 bg-slate-900/40" />
 
-    <ErrorState
+    <CommonErrorState
       v-else-if="error || !data"
       title="Character not available"
       message="We could not load this character. Try again."

@@ -31,14 +31,14 @@ const houseOptions = ['gryffindor', 'slytherin', 'ravenclaw', 'hufflepuff']
 <template>
   <div class="space-y-8">
     <div class="space-y-3">
-      <SectionHeader title="Harry Potter" subtitle="Character Roster" />
+      <CommonSectionHeader title="Harry Potter" subtitle="Character Roster" />
       <p class="max-w-2xl text-sm text-slate-300">
         Filter by house or search for a character to explore the wizarding world.
       </p>
     </div>
 
-    <FilterBar>
-      <SearchBar v-model="search" placeholder="Search by name" />
+    <CommonFilterBar>
+      <CommonSearchBar v-model="search" placeholder="Search by name" />
       <select
         v-model="house"
         class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100"
@@ -55,25 +55,25 @@ const houseOptions = ['gryffindor', 'slytherin', 'ravenclaw', 'hufflepuff']
       >
         Reload
       </button>
-    </FilterBar>
+    </CommonFilterBar>
 
-    <LoadingGrid v-if="pending" :count="12" />
+    <CommonLoadingGrid v-if="pending" :count="12" />
 
-    <ErrorState
+    <CommonErrorState
       v-else-if="error"
       title="Unable to load characters"
       message="Try refreshing again."
       @retry="refresh"
     />
 
-    <EmptyState
+    <CommonEmptyState
       v-else-if="!filteredItems.length"
       title="No characters found"
       message="Try another name or house filter."
     />
 
     <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <CharacterCard
+      <CardsCharacterCard
         v-for="character in filteredItems"
         :key="character.name"
         :title="character.name"

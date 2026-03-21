@@ -30,11 +30,11 @@ const formatLabel = (value: string) => value.replace('-', ' ')
       Back to Pokedex
     </NuxtLink>
 
-    <SectionHeader title="Pokemon Detail" subtitle="PokeAPI" />
+    <CommonSectionHeader title="Pokemon Detail" subtitle="PokeAPI" />
 
     <div v-if="pending" class="h-64 animate-pulse rounded-3xl border border-slate-800 bg-slate-900/40" />
 
-    <ErrorState
+    <CommonErrorState
       v-else-if="error || !data"
       title="Pokemon not available"
       message="We could not load this Pokemon. Check the name or try again."

@@ -38,14 +38,14 @@ const statusOptions = ['alive', 'dead', 'unknown']
 <template>
   <div class="space-y-8">
     <div class="space-y-3">
-      <SectionHeader title="Rick and Morty" subtitle="Character Explorer" />
+      <CommonSectionHeader title="Rick and Morty" subtitle="Character Explorer" />
       <p class="max-w-2xl text-sm text-slate-300">
         Search characters, filter by status, and open detailed profiles.
       </p>
     </div>
 
-    <FilterBar>
-      <SearchBar v-model="search" placeholder="Search characters" />
+    <CommonFilterBar>
+      <CommonSearchBar v-model="search" placeholder="Search characters" />
       <select
         v-model="status"
         class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100"
@@ -61,25 +61,25 @@ const statusOptions = ['alive', 'dead', 'unknown']
         placeholder="Filter by species"
         type="text"
       />
-    </FilterBar>
+    </CommonFilterBar>
 
-    <LoadingGrid v-if="pending" :count="12" />
+    <CommonLoadingGrid v-if="pending" :count="12" />
 
-    <ErrorState
+    <CommonErrorState
       v-else-if="error"
       title="Unable to load characters"
       message="Try again in a moment."
       @retry="refresh"
     />
 
-    <EmptyState
+    <CommonEmptyState
       v-else-if="!data.items.length"
       title="No characters found"
       message="Try adjusting the filters or search term."
     />
 
     <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <CharacterCard
+      <CardsCharacterCard
         v-for="character in data.items"
         :key="character.id"
         :title="character.name"
@@ -94,7 +94,7 @@ const statusOptions = ['alive', 'dead', 'unknown']
       />
     </div>
 
-    <PaginationControls
+    <CommonPaginationControls
       v-if="data.totalPages > 1"
       :page="page"
       :total-pages="data.totalPages"

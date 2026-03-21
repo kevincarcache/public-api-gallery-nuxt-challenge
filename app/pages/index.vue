@@ -4,7 +4,7 @@ import { apiCatalog } from '~/data/api-catalog'
 
 <template>
   <div class="space-y-10">
-    <HeroSection :total="apiCatalog.length" />
+    <SectionsHeroSection :total="apiCatalog.length" />
 
     <section class="space-y-4">
       <div class="flex flex-wrap items-end justify-between gap-3">
@@ -16,7 +16,7 @@ import { apiCatalog } from '~/data/api-catalog'
       </div>
 
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <ApiCard v-for="item in apiCatalog" :key="item.slug" :item="item" />
+        <CardsApiCard v-for="item in apiCatalog" :key="item.slug" :item="item" />
       </div>
     </section>
   </div>

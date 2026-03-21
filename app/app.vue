@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-screen bg-slate-950 text-slate-100">
-    <AppHeader />
-    <PageContainer>
+    <LayoutAppHeader />
+    <LayoutPageContainer>
       <NuxtPage />
-    </PageContainer>
-    <AppFooter />
+    </LayoutPageContainer>
+    <LayoutAppFooter />
   </div>
 </template>

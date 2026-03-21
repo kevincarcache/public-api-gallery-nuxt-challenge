@@ -38,33 +38,33 @@ const statPreview = (stats: PokemonListResponse['items'][number]['stats']) => {
 <template>
   <div class="space-y-8">
     <div class="space-y-3">
-      <SectionHeader title="PokeAPI" subtitle="Pokedex" />
+      <CommonSectionHeader title="PokeAPI" subtitle="Pokedex" />
       <p class="max-w-2xl text-sm text-slate-300">
         Search Pokemon by name, scan their types and stats, and open a full detail view.
       </p>
     </div>
 
-    <FilterBar>
-      <SearchBar v-model="search" placeholder="Search Pokemon by name" />
-    </FilterBar>
+    <CommonFilterBar>
+      <CommonSearchBar v-model="search" placeholder="Search Pokemon by name" />
+    </CommonFilterBar>
 
-    <LoadingGrid v-if="pending" :count="limit" />
+    <CommonLoadingGrid v-if="pending" :count="limit" />
 
-    <ErrorState
+    <CommonErrorState
       v-else-if="error"
       title="Unable to load Pokemon"
       message="Try again in a moment."
       @retry="refresh"
     />
 
-    <EmptyState
+    <CommonEmptyState
       v-else-if="!data.items.length"
       title="No Pokemon found"
       message="Try a different name or clear the search."
     />
 
     <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <CharacterCard
+      <CardsCharacterCard
         v-for="pokemon in data.items"
         :key="pokemon.id"
         :title="pokemon.name"
@@ -76,7 +76,7 @@ const statPreview = (stats: PokemonListResponse['items'][number]['stats']) => {
       />
     </div>
 
-    <PaginationControls
+    <CommonPaginationControls
       v-if="data.totalPages > 1"
       :page="page"
       :total-pages="data.totalPages"

@@ -25,14 +25,14 @@ const filteredItems = computed(() => {
 <template>
   <div class="space-y-8">
     <div class="space-y-3">
-      <SectionHeader title="The Simpsons" subtitle="Quote Gallery" />
+      <CommonSectionHeader title="The Simpsons" subtitle="Quote Gallery" />
       <p class="max-w-2xl text-sm text-slate-300">
         Refresh the gallery for new quotes, or search by character name.
       </p>
     </div>
 
-    <FilterBar>
-      <SearchBar v-model="search" placeholder="Search by character" />
+    <CommonFilterBar>
+      <CommonSearchBar v-model="search" placeholder="Search by character" />
       <button
         class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 transition hover:border-slate-600"
         type="button"
@@ -40,25 +40,25 @@ const filteredItems = computed(() => {
       >
         Reload quotes
       </button>
-    </FilterBar>
+    </CommonFilterBar>
 
-    <LoadingGrid v-if="pending" :count="count" />
+    <CommonLoadingGrid v-if="pending" :count="count" />
 
-    <ErrorState
+    <CommonErrorState
       v-else-if="error"
       title="Unable to load quotes"
       message="Try refreshing again."
       @retry="refresh"
     />
 
-    <EmptyState
+    <CommonEmptyState
       v-else-if="!filteredItems.length"
       title="No quotes found"
       message="Try a different character name or refresh the gallery."
     />
 
     <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <CharacterCard
+      <CardsCharacterCard
         v-for="item in filteredItems"
         :key="item.name + item.quote"
         :title="item.name"
