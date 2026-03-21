@@ -1,0 +1,25 @@
+# Project-local Codex config
+# Place this file at: .codex/config.toml
+
+[mcp_servers.nuxt]
+url = "https://nuxt.com/mcp"
+enabled = true
+required = false
+
+[mcp_servers.nuxt-ui]
+url = "https://ui.nuxt.com/mcp"
+enabled = true
+required = false
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["@playwright/mcp@latest"]
+enabled = true
+required = false
+startup_timeout_sec = 20
+tool_timeout_sec = 120
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+enabled = true
+required = false
