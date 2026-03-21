@@ -1,6 +1,6 @@
 import { getQuery } from 'h3'
-import { mapPokemonListItem } from '~/utils/mappers/pokemon'
-import type { PokemonListResponse } from '~/types/pokemon'
+import { mapPokemonListItem } from '~/shared/utils/mappers/pokemon'
+import type { PokemonListResponse } from '~/shared/types/pokemon'
 
 const POKE_API = 'https://pokeapi.co/api/v2/pokemon'
 

@@ -1,4 +1,4 @@
-import type { RickMortyCharacter } from '~/types/rick-morty'
+import type { RickMortyCharacter } from '~/shared/types/rick-morty'
 
 export const mapRickMortyCharacter = (raw: any): RickMortyCharacter => {
   return {

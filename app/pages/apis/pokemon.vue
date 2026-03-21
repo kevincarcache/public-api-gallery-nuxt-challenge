@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PokemonListResponse } from '~/types/pokemon'
+import type { PokemonListResponse } from '~/shared/types/pokemon'
 
 useSeoMeta({
   title: 'PokeAPI | Public API Gallery',

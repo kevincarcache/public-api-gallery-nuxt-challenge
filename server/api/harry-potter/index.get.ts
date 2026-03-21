@@ -1,6 +1,6 @@
 import { getQuery } from 'h3'
-import { mapHarryPotterCharacter } from '~/utils/mappers/harry-potter'
-import type { HarryPotterResponse } from '~/types/harry-potter'
+import { mapHarryPotterCharacter } from '~/shared/utils/mappers/harry-potter'
+import type { HarryPotterResponse } from '~/shared/types/harry-potter'
 
 const HARRY_POTTER_API = 'https://hp-api.onrender.com/api/characters'
 

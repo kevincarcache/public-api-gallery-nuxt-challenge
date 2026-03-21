@@ -1,4 +1,4 @@
-import type { HarryPotterCharacter } from '~/types/harry-potter'
+import type { HarryPotterCharacter } from '~/shared/types/harry-potter'
 
 export const mapHarryPotterCharacter = (raw: any): HarryPotterCharacter => {
   return {

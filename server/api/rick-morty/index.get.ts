@@ -1,6 +1,6 @@
 import { getQuery } from 'h3'
-import { mapRickMortyCharacter } from '~/utils/mappers/rick-morty'
-import type { RickMortyListResponse } from '~/types/rick-morty'
+import { mapRickMortyCharacter } from '~/shared/utils/mappers/rick-morty'
+import type { RickMortyListResponse } from '~/shared/types/rick-morty'
 
 const RICK_MORTY_API = 'https://rickandmortyapi.com/api/character'
 

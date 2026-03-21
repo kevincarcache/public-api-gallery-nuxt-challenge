@@ -1,4 +1,4 @@
-import { mapRickMortyCharacter } from '~/utils/mappers/rick-morty'
+import { mapRickMortyCharacter } from '~/shared/utils/mappers/rick-morty'
 
 const RICK_MORTY_API = 'https://rickandmortyapi.com/api/character'
 

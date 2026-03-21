@@ -1,4 +1,4 @@
-import { mapPokemonDetail } from '~/utils/mappers/pokemon'
+import { mapPokemonDetail } from '~/shared/utils/mappers/pokemon'
 
 const POKE_API = 'https://pokeapi.co/api/v2/pokemon'
 

@@ -1,6 +1,6 @@
 import { getQuery } from 'h3'
-import { mapSimpsonsCharacter } from '~/utils/mappers/simpsons'
-import type { SimpsonsResponse } from '~/types/simpsons'
+import { mapSimpsonsCharacter } from '~/shared/utils/mappers/simpsons'
+import type { SimpsonsResponse } from '~/shared/types/simpsons'
 
 const SIMPSONS_API = 'https://thesimpsonsquoteapi.glitch.me/quotes'
 

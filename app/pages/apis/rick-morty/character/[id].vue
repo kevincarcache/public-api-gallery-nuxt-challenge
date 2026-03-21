@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { RickMortyCharacter } from '~/types/rick-morty'
+import type { RickMortyCharacter } from '~/shared/types/rick-morty'
 
 const route = useRoute()
 const characterId = computed(() => String(route.params.id ?? ''))

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SimpsonsResponse } from '~/types/simpsons'
+import type { SimpsonsResponse } from '~/shared/types/simpsons'
 
 useSeoMeta({
   title: 'The Simpsons API | Public API Gallery',

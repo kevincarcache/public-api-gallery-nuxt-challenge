@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HarryPotterResponse } from '~/types/harry-potter'
+import type { HarryPotterResponse } from '~/shared/types/harry-potter'
 
 useSeoMeta({
   title: 'Harry Potter API | Public API Gallery',

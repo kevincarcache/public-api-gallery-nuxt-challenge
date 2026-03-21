@@ -1,4 +1,4 @@
-import type { SimpsonsCharacter } from '~/types/simpsons'
+import type { SimpsonsCharacter } from '~/shared/types/simpsons'
 
 export const mapSimpsonsCharacter = (raw: any): SimpsonsCharacter => {
   return {

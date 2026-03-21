@@ -1,4 +1,4 @@
-import type { ApiCatalogItem } from '~/types/api-catalog'
+import type { ApiCatalogItem } from '~/shared/types/api-catalog'
 
 export const apiCatalog: ApiCatalogItem[] = [
   {

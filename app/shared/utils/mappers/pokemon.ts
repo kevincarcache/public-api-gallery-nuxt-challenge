@@ -1,4 +1,4 @@
-import type { PokemonDetail, PokemonListItem, PokemonStat } from '~/types/pokemon'
+import type { PokemonDetail, PokemonListItem, PokemonStat } from '~/shared/types/pokemon'
 
 const fallbackImage = (raw: any): string | null => {
   return (

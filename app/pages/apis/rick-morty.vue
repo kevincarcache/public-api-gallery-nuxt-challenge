@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { RickMortyListResponse } from '~/types/rick-morty'
+import type { RickMortyListResponse } from '~/shared/types/rick-morty'
 
 useSeoMeta({
   title: 'Rick and Morty API | Public API Gallery',
