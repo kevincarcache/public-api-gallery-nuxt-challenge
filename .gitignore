@@ -6,6 +6,7 @@
 .cache
 dist
 .npm-cache
+.npm-cache/*
 
 # Node dependencies
 node_modules

@@ -1,6 +1,8 @@
 # Project-local Codex config
 # Place this file at: .codex/config.toml
 
+sandbox_mode = "workspace-write"
+approval_policy = "never"
 [mcp_servers.nuxt]
 url = "https://nuxt.com/mcp"
 enabled = true
@@ -23,3 +25,6 @@ tool_timeout_sec = 120
 url = "https://developers.openai.com/mcp"
 enabled = true
 required = false
+
+[sandbox_workspace_write]
+network_access = true
