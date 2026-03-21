@@ -59,6 +59,12 @@ Create the initial Nuxt project foundation and ensure the repository is runnable
 - the app is navigable and does not crash
 - no route returns an unhandled runtime error
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m0-project-scaffold — commit TBD
+
 ## Notes
 
 Pages may be minimal at this stage, but the app must remain structurally sound.
