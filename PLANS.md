@@ -294,6 +294,12 @@ Implement two entertainment-focused demos with filtering and gallery behavior.
 - missing images or fields do not break rendering
 - both pages are responsive
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m5-simpsons-harry-potter — commit TBD
+
 ---
 
 # Milestone 6 — Dog API and Random User Demos

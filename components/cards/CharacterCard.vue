@@ -11,6 +11,7 @@ const props = withDefaults(
     image?: string | null
     badges?: string[]
     stats?: CardStat[]
+    description?: string
     to?: string
   }>(),
   {
@@ -43,6 +44,9 @@ const props = withDefaults(
       <div>
         <h3 class="text-lg font-semibold text-white">{{ props.title }}</h3>
         <p v-if="props.subtitle" class="text-sm text-slate-400">{{ props.subtitle }}</p>
+        <p v-if="props.description" class="mt-2 text-sm text-slate-300">
+          {{ props.description }}
+        </p>
       </div>
 
       <div v-if="props.badges.length" class="flex flex-wrap gap-2 text-xs text-slate-300">
