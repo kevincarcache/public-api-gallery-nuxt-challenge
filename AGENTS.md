@@ -247,15 +247,22 @@ The project should converge toward this structure:
 │   │   ├── index.vue
 │   │   └── apis/
 │   │       ├── simpsons.vue
-│   │       ├── pokemon.vue
-│   │       ├── rick-morty.vue
+│   │       ├── pokemon/
+│   │       │   ├── index.vue
+│   │       │   └── [name].vue
+│   │       ├── rick-morty/
+│   │       │   ├── index.vue
+│   │       │   └── character/
+│   │       │       └── [id].vue
 │   │       ├── harry-potter.vue
 │   │       ├── ghibli.vue
 │   │       ├── dogs.vue
 │   │       ├── star-wars.vue
 │   │       ├── trivia.vue
 │   │       ├── random-users.vue
-│   │       ├── meals.vue
+│   │       ├── meals/
+│   │       │   ├── index.vue
+│   │       │   └── [id].vue
 │   │       └── books.vue
 │   └── shared/
 │       ├── types/

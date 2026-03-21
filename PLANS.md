@@ -60,15 +60,15 @@ Create the initial Nuxt project foundation and ensure the repository is runnable
 - `app/app.vue`
 - `app/pages/index.vue`
 - `app/pages/apis/simpsons.vue`
-- `app/pages/apis/pokemon.vue`
-- `app/pages/apis/rick-morty.vue`
+- `app/pages/apis/pokemon/index.vue`
+- `app/pages/apis/rick-morty/index.vue`
 - `app/pages/apis/harry-potter.vue`
 - `app/pages/apis/ghibli.vue`
 - `app/pages/apis/dogs.vue`
 - `app/pages/apis/star-wars.vue`
 - `app/pages/apis/trivia.vue`
 - `app/pages/apis/random-users.vue`
-- `app/pages/apis/meals.vue`
+- `app/pages/apis/meals/index.vue`
 - `app/pages/apis/books.vue`
 
 ## Acceptance Criteria
@@ -209,8 +209,8 @@ Implement a full Pokédex experience.
 
 ## Recommended Files
 
-- `app/pages/apis/pokemon.vue`
-- `app/pages/apis/pokemon/[name].vue` optional but recommended
+- `app/pages/apis/pokemon/index.vue`
+- `app/pages/apis/pokemon/[name].vue` recommended
 - `app/components/cards/CharacterCard.vue` or Pokémon-specific card if needed
 - `server/api/pokemon/*` if encapsulation is useful
 - `app/shared/types/pokemon.ts`
@@ -255,7 +255,7 @@ Implement a character explorer with search and filters.
 
 ## Recommended Files
 
-- `app/pages/apis/rick-morty.vue`
+- `app/pages/apis/rick-morty/index.vue`
 - `app/pages/apis/rick-morty/character/[id].vue` optional
 - `server/api/rick-morty/*`
 - `app/shared/types/rick-morty.ts`
@@ -434,8 +434,8 @@ Implement a recipe search and detail experience.
 
 ## Recommended Files
 
-- `app/pages/apis/meals.vue`
-- `app/pages/apis/meals/[id].vue` optional but recommended
+- `app/pages/apis/meals/index.vue`
+- `app/pages/apis/meals/[id].vue` recommended
 - `app/components/cards/RecipeCard.vue`
 - `server/api/meals/*`
 - `app/shared/types/meals.ts`
