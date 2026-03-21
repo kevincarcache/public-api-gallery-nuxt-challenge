@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ApiCatalogItem } from '~/data/api-catalog'
+import type { ApiCatalogItem } from '~/types/api-catalog'
 
 defineProps<{
   item: ApiCatalogItem

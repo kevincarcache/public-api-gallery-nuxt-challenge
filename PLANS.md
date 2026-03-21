@@ -158,6 +158,12 @@ Create reusable UI primitives and basic fetch-state patterns used across demo pa
 - loading/error/empty states are available for all later milestones
 - the codebase is more prepared for rapid page implementation
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m2-shared-ui — commit TBD
+
 ## Notes
 
 Do not over-engineer a generic framework. Keep components practical.
