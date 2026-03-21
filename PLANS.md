@@ -109,6 +109,12 @@ Build the shared product shell and the homepage grid driven by a central API cat
 - navigation from cards works
 - app has a coherent header/footer/page shell
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m1-homepage-layout-catalog — commit TBD
+
 ## Notes
 
 This milestone establishes the visual identity and navigation pattern for the whole app.
