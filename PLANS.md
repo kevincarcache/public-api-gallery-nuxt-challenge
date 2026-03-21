@@ -249,6 +249,12 @@ Implement a character explorer with search and filters.
 - pagination works or navigation between result sets is clear
 - UI is consistent with rest of app
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m4-rick-morty-demo — commit TBD
+
 ---
 
 # Milestone 5 — Simpsons and Harry Potter Demos
