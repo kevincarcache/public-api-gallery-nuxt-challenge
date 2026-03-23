@@ -6,7 +6,7 @@ Build a **Nuxt website** that acts as a **gallery of public API demos**.
 
 The app must include:
 
-- a homepage with 11 API cards
+- a homepage with 10 API cards
 - one dedicated page per API
 - real API consumption
 - consistent UI/UX
@@ -59,7 +59,6 @@ Create the initial Nuxt project foundation and ensure the repository is runnable
 - `nuxt.config.ts`
 - `app/app.vue`
 - `app/pages/index.vue`
-- `app/pages/apis/simpsons.vue`
 - `app/pages/apis/pokemon/index.vue`
 - `app/pages/apis/rick-morty/index.vue`
 - `app/pages/apis/harry-potter.vue`
@@ -102,7 +101,7 @@ Build the shared product shell and the homepage grid driven by a central API cat
 - create shared layout components
 - create central `api-catalog` data source
 - build homepage hero/intro section
-- render a responsive grid of 11 API cards
+- render a responsive grid of 10 API cards
 - make each card navigate to its demo page
 - display API metadata on each card:
   - name
@@ -123,7 +122,7 @@ Build the shared product shell and the homepage grid driven by a central API cat
 
 ## Acceptance Criteria
 
-- homepage renders 11 cards from catalog data
+- homepage renders 10 cards from catalog data
 - card rendering is not hardcoded inline per API
 - layout is responsive
 - navigation from cards works
@@ -277,18 +276,11 @@ Completion: 2026-03-20 — feature/m4-rick-morty-demo — commit TBD
 
 ---
 
-# Milestone 5 — Simpsons and Harry Potter Demos
+# Milestone 5 — Harry Potter Demo
 
 ## Goal
 
-Implement two entertainment-focused demos with filtering and gallery behavior.
-
-## Tasks — Simpsons
-- fetch Simpsons characters
-- show image-based gallery
-- support search by name
-- show brief character details
-- optionally include episodes if cleanly feasible
+Implement an entertainment-focused demo with filtering and gallery behavior.
 
 ## Tasks — Harry Potter
 - fetch characters
@@ -299,26 +291,23 @@ Implement two entertainment-focused demos with filtering and gallery behavior.
 
 ## Recommended Files
 
-- `app/pages/apis/simpsons.vue`
 - `app/pages/apis/harry-potter.vue`
-- `server/api/simpsons/*`
 - `server/api/harry-potter/*`
-- `app/shared/types/simpsons.ts`
 - `app/shared/types/harry-potter.ts`
 
 ## Acceptance Criteria
 
-- both pages consume real API data
-- both pages provide useful interaction
-- both pages use shared UI patterns
+- page consumes real API data
+- page provides useful interaction
+- page uses shared UI patterns
 - missing images or fields do not break rendering
-- both pages are responsive
+- page is responsive
 
 ## Status
 
 Completed ✅
 
-Completion: 2026-03-20 — feature/m5-simpsons-harry-potter — commit TBD
+Completion: 2026-03-20 — feature/m5-harry-potter-demo — commit TBD
 
 ---
 
@@ -582,8 +571,8 @@ Completion: 2026-03-20 — feature/m10-final-polish — commit TBD
 
 The project is done when:
 
-- `/` shows 11 cards
-- all 11 demo routes work
+- `/` shows 10 cards
+- all 10 demo routes work
 - each demo consumes real API data
 - each demo has loading, error, and empty states
 - each demo has at least one useful interaction
@@ -600,7 +589,7 @@ The project is done when:
 3. Milestone 2 — Shared UI Infrastructure
 4. Milestone 3 — PokéAPI Demo
 5. Milestone 4 — Rick and Morty Demo
-6. Milestone 5 — Simpsons and Harry Potter Demos
+6. Milestone 5 — Harry Potter Demo
 7. Milestone 6 — Dog API and Random User Demos
 8. Milestone 7 — Open Trivia DB Demo
 9. Milestone 8 — TheMealDB Demo

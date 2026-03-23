@@ -2,17 +2,6 @@ import type { ApiCatalogItem } from '~/shared/types/api-catalog'
 
 export const apiCatalog: ApiCatalogItem[] = [
   {
-    slug: 'simpsons',
-    name: 'The Simpsons API',
-    category: 'Animation',
-    auth: 'None',
-    priority: 4,
-    description: 'Quotes and characters from Springfield for a playful gallery demo.',
-    route: '/apis/simpsons',
-    docsUrl: 'https://thesimpsonsquoteapi.glitch.me/',
-    status: 'active'
-  },
-  {
     slug: 'pokemon',
     name: 'PokeAPI',
     category: 'Games',

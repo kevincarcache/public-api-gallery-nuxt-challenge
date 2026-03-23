@@ -5,7 +5,7 @@
         <NuxtLink class="text-lg font-semibold text-white" to="/">
           Public API Gallery
         </NuxtLink>
-        <p class="text-sm text-slate-400">11 real-data demos built as one Nuxt product.</p>
+        <p class="text-sm text-slate-400">10 real-data demos built as one Nuxt product.</p>
       </div>
 
       <div class="flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-slate-400">
