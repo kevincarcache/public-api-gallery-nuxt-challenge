@@ -2,8 +2,8 @@
 import type { GhibliFilm, GhibliFilmsResponse } from '~/shared/types/ghibli'
 
 useSeoMeta({
-  title: 'Studio Ghibli API | Public API Gallery',
-  description: 'Browse Studio Ghibli films with search, sort controls, and richly described movie cards.'
+  title: 'Studio Ghibli API | Catalogo de APIs Publicas',
+  description: 'Explora peliculas de Studio Ghibli con enfoque editorial, orden, busqueda y metadata normalizada.'
 })
 
 const search = ref('')
@@ -38,22 +38,22 @@ const featuredFilm = computed<GhibliFilm | null>(() => filteredFilms.value[0] ??
 <template>
   <v-container class="pa-0 d-flex flex-column ga-6">
     <div class="d-flex flex-column ga-3">
-      <CommonSectionHeader title="Studio Ghibli API" subtitle="Film Library" />
+      <CommonSectionHeader title="Studio Ghibli API" subtitle="Biblioteca de peliculas" />
       <p class="text-body-2 text-medium-emphasis">
-        Search the Ghibli catalog, sort the library, and compare each film’s team, release year, and synopsis.
+        Esta pagina transforma una libreria de peliculas en una lectura comparativa, priorizando metadata, sinopsis y un bloque destacado para la pieza principal.
       </p>
     </div>
 
     <CommonFilterBar>
-      <CommonSearchBar v-model="search" placeholder="Search by title, director, or producer" />
+      <CommonSearchBar v-model="search" placeholder="Buscar por titulo, direccion o produccion" />
       <v-select
         v-model="sort"
         :items="[
-          { title: 'Release year', value: 'year' },
-          { title: 'Title', value: 'title' }
+          { title: 'Ano de estreno', value: 'year' },
+          { title: 'Titulo', value: 'title' }
         ]"
         hide-details
-        label="Sort"
+        label="Orden"
         variant="outlined"
         density="comfortable"
       />
@@ -63,22 +63,21 @@ const featuredFilm = computed<GhibliFilm | null>(() => filteredFilms.value[0] ??
 
     <CommonErrorState
       v-else-if="error"
-      title="Unable to load films"
-      message="The Ghibli catalog is unavailable right now. Try again in a moment."
+      title="No fue posible cargar las peliculas"
+      message="El catalogo de Ghibli no esta disponible por ahora. Intenta nuevamente en un momento."
       @retry="refresh"
     />
 
     <CommonEmptyState
       v-else-if="!filteredFilms.length"
-      title="No films matched"
-      message="Try a different title or clear the search to browse the full catalog."
+      title="No hubo coincidencias"
+      message="Prueba con otro titulo o limpia la busqueda para revisar el catalogo completo."
     />
 
     <div v-else class="d-flex flex-column ga-6">
       <v-card
         v-if="featuredFilm"
         color="surface"
-        rounded="xl"
         class="overflow-hidden"
       >
         <v-row no-gutters>
@@ -91,24 +90,24 @@ const featuredFilm = computed<GhibliFilm | null>(() => filteredFilms.value[0] ??
               min-height="320"
             />
             <div v-else class="d-flex align-center justify-center text-overline text-medium-emphasis" style="min-height: 320px;">
-              No banner
+              Sin banner
             </div>
           </v-col>
           <v-col cols="12" lg="5">
             <div class="pa-6 d-flex flex-column ga-4">
-              <div class="text-overline text-medium-emphasis">Featured film</div>
+              <div class="text-overline text-medium-emphasis">Pelicula destacada</div>
               <h3 class="text-h4 font-weight-bold">{{ featuredFilm.title }}</h3>
               <p class="text-body-2 text-medium-emphasis">{{ featuredFilm.description }}</p>
               <v-row>
                 <v-col cols="12" sm="6">
-                  <v-sheet color="surface-bright" rounded="lg" class="pa-4">
-                    <div class="text-overline text-medium-emphasis">Director</div>
+                  <v-sheet color="surface-bright" class="pa-4">
+                    <div class="text-overline text-medium-emphasis">Direccion</div>
                     <div class="text-body-1">{{ featuredFilm.director }}</div>
                   </v-sheet>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-sheet color="surface-bright" rounded="lg" class="pa-4">
-                    <div class="text-overline text-medium-emphasis">Producer</div>
+                  <v-sheet color="surface-bright" class="pa-4">
+                    <div class="text-overline text-medium-emphasis">Produccion</div>
                     <div class="text-body-1">{{ featuredFilm.producer }}</div>
                   </v-sheet>
                 </v-col>
@@ -132,6 +131,16 @@ const featuredFilm = computed<GhibliFilm | null>(() => filteredFilms.value[0] ??
           />
         </v-col>
       </v-row>
+
+      <SectionsIntegrationNote
+        api-name="Studio Ghibli API"
+        summary="La fuente se encapsula en un endpoint interno y se mapea a un modelo de pelicula con artwork, metadatos y textos largos, para que la interfaz pueda trabajar con piezas consistentes y comparables."
+        :bullets="[
+          'La busqueda y el orden se hacen sobre una coleccion ya normalizada, no sobre el payload original.',
+          'La UI combina una pelicula destacada con tarjetas de comparacion para dar contexto y ritmo.',
+          'El valor tecnico esta en convertir datos ricos en una experiencia editorial clara y estable.'
+        ]"
+      />
     </div>
   </v-container>
 </template>

@@ -20,10 +20,10 @@ const mapStats = (raw: any): PokemonStat[] => {
 export const mapPokemonListItem = (raw: any): PokemonListItem => {
   return {
     id: Number(raw?.id ?? 0),
-    name: raw?.name ?? 'Unknown',
+    name: raw?.name ?? 'Sin nombre',
     image: fallbackImage(raw),
     types: Array.isArray(raw?.types)
-      ? raw.types.map((type: any) => type?.type?.name ?? 'unknown')
+      ? raw.types.map((type: any) => type?.type?.name ?? 'sin dato')
       : [],
     stats: mapStats(raw)
   }
@@ -35,7 +35,7 @@ export const mapPokemonDetail = (raw: any): PokemonDetail => {
     height: Number(raw?.height ?? 0),
     weight: Number(raw?.weight ?? 0),
     abilities: Array.isArray(raw?.abilities)
-      ? raw.abilities.map((ability: any) => ability?.ability?.name ?? 'unknown')
+      ? raw.abilities.map((ability: any) => ability?.ability?.name ?? 'sin dato')
       : []
   }
 }

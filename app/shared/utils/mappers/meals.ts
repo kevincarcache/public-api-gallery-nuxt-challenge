@@ -23,7 +23,7 @@ const toInstructions = (value?: string) => {
 
 const toInstructionPreview = (steps: string[]) => {
   if (!steps.length) {
-    return 'Instructions are unavailable for this meal.'
+    return 'No hay instrucciones disponibles para esta receta.'
   }
 
   return steps[0]
@@ -42,7 +42,7 @@ const toIngredients = (meal: RawMealRecord): MealIngredient[] => {
 
     ingredients.push({
       name: ingredient,
-      measure: measure || 'To taste'
+      measure: measure || 'A gusto'
     })
   }
 
@@ -61,9 +61,9 @@ export const mapMealSummary = (meal: RawMealRecord): MealSummary => {
 
   return {
     id: meal.idMeal ?? crypto.randomUUID(),
-    name: meal.strMeal ?? 'Untitled meal',
-    category: meal.strCategory ?? 'Uncategorized',
-    area: meal.strArea ?? 'Unknown origin',
+    name: meal.strMeal ?? 'Receta sin titulo',
+    category: meal.strCategory ?? 'Sin categoria',
+    area: meal.strArea ?? 'Origen no indicado',
     image: meal.strMealThumb ?? null,
     tags: toTags(meal.strTags),
     instructionsPreview: toInstructionPreview(instructions)

@@ -2,8 +2,8 @@
 import type { BookSearchItem, BookSearchResponse } from '~/shared/types/books'
 
 useSeoMeta({
-  title: 'Open Library API | Public API Gallery',
-  description: 'Search books by title or author, compare cover art, and inspect lightweight book details.'
+  title: 'Open Library API | Catalogo de APIs Publicas',
+  description: 'Busca libros por texto, compara resultados bibliograficos y selecciona una obra para revisar su ficha resumida.'
 })
 
 const search = ref('tolkien')
@@ -46,130 +46,155 @@ watch(
 <template>
   <v-container class="pa-0 d-flex flex-column ga-6">
     <div class="d-flex flex-column ga-3">
-      <CommonSectionHeader title="Open Library API" subtitle="Book Search" />
+      <CommonSectionHeader title="Open Library API" subtitle="Busqueda bibliografica" />
       <p class="text-body-2 text-medium-emphasis">
-        Search for books by title or author, keep covers optional, and inspect a focused detail panel without leaving the page.
+        Esta pagina organiza resultados bibliograficos incompletos en una experiencia clara: busqueda, comparacion por portada y un panel de seleccion sin abandonar la vista.
       </p>
     </div>
 
     <CommonFilterBar>
       <form class="w-100 d-flex flex-column flex-md-row ga-3" @submit.prevent="submitSearch">
-        <CommonSearchBar v-model="search" placeholder="Search books by title or author" />
+        <CommonSearchBar v-model="search" placeholder="Buscar libros por titulo o autor" />
         <v-btn
           color="primary"
           prepend-icon="mdi-magnify"
           type="submit"
           variant="tonal"
         >
-          Search books
+          Buscar libros
         </v-btn>
       </form>
     </CommonFilterBar>
 
-    <CommonLoadingGrid v-if="pending" :count="6" />
+    <v-row v-if="pending">
+      <v-col v-for="index in 12" :key="index" cols="12" sm="6" md="4" lg="3" xl="2">
+        <v-skeleton-loader class="border books-skeleton" color="surface" type="image, article" />
+      </v-col>
+    </v-row>
 
     <CommonErrorState
       v-else-if="error"
-      title="Unable to load books"
-      message="The Open Library search is unavailable right now."
+      title="No fue posible cargar libros"
+      message="La busqueda de Open Library no esta disponible por ahora."
       @retry="refresh"
     />
 
     <CommonEmptyState
       v-else-if="!data.items.length"
-      title="No books found"
-      message="Try a broader author or title search to get more matches."
+      title="No se encontraron libros"
+      message="Prueba con una busqueda mas amplia por autor o titulo."
     />
 
-    <v-row v-else>
-      <v-col cols="12" xl="7">
-        <v-row>
-          <v-col v-for="book in data.items" :key="book.workId" cols="12" sm="6">
-            <v-card
-              :color="selectedBook?.workId === book.workId ? 'surface-bright' : 'surface'"
-              rounded="xl"
-              class="overflow-hidden cursor-pointer"
-              @click="selectedWorkId = book.workId"
+    <template v-else>
+      <v-row>
+        <v-col v-for="book in data.items" :key="book.workId" cols="12" sm="6" md="4" lg="3" xl="2">
+          <CardsBookProductCard
+            :title="book.title"
+            :author="book.author"
+            :cover-url="book.coverUrl"
+            :first-publish-year="book.firstPublishYear"
+            :editions="book.editions"
+            :selected="selectedBook?.workId === book.workId"
+            @click="selectedWorkId = book.workId"
+          />
+        </v-col>
+      </v-row>
+
+      <v-card v-if="selectedBook" color="surface" class="pa-6 editorial-panel books-detail">
+        <div class="d-flex flex-column flex-lg-row ga-6">
+          <div class="books-detail__cover-col">
+            <v-img
+              v-if="selectedBook.coverUrl"
+              :src="selectedBook.coverUrl"
+              :alt="selectedBook.title"
+              cover
+              class="books-detail__cover"
+            />
+            <v-sheet
+              v-else
+              color="surface-light"
+              class="books-detail__cover d-flex align-center justify-center text-body-2 text-medium-emphasis"
             >
-              <v-img
-                v-if="book.coverUrl"
-                :src="book.coverUrl"
-                :alt="book.title"
-                height="224"
-                cover
-              />
-              <div v-else class="d-flex align-center justify-center text-overline text-medium-emphasis" style="height: 224px;">
-                Cover unavailable
+              Portada no disponible
+            </v-sheet>
+          </div>
+
+          <div class="flex-1-1 d-flex flex-column">
+            <div class="text-overline text-medium-emphasis">Libro seleccionado</div>
+            <h3 class="text-h4 font-weight-bold mt-3">{{ selectedBook.title }}</h3>
+            <p class="text-body-1 text-medium-emphasis mt-2">
+              {{ selectedBook.author }}
+            </p>
+            <p class="text-body-2 text-medium-emphasis mt-1">
+              Primera publicacion: {{ selectedBook.firstPublishYear }}
+            </p>
+
+            <v-row class="mt-4">
+              <v-col cols="12" sm="6" lg="4">
+                <v-sheet color="surface-bright" class="pa-4">
+                  <div class="text-overline text-medium-emphasis">Editorial</div>
+                  <div class="text-body-1">{{ selectedBook.publisher }}</div>
+                </v-sheet>
+              </v-col>
+              <v-col cols="12" sm="6" lg="4">
+                <v-sheet color="surface-bright" class="pa-4">
+                  <div class="text-overline text-medium-emphasis">Ediciones registradas</div>
+                  <div class="text-body-1">{{ selectedBook.editions }}</div>
+                </v-sheet>
+              </v-col>
+              <v-col cols="12" sm="6" lg="4">
+                <v-sheet color="surface-bright" class="pa-4">
+                  <div class="text-overline text-medium-emphasis">Consulta</div>
+                  <div class="text-body-1">{{ submittedSearch }}</div>
+                </v-sheet>
+              </v-col>
+            </v-row>
+
+            <div class="mt-6">
+              <div class="text-overline text-medium-emphasis mb-3">Temas</div>
+              <div class="d-flex flex-wrap ga-2">
+                <v-chip
+                  v-for="subject in selectedBook.subjects"
+                  :key="subject"
+                  color="secondary"
+                  variant="outlined"
+                >
+                  {{ subject }}
+                </v-chip>
+                <v-chip v-if="!selectedBook.subjects.length" color="secondary" variant="tonal">
+                  Sin temas registrados
+                </v-chip>
               </div>
-
-              <div class="pa-4 d-flex flex-column ga-3">
-                <div>
-                  <div class="text-overline text-medium-emphasis">{{ book.firstPublishYear }}</div>
-                  <h3 class="text-h6 font-weight-bold">{{ book.title }}</h3>
-                  <div class="text-body-2 text-medium-emphasis">{{ book.author }}</div>
-                </div>
-
-                <v-row>
-                  <v-col cols="6">
-                    <v-sheet color="surface-container-high" rounded="lg" class="pa-3">
-                      <div class="text-overline text-medium-emphasis">Publisher</div>
-                      <div class="text-body-2">{{ book.publisher }}</div>
-                    </v-sheet>
-                  </v-col>
-                  <v-col cols="6">
-                    <v-sheet color="surface-container-high" rounded="lg" class="pa-3">
-                      <div class="text-overline text-medium-emphasis">Editions</div>
-                      <div class="text-body-2">{{ book.editions }}</div>
-                    </v-sheet>
-                  </v-col>
-                </v-row>
-              </div>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <v-col cols="12" xl="5">
-        <v-card v-if="selectedBook" color="surface" rounded="xl" class="pa-6">
-          <div class="text-overline text-medium-emphasis">Selected book</div>
-          <h3 class="text-h4 font-weight-bold mt-3">{{ selectedBook.title }}</h3>
-          <p class="text-body-2 text-medium-emphasis mt-2">
-            {{ selectedBook.author }} · First published {{ selectedBook.firstPublishYear }}
-          </p>
-
-          <v-row class="mt-4">
-            <v-col cols="12" sm="6">
-              <v-sheet color="surface-bright" rounded="lg" class="pa-4">
-                <div class="text-overline text-medium-emphasis">Publisher</div>
-                <div class="text-body-1">{{ selectedBook.publisher }}</div>
-              </v-sheet>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-sheet color="surface-bright" rounded="lg" class="pa-4">
-                <div class="text-overline text-medium-emphasis">Editions tracked</div>
-                <div class="text-body-1">{{ selectedBook.editions }}</div>
-              </v-sheet>
-            </v-col>
-          </v-row>
-
-          <div class="mt-6">
-            <div class="text-overline text-medium-emphasis mb-3">Subjects</div>
-            <div class="d-flex flex-wrap ga-2">
-              <v-chip
-                v-for="subject in selectedBook.subjects"
-                :key="subject"
-                color="secondary"
-                variant="outlined"
-              >
-                {{ subject }}
-              </v-chip>
-              <v-chip v-if="!selectedBook.subjects.length" color="secondary" variant="tonal">
-                No subjects listed
-              </v-chip>
             </div>
           </div>
-        </v-card>
-      </v-col>
-    </v-row>
+        </div>
+      </v-card>
+    </template>
+
+    <SectionsIntegrationNote
+      api-name="Open Library API"
+      summary="La pagina consulta Open Library desde un endpoint interno y transforma resultados incompletos en un modelo consistente con portada opcional, autor principal, editorial y temas para comparacion inmediata."
+      :bullets="[
+        'La busqueda por texto se encapsula para normalizar resultados y resolver fallbacks de portada.',
+        'El panel lateral evita saltos de ruta y permite revisar una obra con foco sin perder contexto.',
+        'El valor tecnico esta en dar forma util a datos bibliograficos que suelen llegar incompletos.'
+      ]"
+    />
   </v-container>
 </template>
+
+<style scoped>
+.books-skeleton {
+  height: 420px;
+}
+
+.books-detail__cover-col {
+  width: min(100%, 240px);
+}
+
+.books-detail__cover {
+  aspect-ratio: 0.72;
+  border-radius: 18px;
+  overflow: hidden;
+}
+</style>

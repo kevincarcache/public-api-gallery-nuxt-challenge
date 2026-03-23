@@ -2,8 +2,8 @@
 import type { RickMortyListResponse } from '~/shared/types/rick-morty'
 
 useSeoMeta({
-  title: 'Rick and Morty API | Public API Gallery',
-  description: 'Explore characters with search, filters, and detail views.'
+  title: 'Rick and Morty API | Catalogo de APIs Publicas',
+  description: 'Explora personajes con filtros combinados, resultados paginados y perfiles consistentes.'
 })
 
 const page = ref(1)
@@ -38,49 +38,53 @@ const statusOptions = ['alive', 'dead', 'unknown']
 <template>
   <v-container class="pa-0 d-flex flex-column ga-6">
     <div class="d-flex flex-column ga-3">
-      <CommonSectionHeader title="Rick and Morty" subtitle="Character Explorer" />
+      <CommonSectionHeader title="Rick and Morty" subtitle="Explorador de personajes" />
       <p class="text-body-2 text-medium-emphasis">
-        Search characters, filter by status, and open detailed profiles.
+        Esta pagina demuestra como una fuente con muchos resultados puede traducirse a filtros utiles, lectura rapida y acceso natural a detalle.
       </p>
     </div>
 
     <CommonFilterBar>
-      <CommonSearchBar v-model="search" placeholder="Search characters" />
+      <CommonSearchBar v-model="search" placeholder="Buscar personajes" />
       <v-select
         v-model="status"
         :items="statusOptions"
         clearable
         hide-details
-        label="Status"
+        label="Estado"
         variant="outlined"
         density="comfortable"
       />
       <v-text-field
         v-model="species"
         hide-details
-        label="Species"
-        placeholder="Filter by species"
+        label="Especie"
+        placeholder="Filtrar por especie"
         >
       </v-text-field>
     </CommonFilterBar>
 
-    <CommonLoadingGrid v-if="pending" :count="12" />
+    <v-row v-if="pending">
+      <v-col v-for="index in 12" :key="index" cols="12" sm="6" lg="3">
+        <v-skeleton-loader class="border rick-morty-skeleton" color="surface" type="image, article" />
+      </v-col>
+    </v-row>
 
     <CommonErrorState
       v-else-if="error"
-      title="Unable to load characters"
-      message="Try again in a moment."
+      title="No fue posible cargar los personajes"
+      message="Intenta nuevamente en un momento."
       @retry="refresh"
     />
 
     <CommonEmptyState
       v-else-if="!data.items.length"
-      title="No characters found"
-      message="Try adjusting the filters or search term."
+      title="No se encontraron personajes"
+      message="Ajusta los filtros o cambia el termino de busqueda."
     />
 
     <v-row v-else>
-      <v-col v-for="character in data.items" :key="character.id" cols="12" sm="6" lg="4">
+      <v-col v-for="character in data.items" :key="character.id" cols="12" sm="6" lg="3">
         <CardsCharacterCard
           :title="character.name"
           :subtitle="`${character.species} • ${character.status}`"
@@ -101,5 +105,21 @@ const statusOptions = ['alive', 'dead', 'unknown']
       :total-pages="data.totalPages"
       @update:page="page = $event"
     />
+
+    <SectionsIntegrationNote
+      api-name="Rick and Morty API"
+      summary="La conexion se canaliza por `server/api/rick-morty` para resolver filtros, paginacion y mapping de origen, ubicacion y metadata antes de renderizar la UI."
+      :bullets="[
+        'La pagina envia estado, especie y busqueda a un endpoint interno desacoplado de la API externa.',
+        'Los datos se modelan para alimentar tarjetas reutilizables y un detalle consistente.',
+        'El caso demuestra composicion de filtros y paginacion sin degradar la lectura del producto.'
+      ]"
+    />
   </v-container>
 </template>
+
+<style scoped>
+.rick-morty-skeleton {
+  height: 410px;
+}
+</style>

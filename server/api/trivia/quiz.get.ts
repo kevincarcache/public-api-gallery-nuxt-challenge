@@ -43,7 +43,7 @@ const shuffleAnswers = (answers: TriviaAnswerOption[]) => {
 }
 
 const toQuestion = (question: TriviaQuizApiQuestion, index: number): TriviaQuestion => {
-  const correctAnswer = decodeHtmlEntities(question.correct_answer ?? 'Unknown answer')
+  const correctAnswer = decodeHtmlEntities(question.correct_answer ?? 'Respuesta no disponible')
   const answers = [
     ...(question.incorrect_answers ?? []).map((label, answerIndex) => ({
       id: `q${index}-i${answerIndex}`,

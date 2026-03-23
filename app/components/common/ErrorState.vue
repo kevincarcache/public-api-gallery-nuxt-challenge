@@ -7,9 +7,9 @@ const props = withDefaults(
     showRetry?: boolean
   }>(),
   {
-    title: 'Something went wrong',
-    message: 'We could not load this data. Please try again.',
-    actionLabel: 'Retry',
+    title: 'Ocurrio un problema',
+    message: 'No fue posible cargar estos datos. Intenta nuevamente.',
+    actionLabel: 'Reintentar',
     showRetry: true
   }
 )
@@ -24,7 +24,6 @@ const emit = defineEmits<{
     border="start"
     color="error"
     variant="tonal"
-    rounded="xl"
     :title="props.title"
     :text="props.message"
   >

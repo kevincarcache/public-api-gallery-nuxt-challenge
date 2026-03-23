@@ -12,7 +12,7 @@ const emit = defineEmits<{
 
 <template>
   <div class="d-flex flex-column align-center ga-3">
-    <div class="text-body-2 text-medium-emphasis">Page {{ page }} of {{ totalPages }}</div>
+    <div class="text-body-2 text-medium-emphasis">Pagina {{ page }} de {{ totalPages }}</div>
     <v-pagination
       :model-value="page"
       :length="totalPages"

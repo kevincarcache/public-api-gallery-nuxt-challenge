@@ -21,7 +21,7 @@ const props = withDefaults(
     :to="props.to"
     class="d-block h-100"
   >
-    <v-card color="surface" border class="h-100 d-flex flex-column" hover>
+    <v-card color="surface" border class="h-100 d-flex flex-column editorial-panel" hover>
       <v-img
         v-if="props.image"
         :src="props.image"
@@ -35,13 +35,13 @@ const props = withDefaults(
         height="220"
         class="d-flex align-center justify-center text-overline text-medium-emphasis"
       >
-        No image
+        Sin imagen
       </v-sheet>
 
       <v-card-text class="d-flex flex-column ga-3 fill-height">
         <div class="d-flex flex-wrap ga-2">
-          <v-chip size="small" variant="outlined">{{ props.category || 'Uncategorized' }}</v-chip>
-          <v-chip size="small" variant="outlined">{{ props.area || 'Unknown origin' }}</v-chip>
+          <v-chip size="small" variant="outlined">{{ props.category || 'Sin categoria' }}</v-chip>
+          <v-chip size="small" variant="outlined">{{ props.area || 'Origen no indicado' }}</v-chip>
         </div>
 
         <div class="text-h6 font-weight-bold text-high-emphasis">{{ props.title }}</div>
@@ -68,7 +68,7 @@ const props = withDefaults(
     v-else
     class="h-100"
   >
-    <v-card color="surface" border class="h-100 d-flex flex-column">
+    <v-card color="surface" border class="h-100 d-flex flex-column editorial-panel">
       <v-img
         v-if="props.image"
         :src="props.image"
@@ -82,13 +82,13 @@ const props = withDefaults(
         height="220"
         class="d-flex align-center justify-center text-overline text-medium-emphasis"
       >
-        No image
+        Sin imagen
       </v-sheet>
 
       <v-card-text class="d-flex flex-column ga-3 fill-height">
         <div class="d-flex flex-wrap ga-2">
-          <v-chip size="small" variant="outlined">{{ props.category || 'Uncategorized' }}</v-chip>
-          <v-chip size="small" variant="outlined">{{ props.area || 'Unknown origin' }}</v-chip>
+          <v-chip size="small" variant="outlined">{{ props.category || 'Sin categoria' }}</v-chip>
+          <v-chip size="small" variant="outlined">{{ props.area || 'Origen no indicado' }}</v-chip>
         </div>
 
         <div class="text-h6 font-weight-bold text-high-emphasis">{{ props.title }}</div>

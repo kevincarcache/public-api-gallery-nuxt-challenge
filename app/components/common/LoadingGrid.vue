@@ -21,7 +21,6 @@ const props = withDefaults(
       <v-skeleton-loader
         class="border"
         color="surface"
-        rounded="xl"
         type="image, article"
       />
     </v-col>

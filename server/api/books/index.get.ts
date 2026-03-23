@@ -26,11 +26,11 @@ export default defineEventHandler(async (event): Promise<BookSearchResponse> => 
     items: (response.docs ?? []).map((book) => ({
       workId: (book.key ?? '').replace('/works/', '') || crypto.randomUUID(),
       title: book.title ?? 'Untitled book',
-      author: book.author_name?.[0] ?? 'Unknown author',
+      author: book.author_name?.[0] ?? 'Autor no indicado',
       coverUrl: book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg` : null,
-      firstPublishYear: book.first_publish_year ? String(book.first_publish_year) : 'Unknown year',
-      publisher: book.publisher?.[0] ?? 'Unknown publisher',
-      editions: book.edition_count ? String(book.edition_count) : 'Unknown',
+      firstPublishYear: book.first_publish_year ? String(book.first_publish_year) : 'Ano no indicado',
+      publisher: book.publisher?.[0] ?? 'Editorial no indicada',
+      editions: book.edition_count ? String(book.edition_count) : 'Sin dato',
       subjects: (book.subject ?? []).slice(0, 5)
     })),
     search

@@ -16,8 +16,8 @@ useSeoMeta({
   title: computed(() => `PokeAPI | ${data.value?.name ?? pokemonName.value}`),
   description: computed(() =>
     data.value
-      ? `Stats and details for ${data.value.name}.`
-      : 'Pokemon detail view.'
+      ? `Ficha tecnica y datos base de ${data.value.name}.`
+      : 'Vista de detalle de Pokemon.'
   )
 })
 
@@ -28,11 +28,11 @@ const formatLabel = (value: string) => value.replace('-', ' ')
   <v-container class="pa-0 d-flex flex-column ga-5">
     <div>
       <v-btn prepend-icon="mdi-arrow-left" slim variant="text" to="/apis/pokemon">
-        Back to Pokedex
+        Volver al explorador
       </v-btn>
     </div>
 
-    <CommonSectionHeader title="Pokemon Detail" subtitle="PokeAPI" />
+    <CommonSectionHeader title="Detalle de Pokemon" subtitle="PokeAPI" />
 
     <v-skeleton-loader
       v-if="pending"
@@ -43,15 +43,15 @@ const formatLabel = (value: string) => value.replace('-', ' ')
 
     <CommonErrorState
       v-else-if="error || !data"
-      title="Pokemon not available"
-      message="We could not load this Pokemon. Check the name or try again."
+      title="Pokemon no disponible"
+      message="No fue posible cargar este Pokemon. Verifica el nombre o intenta nuevamente."
       @retry="refresh"
     />
 
     <template v-else>
       <v-row>
         <v-col cols="12" lg="7">
-          <v-card color="surface" rounded="xl" class="pa-6 d-flex align-center justify-center fill-height">
+          <v-card color="surface" class="pa-6 d-flex align-center justify-center fill-height editorial-panel">
             <v-img
               v-if="data.image"
               :src="data.image"
@@ -59,12 +59,12 @@ const formatLabel = (value: string) => value.replace('-', ' ')
               max-height="320"
               contain
             />
-            <div v-else class="text-overline text-medium-emphasis">No image</div>
+            <div v-else class="text-overline text-medium-emphasis">Sin imagen</div>
           </v-card>
         </v-col>
 
         <v-col cols="12" lg="5">
-          <v-card color="surface" rounded="xl" class="pa-6">
+          <v-card color="surface" class="pa-6 editorial-panel">
             <div class="text-overline text-medium-emphasis">{{ data.id }}</div>
             <h1 class="text-h4 font-weight-bold mb-4">{{ data.name }}</h1>
 
@@ -76,21 +76,21 @@ const formatLabel = (value: string) => value.replace('-', ' ')
 
             <v-row class="mb-1">
               <v-col cols="6">
-                <v-sheet color="surface-bright" rounded="lg" class="pa-4">
-                  <div class="text-overline text-medium-emphasis">Height</div>
+                <v-sheet color="surface-bright" class="pa-4">
+                  <div class="text-overline text-medium-emphasis">Altura</div>
                   <div class="text-h6">{{ data.height }}</div>
                 </v-sheet>
               </v-col>
               <v-col cols="6">
-                <v-sheet color="surface-bright" rounded="lg" class="pa-4">
-                  <div class="text-overline text-medium-emphasis">Weight</div>
+                <v-sheet color="surface-bright" class="pa-4">
+                  <div class="text-overline text-medium-emphasis">Peso</div>
                   <div class="text-h6">{{ data.weight }}</div>
                 </v-sheet>
               </v-col>
             </v-row>
 
-            <v-sheet color="surface-bright" rounded="lg" class="pa-4">
-              <div class="text-overline text-medium-emphasis mb-2">Abilities</div>
+            <v-sheet color="surface-bright" class="pa-4">
+              <div class="text-overline text-medium-emphasis mb-2">Habilidades</div>
               <div class="d-flex flex-wrap ga-2">
                 <v-chip
                   v-for="ability in data.abilities"
@@ -107,16 +107,26 @@ const formatLabel = (value: string) => value.replace('-', ' ')
       </v-row>
 
       <section>
-        <h2 class="text-h6 font-weight-bold mb-3">Base stats</h2>
+        <h2 class="text-h6 font-weight-bold mb-3">Stats base</h2>
         <v-row>
           <v-col v-for="stat in data.stats" :key="stat.label" cols="12" sm="6" lg="4">
-            <v-sheet color="surface" rounded="lg" class="pa-4">
+            <v-sheet color="surface" class="pa-4 editorial-panel">
               <div class="text-overline text-medium-emphasis">{{ formatLabel(stat.label) }}</div>
               <div class="text-h6">{{ stat.value }}</div>
             </v-sheet>
           </v-col>
         </v-row>
       </section>
+
+      <SectionsIntegrationNote
+        api-name="PokeAPI"
+        summary="La vista de detalle reutiliza el flujo server-side para pedir una entidad individual, resolver abilities, stats y artwork, y exponer una ficha tecnica limpia sin acoplar la UI al payload original."
+        :bullets="[
+          'La ruta dinamica recibe el nombre del Pokemon y consulta un endpoint interno propio.',
+          'El mapper prepara labels y valores para que el detalle no necesite logica compleja en plantilla.',
+          'El resultado demuestra capacidad de pasar de lista a detalle manteniendo consistencia de producto.'
+        ]"
+      />
     </template>
   </v-container>
 </template>

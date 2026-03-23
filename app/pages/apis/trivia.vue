@@ -2,8 +2,8 @@
 import type { TriviaCategoriesResponse, TriviaQuizConfig, TriviaQuizResponse } from '~/shared/types/trivia'
 
 useSeoMeta({
-  title: 'Open Trivia DB | Public API Gallery',
-  description: 'Build a custom quiz, answer each question, and track your score in a clean game flow.'
+  title: 'Open Trivia DB | Catalogo de APIs Publicas',
+  description: 'Configura un quiz con parametros reales, responde preguntas y revisa resultados dentro de un flujo completo.'
 })
 
 const questionOptions = [5, 7, 10]
@@ -70,7 +70,7 @@ const startQuiz = async () => {
     quiz.value = response
 
     if (!response.items.length) {
-      quizError.value = 'No questions matched that setup. Try a broader category or another difficulty.'
+      quizError.value = 'No hubo preguntas para esa configuracion. Prueba una categoria mas amplia o cambia la dificultad.'
       stage.value = 'setup'
       return
     }
@@ -121,32 +121,31 @@ watch(selectedAnswerId, (value, previousValue) => {
 <template>
   <v-container class="pa-0 d-flex flex-column ga-6">
     <div class="d-flex flex-column ga-3">
-      <CommonSectionHeader title="Open Trivia DB" subtitle="Quiz Mode" />
+      <CommonSectionHeader title="Open Trivia DB" subtitle="Modo quiz" />
       <p class="text-body-2 text-medium-emphasis">
-        Tune the quiz, answer one question at a time, and see how many points you can keep on the board.
+        Esta demo toma una API de preguntas y la convierte en una experiencia completa con configuracion, progreso, feedback y resultados.
       </p>
     </div>
 
     <CommonErrorState
       v-if="categoriesError"
-      title="Unable to load quiz categories"
-      message="The setup form needs category data before the quiz can start."
+      title="No fue posible cargar las categorias"
+      message="El formulario necesita las categorias disponibles antes de iniciar el quiz."
       @retry="refreshCategories"
     />
 
     <v-card
       v-else-if="stage === 'setup'"
       color="surface"
-      rounded="xl"
       class="pa-6"
     >
       <v-row>
         <v-col cols="12" lg="7">
           <div class="d-flex flex-column ga-6">
             <div class="d-flex flex-column ga-2">
-              <h3 class="text-h5 font-weight-bold">Build your quiz</h3>
+              <h3 class="text-h5 font-weight-bold">Configura tu quiz</h3>
               <p class="text-body-2 text-medium-emphasis">
-            Pick a question count, optional category, and difficulty level before the first round begins.
+                Define cantidad de preguntas, categoria opcional y nivel de dificultad antes de iniciar la ronda.
               </p>
             </div>
 
@@ -154,9 +153,9 @@ watch(selectedAnswerId, (value, previousValue) => {
               <v-col cols="12" md="6">
                 <v-select
                   v-model="config.amount"
-                  :items="questionOptions.map((option) => ({ title: `${option} questions`, value: option }))"
+                  :items="questionOptions.map((option) => ({ title: `${option} preguntas`, value: option }))"
                   hide-details
-                  label="Questions"
+                  label="Preguntas"
                   variant="outlined"
                   density="comfortable"
                 />
@@ -166,13 +165,13 @@ watch(selectedAnswerId, (value, previousValue) => {
                 <v-select
                   v-model="config.difficulty"
                   :items="[
-                    { title: 'Any difficulty', value: undefined },
+                    { title: 'Cualquier dificultad', value: undefined },
                     { title: 'Easy', value: 'easy' },
                     { title: 'Medium', value: 'medium' },
                     { title: 'Hard', value: 'hard' }
                   ]"
                   hide-details
-                  label="Difficulty"
+                  label="Dificultad"
                   variant="outlined"
                   density="comfortable"
                 />
@@ -183,18 +182,18 @@ watch(selectedAnswerId, (value, previousValue) => {
               v-model="config.category"
               :disabled="categoriesPending"
               :items="[
-                { title: 'Any category', value: undefined },
+                { title: 'Cualquier categoria', value: undefined },
                 ...categoriesData.items.map((category) => ({ title: category.name, value: category.id }))
               ]"
               hide-details
-              label="Category"
+              label="Categoria"
               variant="outlined"
               density="comfortable"
             />
 
             <CommonErrorState
               v-if="quizError"
-              title="Quiz setup needs a tweak"
+              title="Hay que ajustar la configuracion"
               :message="quizError"
               :show-retry="false"
             />
@@ -205,18 +204,18 @@ watch(selectedAnswerId, (value, previousValue) => {
               :disabled="quizPending || categoriesPending"
               @click="startQuiz"
             >
-              {{ quizPending ? 'Starting quiz...' : 'Start quiz' }}
+              {{ quizPending ? 'Iniciando quiz...' : 'Iniciar quiz' }}
             </v-btn>
           </div>
         </v-col>
 
         <v-col cols="12" lg="5">
-          <v-sheet color="surface-bright" rounded="xl" class="pa-5 fill-height">
-            <div class="text-overline text-medium-emphasis">What you get</div>
+          <v-sheet color="surface-bright" class="pa-5 fill-height">
+            <div class="text-overline text-medium-emphasis">Que demuestra esta demo</div>
             <v-list bg-color="transparent" density="comfortable">
-              <v-list-item title="One-question-at-a-time flow that works well on mobile." />
-              <v-list-item title="Instant scoring after you lock an answer." />
-              <v-list-item title="Reset-friendly rounds so you can replay with new settings." />
+              <v-list-item title="Flujo pregunta por pregunta que se adapta bien a mobile." />
+              <v-list-item title="Scoring inmediato cuando el usuario fija una respuesta." />
+              <v-list-item title="Reinicio limpio para repetir la experiencia con otra configuracion." />
             </v-list>
           </v-sheet>
         </v-col>
@@ -228,7 +227,6 @@ watch(selectedAnswerId, (value, previousValue) => {
     <v-card
       v-else-if="stage === 'playing' && currentQuestion"
       color="surface"
-      rounded="xl"
       class="pa-6"
     >
       <div class="d-flex flex-column ga-5">
@@ -236,13 +234,13 @@ watch(selectedAnswerId, (value, previousValue) => {
           <div class="d-flex flex-wrap align-center justify-space-between ga-3">
             <div class="d-flex flex-column ga-1">
               <div class="text-overline text-medium-emphasis">
-                Question {{ currentIndex + 1 }} of {{ quiz.total }}
+                Pregunta {{ currentIndex + 1 }} de {{ quiz.total }}
               </div>
               <h3 class="text-h5 font-weight-bold">{{ currentQuestion.prompt }}</h3>
             </div>
 
             <v-chip color="success" variant="tonal" size="large">
-              Score: {{ score }}
+              Puntaje: {{ score }}
             </v-chip>
           </div>
 
@@ -289,10 +287,10 @@ watch(selectedAnswerId, (value, previousValue) => {
           <p class="text-body-2 text-medium-emphasis">
             {{
               !hasAnswered
-                ? 'Choose the best answer to lock it in.'
+                ? 'Selecciona la mejor respuesta para fijarla.'
                 : answeredCorrectly
-                  ? 'Nice one. That answer was correct.'
-                  : 'That was not the right pick, but the next question is ready.'
+                  ? 'Respuesta correcta. Puedes continuar a la siguiente.'
+                  : 'No era la opcion correcta, pero el flujo sigue disponible.'
             }}
           </p>
 
@@ -301,7 +299,7 @@ watch(selectedAnswerId, (value, previousValue) => {
             :disabled="!hasAnswered"
             @click="goToNextQuestion"
           >
-            {{ currentIndex === quiz.total - 1 ? 'See results' : 'Next question' }}
+            {{ currentIndex === quiz.total - 1 ? 'Ver resultados' : 'Siguiente pregunta' }}
           </v-btn>
         </div>
       </div>
@@ -310,33 +308,42 @@ watch(selectedAnswerId, (value, previousValue) => {
     <v-card
       v-else-if="stage === 'results'"
       color="surface"
-      rounded="xl"
       class="pa-6"
     >
       <div class="d-flex flex-column ga-5">
         <div class="d-flex flex-column ga-3">
-          <div class="text-overline text-medium-emphasis">Round complete</div>
+          <div class="text-overline text-medium-emphasis">Ronda completada</div>
           <h3 class="text-h3 font-weight-bold">{{ score }} / {{ quiz.total }}</h3>
           <p class="text-body-2 text-medium-emphasis">
             {{
               score === quiz.total
-                ? 'Perfect score. Every answer landed.'
-                : score >= Math.ceil(quiz.total / 2)
-                  ? 'Strong run. Try a harder setting if you want another challenge.'
-                  : 'Good warm-up. Restart with a new category and see if the next round clicks.'
+              ? 'Puntaje perfecto. Todas las respuestas fueron correctas.'
+              : score >= Math.ceil(quiz.total / 2)
+                  ? 'Buen resultado. Puedes subir la dificultad para forzar mas el caso.'
+                  : 'Buen calentamiento. Reinicia con otra categoria para explorar un nuevo flujo.'
             }}
           </p>
         </div>
 
         <div class="d-flex flex-wrap ga-3">
           <v-btn color="primary" prepend-icon="mdi-refresh" @click="startQuiz">
-            Play again
+            Jugar otra vez
           </v-btn>
           <v-btn variant="outlined" @click="resetQuiz">
-            Change setup
+            Cambiar configuracion
           </v-btn>
         </div>
       </div>
     </v-card>
+
+    <SectionsIntegrationNote
+      api-name="Open Trivia DB"
+      summary="Esta pagina usa dos endpoints internos: uno para categorias y otro para generar el quiz. La API externa solo aporta preguntas; el flujo, el scoring y la experiencia de producto viven en la capa de aplicacion."
+      :bullets="[
+        'La configuracion del quiz viaja al server y vuelve como una ronda lista para jugar.',
+        'El cliente controla progreso, respuesta seleccionada y resultado final sin depender de la API externa.',
+        'El valor tecnico esta en convertir datos de preguntas en un flujo interactivo completo.'
+      ]"
+    />
   </v-container>
 </template>

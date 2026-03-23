@@ -13,8 +13,8 @@ const emit = defineEmits<{
 <template>
   <v-text-field
     :model-value="props.modelValue"
-    :placeholder="props.placeholder ?? 'Search by name'"
-    aria-label="Search"
+    :placeholder="props.placeholder ?? 'Buscar por nombre'"
+    aria-label="Buscar"
     clearable
     hide-details
     prepend-inner-icon="mdi-magnify"

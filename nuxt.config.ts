@@ -12,37 +12,37 @@ export default defineNuxtConfig({
           galleryDark: {
             dark: true,
             colors: {
-              background: '#020617',
-              surface: '#0f172a',
-              'surface-bright': '#111c35',
-              'surface-light': '#1e293b',
-              primary: '#fbbf24',
-              secondary: '#38bdf8',
-              error: '#fb7185',
-              success: '#34d399',
-              info: '#60a5fa',
-              warning: '#f59e0b',
-              'on-background': '#f8fafc',
-              'on-surface': '#e2e8f0',
-              'on-primary': '#020617'
+              background: '#0a1018',
+              surface: '#121922',
+              'surface-bright': '#19212c',
+              'surface-light': '#24303d',
+              primary: '#d7a24c',
+              secondary: '#6aa7b8',
+              error: '#cf6a6a',
+              success: '#7ea58a',
+              info: '#7e99b3',
+              warning: '#c7913f',
+              'on-background': '#eef2f4',
+              'on-surface': '#e4e9ed',
+              'on-primary': '#11161c'
             }
           }
         }
       },
       defaults: {
-        global: {
-          rounded: 'xl'
-        },
         VCard: {
-          rounded: 'xl',
-          elevation: 0
+          elevation: 0,
+          rounded: 'lg'
         },
         VSheet: {
-          rounded: 'xl'
+          rounded: 'lg'
         },
         VBtn: {
-          rounded: 'pill',
-          variant: 'tonal'
+          variant: 'tonal',
+          elevation: 0
+        },
+        VChip: {
+          label: true
         },
         VTextField: {
           variant: 'outlined',
@@ -55,9 +55,11 @@ export default defineNuxtConfig({
           color: 'primary'
         },
         VPagination: {
-          rounded: 'pill',
           density: 'comfortable',
           color: 'primary'
+        },
+        VAlert: {
+          rounded: 'lg'
         },
         VSkeletonLoader: {
           boilerplate: true
@@ -75,7 +77,7 @@ export default defineNuxtConfig({
         },
         {
           name: 'theme-color',
-          content: '#020617'
+          content: '#0a1018'
         }
       ]
     }

@@ -2,8 +2,8 @@
 import type { DogBreedOption, DogImageResult } from '~/shared/types/dogs'
 
 useSeoMeta({
-  title: 'Dog API | Public API Gallery',
-  description: 'Pick a breed and regenerate a fresh dog photo.'
+  title: 'Dog API | Catalogo de APIs Publicas',
+  description: 'Selecciona una raza, dispara peticiones encadenadas y refresca imagenes reales desde una API publica.'
 })
 
 const selectedBreed = ref('')
@@ -57,9 +57,9 @@ watch(
 <template>
   <v-container class="pa-0 d-flex flex-column ga-6">
     <div class="d-flex flex-column ga-3">
-      <CommonSectionHeader title="Dog API" subtitle="Breed Picker" />
+      <CommonSectionHeader title="Dog API" subtitle="Selector de raza" />
       <p class="text-body-2 text-medium-emphasis">
-        Select a breed and regenerate a new image whenever you want a different pup on screen.
+        Este caso demuestra un flujo corto pero muy util: obtener un listado base, seleccionar una raza y regenerar imagenes desde una segunda fuente conectada.
       </p>
     </div>
 
@@ -70,7 +70,7 @@ watch(
         item-title="label"
         item-value="value"
         hide-details
-        label="Breed"
+        label="Raza"
         variant="outlined"
         density="comfortable"
       />
@@ -82,14 +82,14 @@ watch(
         :disabled="!selectedBreed || imagePending"
         @click="refreshImage"
       >
-        New image
+        Nueva imagen
       </v-btn>
     </CommonFilterBar>
 
     <CommonErrorState
       v-if="breedsError"
-      title="Unable to load breeds"
-      message="Try refreshing the breed list."
+      title="No fue posible cargar las razas"
+      message="Prueba recargando el listado de razas."
       @retry="refreshBreeds"
     />
 
@@ -99,25 +99,23 @@ watch(
 
     <CommonEmptyState
       v-else-if="!breeds.length"
-      title="No breeds available"
-      message="The Dog API did not return any breeds."
+      title="No hay razas disponibles"
+      message="La Dog API no devolvio razas en este momento."
     />
 
     <CommonErrorState
       v-else-if="imageError"
-      title="Unable to load dog image"
-      message="Try another breed or request a fresh image."
+      title="No fue posible cargar la imagen"
+      message="Prueba otra raza o solicita una imagen nueva."
       @retry="refreshImage"
     />
 
     <v-card
       v-else
       color="surface"
-      rounded="xl"
       class="pa-4"
     >
       <v-sheet
-        rounded="xl"
         color="surface-bright"
         class="d-flex align-center justify-center pa-4"
         min-height="420"
@@ -135,9 +133,19 @@ watch(
           contain
         />
         <div v-else class="text-body-2 text-medium-emphasis">
-          Choose a breed to see a dog image.
+          Selecciona una raza para ver una imagen.
         </div>
       </v-sheet>
     </v-card>
+
+    <SectionsIntegrationNote
+      api-name="Dog API"
+      summary="La pagina separa la carga de razas y la carga de imagenes en dos consultas distintas, coordinadas desde el cliente pero encapsuladas en endpoints internos para simplificar la UI."
+      :bullets="[
+        'Primero se obtiene el catalogo de razas y luego se dispara la peticion de imagen segun la seleccion actual.',
+        'El flujo muestra como manejar dependencias entre fetches sin complicar la interfaz.',
+        'El valor de producto esta en hacer visible una integracion simple pero bien orquestada.'
+      ]"
+    />
   </v-container>
 </template>

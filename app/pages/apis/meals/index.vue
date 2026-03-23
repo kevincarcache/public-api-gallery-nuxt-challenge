@@ -2,8 +2,8 @@
 import type { MealListResponse } from '~/shared/types/meals'
 
 useSeoMeta({
-  title: 'TheMealDB | Public API Gallery',
-  description: 'Search recipes, scan meal cards, and open detailed ingredient and instruction views.'
+  title: 'TheMealDB | Catalogo de APIs Publicas',
+  description: 'Busca recetas reales, compara resultados y entra a un detalle con ingredientes e instrucciones normalizadas.'
 })
 
 const search = ref('chicken')
@@ -29,22 +29,22 @@ const submitSearch = () => {
 <template>
   <v-container class="pa-0 d-flex flex-column ga-6">
     <div class="d-flex flex-column ga-3">
-      <CommonSectionHeader title="TheMealDB" subtitle="Recipe Search" />
+      <CommonSectionHeader title="TheMealDB" subtitle="Buscador de recetas" />
       <p class="text-body-2 text-medium-emphasis">
-        Search by meal name, compare visual recipe cards, and open a detail view with parsed ingredients and steps.
+        Esta vista convierte respuestas extensas de TheMealDB en un flujo claro de descubrimiento: busqueda, comparacion visual y acceso a detalle tecnico.
       </p>
     </div>
 
     <CommonFilterBar>
       <form class="w-100 d-flex flex-column flex-md-row ga-3" @submit.prevent="submitSearch">
-        <CommonSearchBar v-model="search" placeholder="Search meals like pasta, curry, or soup" />
+        <CommonSearchBar v-model="search" placeholder="Buscar recetas como pasta, curry o sopa" />
         <v-btn
           color="primary"
           prepend-icon="mdi-silverware-fork-knife"
           type="submit"
           variant="tonal"
         >
-          Search recipes
+          Buscar recetas
         </v-btn>
       </form>
     </CommonFilterBar>
@@ -53,22 +53,22 @@ const submitSearch = () => {
 
     <CommonErrorState
       v-else-if="error"
-      title="Unable to load recipes"
-      message="Try another meal name or retry in a moment."
+      title="No fue posible cargar las recetas"
+      message="Prueba con otro termino o intenta nuevamente en un momento."
       @retry="refresh"
     />
 
     <CommonEmptyState
       v-else-if="!data.items.length"
-      title="No meals found"
-      :message="`We could not find recipes for “${submittedSearch}”. Try a broader term.`"
-      action-label="Try chicken"
+      title="No se encontraron recetas"
+      :message="`No encontramos recetas para “${submittedSearch}”. Prueba con un termino mas amplio.`"
+      action-label="Probar con chicken"
       action-to="/apis/meals"
     />
 
     <div v-else class="d-flex flex-column ga-4">
       <div class="text-body-2 text-medium-emphasis">
-        Showing {{ data.items.length }} recipes for <span class="font-weight-bold text-high-emphasis">{{ data.query }}</span>.
+        Mostrando {{ data.items.length }} recetas para <span class="font-weight-bold text-high-emphasis">{{ data.query }}</span>.
       </div>
 
       <v-row>
@@ -84,6 +84,16 @@ const submitSearch = () => {
           />
         </v-col>
       </v-row>
+
+      <SectionsIntegrationNote
+        api-name="TheMealDB"
+        summary="La pagina delega la busqueda a un endpoint interno y luego usa mappers para resumir instrucciones, tags y metadatos antes de renderizar tarjetas. Asi la UI trabaja con un modelo limpio y consistente."
+        :bullets="[
+          'La consulta por texto se resuelve server-side para encapsular la fuente y preparar la respuesta.',
+          'Cada receta se resume a una tarjeta comparable que prioriza categoria, origen y lectura rapida.',
+          'El valor tecnico esta en pasar de un resultado crudo a una experiencia de descubrimiento mas clara.'
+        ]"
+      />
     </div>
   </v-container>
 </template>

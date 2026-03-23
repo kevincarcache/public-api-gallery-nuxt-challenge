@@ -4,6 +4,9 @@ export type RandomUserCard = {
   email: string
   location: string
   avatar: string | null
+  role: string
+  age: number | null
+  nationality: string
 }
 
 export type RandomUserResponse = {

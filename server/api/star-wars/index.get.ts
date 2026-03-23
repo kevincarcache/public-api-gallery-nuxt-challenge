@@ -8,13 +8,62 @@ interface SwapiResponse {
 
 const allowedResources: StarWarsResource[] = ['people', 'planets', 'starships']
 
+const isMeaningfulValue = (value: string) => value !== 'n/a' && value !== 'unknown' && value !== 'none'
+
+const toReadableValue = (value: string | string[] | undefined) => {
+  if (Array.isArray(value)) {
+    const items = value.map((entry) => String(entry).trim()).filter(Boolean)
+    return items.length ? items.join(', ') : 'Sin dato'
+  }
+
+  const normalized = String(value ?? '').trim()
+  if (!normalized || !isMeaningfulValue(normalized.toLowerCase())) {
+    return 'Sin dato'
+  }
+
+  return normalized
+}
+
+const toSentenceValue = (value: string | string[] | undefined, fallback = 'sin dato') => {
+  const readable = toReadableValue(value)
+  return readable === 'Sin dato' ? fallback : readable
+}
+
 const toStatEntries = (record: SwapiRecord, labels: Array<[string, string]>) => {
   return labels
     .map(([key, label]) => ({
       label,
-      value: Array.isArray(record[key]) ? record[key].join(', ') : record[key] ?? 'Unknown'
+      value: toReadableValue(record[key])
     }))
-    .filter((entry) => entry.value && entry.value !== 'n/a')
+    .filter((entry) => entry.value !== 'Sin dato')
+}
+
+const linkedNameCache = new Map<string, string>()
+
+const resolveLinkedName = async (url: string | undefined) => {
+  if (!url) {
+    return 'Sin dato'
+  }
+
+  const normalizedUrl = url.trim()
+  if (!normalizedUrl) {
+    return 'Sin dato'
+  }
+
+  const cachedValue = linkedNameCache.get(normalizedUrl)
+  if (cachedValue) {
+    return cachedValue
+  }
+
+  try {
+    const response = await $fetch<Record<string, unknown>>(normalizedUrl)
+    const resolved = String(response.name ?? response.title ?? 'Sin dato')
+    linkedNameCache.set(normalizedUrl, resolved)
+    return resolved
+  }
+  catch {
+    return 'Sin dato'
+  }
 }
 
 const resourceConfig: Record<
@@ -28,35 +77,35 @@ const resourceConfig: Record<
 > = {
   people: {
     titleKey: 'name',
-    subtitle: (record) => `Birth year: ${record.birth_year ?? 'Unknown'}`,
-    description: (record) => `Hair ${record.hair_color ?? 'unknown'}, eyes ${record.eye_color ?? 'unknown'}, gender ${record.gender ?? 'unknown'}.`,
+    subtitle: (record) => `Nacimiento: ${toSentenceValue(record.birth_year, 'Sin dato')}`,
+    description: (record) => `Cabello ${toSentenceValue(record.hair_color)}, ojos ${toSentenceValue(record.eye_color)}, genero ${toSentenceValue(record.gender)}.`,
     stats: [
-      ['height', 'Height'],
-      ['mass', 'Mass'],
-      ['skin_color', 'Skin'],
-      ['homeworld', 'Homeworld']
+      ['height', 'Altura'],
+      ['mass', 'Masa'],
+      ['skin_color', 'Piel'],
+      ['homeworld', 'Planeta']
     ]
   },
   planets: {
     titleKey: 'name',
-    subtitle: (record) => `Climate: ${record.climate ?? 'Unknown'}`,
-    description: (record) => `Terrain ${record.terrain ?? 'unknown'} with population ${record.population ?? 'unknown'}.`,
+    subtitle: (record) => `Clima: ${toSentenceValue(record.climate, 'Sin dato')}`,
+    description: (record) => `Terreno ${toSentenceValue(record.terrain)} con poblacion ${toSentenceValue(record.population)}.`,
     stats: [
-      ['diameter', 'Diameter'],
-      ['gravity', 'Gravity'],
-      ['population', 'Population'],
-      ['terrain', 'Terrain']
+      ['diameter', 'Diametro'],
+      ['gravity', 'Gravedad'],
+      ['population', 'Poblacion'],
+      ['terrain', 'Terreno']
     ]
   },
   starships: {
     titleKey: 'name',
-    subtitle: (record) => `Model: ${record.model ?? 'Unknown'}`,
-    description: (record) => `Manufacturer ${record.manufacturer ?? 'unknown'} with crew ${record.crew ?? 'unknown'}.`,
+    subtitle: (record) => `Modelo: ${toSentenceValue(record.model, 'Sin dato')}`,
+    description: (record) => `Fabricante ${toSentenceValue(record.manufacturer)} con tripulacion ${toSentenceValue(record.crew)}.`,
     stats: [
-      ['starship_class', 'Class'],
+      ['starship_class', 'Clase'],
       ['hyperdrive_rating', 'Hyperdrive'],
-      ['crew', 'Crew'],
-      ['passengers', 'Passengers']
+      ['crew', 'Tripulacion'],
+      ['passengers', 'Pasajeros']
     ]
   }
 }
@@ -76,15 +125,26 @@ export default defineEventHandler(async (event): Promise<StarWarsResponse> => {
   const endpoint = `https://swapi.py4e.com/api/${resource}/${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
   const response = await $fetch<SwapiResponse>(endpoint)
   const config = resourceConfig[resource]
+  const records = response.results ?? []
+
+  const items = await Promise.all(records.map(async (record, index) => {
+    const normalizedRecord = { ...record }
+
+    if (resource === 'people') {
+      normalizedRecord.homeworld = await resolveLinkedName(String(record.homeworld ?? ''))
+    }
+
+    return {
+      id: `${resource}-${index}-${String(record.url ?? record.name ?? record.title ?? index)}`,
+      name: String(record[config.titleKey] ?? 'Sin nombre'),
+      subtitle: config.subtitle(normalizedRecord),
+      description: config.description(normalizedRecord),
+      stats: toStatEntries(normalizedRecord, config.stats)
+    }
+  }))
 
   return {
-    items: (response.results ?? []).map((record, index) => ({
-      id: `${resource}-${index}-${String(record.url ?? record.name ?? record.title ?? index)}`,
-      name: String(record[config.titleKey] ?? 'Unknown'),
-      subtitle: config.subtitle(record),
-      description: config.description(record),
-      stats: toStatEntries(record, config.stats)
-    })),
+    items,
     resource,
     search
   }

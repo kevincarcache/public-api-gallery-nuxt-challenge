@@ -1,0 +1,32 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#121922"/>
+  <defs>
+    <linearGradient id="bg" x1="188" y1="100" x2="1396" y2="764" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#20344A"/>
+      <stop offset="1" stop-color="#0E151F"/>
+    </linearGradient>
+  </defs>
+  <rect x="72" y="72" width="1456" height="756" rx="44" fill="url(#bg)" stroke="#E4E9ED" stroke-opacity="0.14"/>
+  <rect x="160" y="164" width="340" height="260" rx="28" fill="#192433"/>
+  <rect x="532" y="164" width="340" height="260" rx="28" fill="#18283A"/>
+  <rect x="160" y="458" width="340" height="260" rx="28" fill="#142031"/>
+  <rect x="532" y="458" width="340" height="260" rx="28" fill="#182534"/>
+  <clipPath id="userA"><rect x="160" y="164" width="340" height="260" rx="28"/></clipPath>
+  <clipPath id="userB"><rect x="532" y="164" width="340" height="260" rx="28"/></clipPath>
+  <clipPath id="userC"><rect x="160" y="458" width="340" height="260" rx="28"/></clipPath>
+  <clipPath id="userD"><rect x="532" y="458" width="340" height="260" rx="28"/></clipPath>
+  <image href="/images/catalog/raw/user-1.jpg" x="122" y="116" width="416" height="312" preserveAspectRatio="xMidYMid slice" clip-path="url(#userA)"/>
+  <image href="/images/catalog/raw/user-2.jpg" x="500" y="116" width="404" height="312" preserveAspectRatio="xMidYMid slice" clip-path="url(#userB)"/>
+  <image href="/images/catalog/raw/user-3.jpg" x="122" y="410" width="416" height="332" preserveAspectRatio="xMidYMid slice" clip-path="url(#userC)"/>
+  <image href="/images/catalog/raw/user-4.jpg" x="502" y="412" width="400" height="320" preserveAspectRatio="xMidYMid slice" clip-path="url(#userD)"/>
+  <rect x="956" y="166" width="404" height="548" rx="36" fill="#0F1825" stroke="#E4E9ED" stroke-opacity="0.12"/>
+  <rect x="1002" y="216" width="246" height="22" rx="11" fill="#E4E9ED" fill-opacity="0.88"/>
+  <rect x="1002" y="258" width="300" height="14" rx="7" fill="#E4E9ED" fill-opacity="0.18"/>
+  <rect x="1002" y="288" width="264" height="14" rx="7" fill="#E4E9ED" fill-opacity="0.18"/>
+  <rect x="1002" y="352" width="114" height="70" rx="18" fill="#21334A"/>
+  <rect x="1132" y="352" width="114" height="70" rx="18" fill="#2A3D56"/>
+  <rect x="1002" y="442" width="278" height="16" rx="8" fill="#6AA7B8" fill-opacity="0.24"/>
+  <rect x="1002" y="474" width="244" height="16" rx="8" fill="#D7A24C" fill-opacity="0.18"/>
+  <rect x="1002" y="536" width="188" height="86" rx="20" fill="#162232"/>
+  <rect x="1208" y="536" width="106" height="86" rx="20" fill="#18283B"/>
+</svg>
