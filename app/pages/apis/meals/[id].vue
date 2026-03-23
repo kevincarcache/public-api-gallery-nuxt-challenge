@@ -23,14 +23,21 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="space-y-6">
-    <NuxtLink class="text-sm text-slate-400 hover:text-white" to="/apis/meals">
-      Back to recipes
-    </NuxtLink>
+  <v-container class="pa-0 d-flex flex-column ga-5">
+    <div>
+      <v-btn prepend-icon="mdi-arrow-left" slim variant="text" to="/apis/meals">
+        Back to recipes
+      </v-btn>
+    </div>
 
     <CommonSectionHeader title="Recipe Detail" subtitle="TheMealDB" />
 
-    <div v-if="pending" class="h-72 animate-pulse rounded-3xl border border-slate-800 bg-slate-900/40" />
+    <v-skeleton-loader
+      v-if="pending"
+      class="rounded-xl"
+      color="surface-variant"
+      type="image, article"
+    />
 
     <CommonErrorState
       v-else-if="error || !data"
@@ -39,89 +46,98 @@ useSeoMeta({
       @retry="refresh"
     />
 
-    <div v-else class="space-y-6">
-      <div class="grid gap-6 lg:grid-cols-[1.05fr,0.95fr]">
-        <div class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60">
-          <img
-            v-if="data.image"
-            :src="data.image"
-            :alt="data.name"
-            class="h-full min-h-72 w-full object-cover"
-          />
-          <div v-else class="flex min-h-72 items-center justify-center text-xs uppercase tracking-[0.3em] text-slate-500">
-            No image
-          </div>
-        </div>
+    <template v-else>
+      <v-row>
+        <v-col cols="12" lg="7">
+          <v-card color="surface" rounded="xl" class="overflow-hidden fill-height">
+            <v-img
+              v-if="data.image"
+              :src="data.image"
+              :alt="data.name"
+              cover
+              min-height="360"
+            />
+            <div v-else class="pa-16 text-center text-overline text-medium-emphasis">No image</div>
+          </v-card>
+        </v-col>
 
-        <div class="space-y-4">
-          <div>
-            <div class="flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.22em] text-slate-500">
-              <span>{{ data.category }}</span>
-              <span>{{ data.area }}</span>
-            </div>
-            <h1 class="mt-2 text-3xl font-semibold text-white">{{ data.name }}</h1>
-          </div>
-
-          <div v-if="data.tags.length" class="flex flex-wrap gap-2">
-            <span
-              v-for="tag in data.tags"
-              :key="tag"
-              class="rounded-full border border-slate-800 px-3 py-1 text-xs text-slate-300"
-            >
-              {{ tag }}
-            </span>
-          </div>
-
-          <div class="grid gap-3 sm:grid-cols-2">
-            <a
-              v-if="data.videoUrl"
-              :href="data.videoUrl"
-              target="_blank"
-              rel="noreferrer"
-              class="rounded-2xl border border-slate-800 px-4 py-3 text-sm text-slate-100 transition hover:border-slate-600"
-            >
-              Watch video
-            </a>
-            <a
-              v-if="data.sourceUrl"
-              :href="data.sourceUrl"
-              target="_blank"
-              rel="noreferrer"
-              class="rounded-2xl border border-slate-800 px-4 py-3 text-sm text-slate-100 transition hover:border-slate-600"
-            >
-              Open source
-            </a>
-          </div>
-
-          <div class="rounded-3xl border border-slate-800 bg-slate-900/50 p-5">
-            <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Ingredients</p>
-            <div class="mt-4 grid gap-3 sm:grid-cols-2">
-              <div
-                v-for="ingredient in data.ingredients"
-                :key="`${ingredient.name}-${ingredient.measure}`"
-                class="rounded-2xl border border-slate-800 px-4 py-3"
-              >
-                <p class="text-sm font-medium text-slate-100">{{ ingredient.name }}</p>
-                <p class="text-xs uppercase tracking-[0.22em] text-slate-500">{{ ingredient.measure }}</p>
+        <v-col cols="12" lg="5">
+          <v-card color="surface" rounded="xl" class="pa-6 d-flex flex-column ga-4">
+            <div>
+              <div class="d-flex flex-wrap ga-2 mb-2">
+                <v-chip color="secondary" variant="outlined">{{ data.category }}</v-chip>
+                <v-chip color="secondary" variant="outlined">{{ data.area }}</v-chip>
               </div>
+              <h1 class="text-h4 font-weight-bold">{{ data.name }}</h1>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="rounded-3xl border border-slate-800 bg-slate-900/50 p-6">
-        <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Instructions</p>
-        <ol class="mt-4 space-y-3 text-sm text-slate-300">
-          <li
+            <div v-if="data.tags.length" class="d-flex flex-wrap ga-2">
+              <v-chip v-for="tag in data.tags" :key="tag" color="primary" variant="outlined">
+                {{ tag }}
+              </v-chip>
+            </div>
+
+            <div class="d-flex flex-wrap ga-3">
+              <v-btn
+                v-if="data.videoUrl"
+                :href="data.videoUrl"
+                target="_blank"
+                rel="noreferrer"
+                color="primary"
+                variant="tonal"
+              >
+                Watch video
+              </v-btn>
+              <v-btn
+                v-if="data.sourceUrl"
+                :href="data.sourceUrl"
+                target="_blank"
+                rel="noreferrer"
+                variant="outlined"
+              >
+                Open source
+              </v-btn>
+            </div>
+
+            <v-sheet color="surface-bright" rounded="xl" class="pa-5">
+              <div class="text-overline text-medium-emphasis mb-4">Ingredients</div>
+              <v-row>
+                <v-col
+                  v-for="ingredient in data.ingredients"
+                  :key="`${ingredient.name}-${ingredient.measure}`"
+                  cols="12"
+                  sm="6"
+                >
+                  <v-sheet color="surface-container-high" rounded="lg" class="pa-4">
+                    <div class="text-body-1 font-weight-medium">{{ ingredient.name }}</div>
+                    <div class="text-overline text-medium-emphasis">{{ ingredient.measure }}</div>
+                  </v-sheet>
+                </v-col>
+              </v-row>
+            </v-sheet>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <v-card color="surface" rounded="xl" class="pa-6">
+        <div class="text-overline text-medium-emphasis mb-4">Instructions</div>
+        <v-timeline density="compact" side="end" align="start">
+          <v-timeline-item
             v-for="(step, index) in data.instructions"
             :key="`${index}-${step}`"
-            class="rounded-2xl border border-slate-800 px-4 py-4"
+            dot-color="primary"
+            fill-dot
+            size="small"
           >
-            <span class="mr-3 text-xs uppercase tracking-[0.22em] text-amber-300">Step {{ index + 1 }}</span>
-            {{ step }}
-          </li>
-        </ol>
-      </div>
-    </div>
-  </div>
+            <v-card color="surface-bright" rounded="lg">
+              <div class="pa-4">
+                <div class="text-overline text-primary mb-1">Step {{ index + 1 }}</div>
+                <div class="text-body-2">{{ step }}</div>
+              </div>
+            </v-card>
+          </v-timeline-item>
+        </v-timeline>
+      </v-card>
+    </template>
+  </v-container>
 </template>

@@ -10,11 +10,20 @@ const props = withDefaults(
 </script>
 
 <template>
-  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    <div
+  <v-row>
+    <v-col
       v-for="index in props.count"
       :key="index"
-      class="h-40 animate-pulse rounded-2xl border border-slate-800 bg-slate-900/40"
-    />
-  </div>
+      cols="12"
+      sm="6"
+      lg="4"
+    >
+      <v-skeleton-loader
+        class="border"
+        color="surface"
+        rounded="xl"
+        type="image, article"
+      />
+    </v-col>
+  </v-row>
 </template>

@@ -24,34 +24,36 @@ const {
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="Random User Generator" subtitle="People Grid" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Generate a fresh cast of people cards and change the batch size to explore different layouts.
       </p>
     </div>
 
     <CommonFilterBar>
-      <label class="flex items-center gap-3 text-sm text-slate-300">
-        <span class="text-xs uppercase tracking-[0.25em] text-slate-500">Batch size</span>
-        <select
-          v-model="count"
-          class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100"
-        >
-          <option :value="6">6 users</option>
-          <option :value="9">9 users</option>
-          <option :value="12">12 users</option>
-        </select>
-      </label>
+      <v-select
+        v-model="count"
+        :items="[
+          { title: '6 users', value: 6 },
+          { title: '9 users', value: 9 },
+          { title: '12 users', value: 12 }
+        ]"
+        hide-details
+        label="Batch size"
+        variant="outlined"
+        density="comfortable"
+      />
 
-      <button
-        class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 transition hover:border-slate-600"
-        type="button"
+      <v-btn
+        color="primary"
+        prepend-icon="mdi-account-multiple-plus"
+        variant="tonal"
         @click="refresh"
       >
         Regenerate users
-      </button>
+      </v-btn>
     </CommonFilterBar>
 
     <CommonLoadingGrid v-if="pending" :count="count" />
@@ -69,15 +71,15 @@ const {
       message="The API returned an empty batch. Try again."
     />
 
-    <div v-else class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      <CardsUserCard
-        v-for="user in data.items"
-        :key="user.id"
-        :name="user.name"
-        :email="user.email"
-        :location="user.location"
-        :avatar="user.avatar"
-      />
-    </div>
-  </div>
+    <v-row v-else>
+      <v-col v-for="user in data.items" :key="user.id" cols="12" sm="6" xl="4">
+        <CardsUserCard
+          :name="user.name"
+          :email="user.email"
+          :location="user.location"
+          :avatar="user.avatar"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

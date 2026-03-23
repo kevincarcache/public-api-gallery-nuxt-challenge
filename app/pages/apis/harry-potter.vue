@@ -29,32 +29,34 @@ const houseOptions = ['gryffindor', 'slytherin', 'ravenclaw', 'hufflepuff']
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="Harry Potter" subtitle="Character Roster" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Filter by house or search for a character to explore the wizarding world.
       </p>
     </div>
 
     <CommonFilterBar>
       <CommonSearchBar v-model="search" placeholder="Search by name" />
-      <select
+      <v-select
         v-model="house"
-        class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100"
+        :items="houseOptions"
+        clearable
+        hide-details
+        label="House"
+        variant="outlined"
+        density="comfortable"
       >
-        <option value="">All houses</option>
-        <option v-for="option in houseOptions" :key="option" :value="option">
-          {{ option }}
-        </option>
-      </select>
-      <button
-        class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 transition hover:border-slate-600"
-        type="button"
+      </v-select>
+      <v-btn
+        color="primary"
+        prepend-icon="mdi-refresh"
+        variant="tonal"
         @click="refresh"
       >
         Reload
-      </button>
+      </v-btn>
     </CommonFilterBar>
 
     <CommonLoadingGrid v-if="pending" :count="12" />
@@ -72,19 +74,19 @@ const houseOptions = ['gryffindor', 'slytherin', 'ravenclaw', 'hufflepuff']
       message="Try another name or house filter."
     />
 
-    <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <CardsCharacterCard
-        v-for="character in filteredItems"
-        :key="character.name"
-        :title="character.name"
-        :subtitle="character.house || 'No house'"
-        :image="character.image"
-        :badges="[character.house || 'unknown', character.species]"
-        :stats="[
-          { label: 'Actor', value: character.actor },
-          { label: 'Patronus', value: character.patronus }
-        ]"
-      />
-    </div>
-  </div>
+    <v-row v-else>
+      <v-col v-for="character in filteredItems" :key="character.name" cols="12" sm="6" lg="4">
+        <CardsCharacterCard
+          :title="character.name"
+          :subtitle="character.house || 'No house'"
+          :image="character.image"
+          :badges="[character.house || 'unknown', character.species]"
+          :stats="[
+            { label: 'Actor', value: character.actor },
+            { label: 'Patronus', value: character.patronus }
+          ]"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

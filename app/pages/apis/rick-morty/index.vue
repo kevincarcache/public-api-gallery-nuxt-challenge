@@ -36,31 +36,32 @@ const statusOptions = ['alive', 'dead', 'unknown']
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="Rick and Morty" subtitle="Character Explorer" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Search characters, filter by status, and open detailed profiles.
       </p>
     </div>
 
     <CommonFilterBar>
       <CommonSearchBar v-model="search" placeholder="Search characters" />
-      <select
+      <v-select
         v-model="status"
-        class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100"
-      >
-        <option value="">All statuses</option>
-        <option v-for="option in statusOptions" :key="option" :value="option">
-          {{ option }}
-        </option>
-      </select>
-      <input
-        v-model="species"
-        class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100"
-        placeholder="Filter by species"
-        type="text"
+        :items="statusOptions"
+        clearable
+        hide-details
+        label="Status"
+        variant="outlined"
+        density="comfortable"
       />
+      <v-text-field
+        v-model="species"
+        hide-details
+        label="Species"
+        placeholder="Filter by species"
+        >
+      </v-text-field>
     </CommonFilterBar>
 
     <CommonLoadingGrid v-if="pending" :count="12" />
@@ -78,21 +79,21 @@ const statusOptions = ['alive', 'dead', 'unknown']
       message="Try adjusting the filters or search term."
     />
 
-    <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <CardsCharacterCard
-        v-for="character in data.items"
-        :key="character.id"
-        :title="character.name"
-        :subtitle="`${character.species} • ${character.status}`"
-        :image="character.image"
-        :badges="[character.status, character.gender]"
-        :stats="[
-          { label: 'Origin', value: character.origin },
-          { label: 'Location', value: character.location }
-        ]"
-        :to="`/apis/rick-morty/character/${character.id}`"
-      />
-    </div>
+    <v-row v-else>
+      <v-col v-for="character in data.items" :key="character.id" cols="12" sm="6" lg="4">
+        <CardsCharacterCard
+          :title="character.name"
+          :subtitle="`${character.species} • ${character.status}`"
+          :image="character.image"
+          :badges="[character.status, character.gender]"
+          :stats="[
+            { label: 'Origin', value: character.origin },
+            { label: 'Location', value: character.location }
+          ]"
+          :to="`/apis/rick-morty/character/${character.id}`"
+        />
+      </v-col>
+    </v-row>
 
     <CommonPaginationControls
       v-if="data.totalPages > 1"
@@ -100,5 +101,5 @@ const statusOptions = ['alive', 'dead', 'unknown']
       :total-pages="data.totalPages"
       @update:page="page = $event"
     />
-  </div>
+  </v-container>
 </template>

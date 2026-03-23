@@ -20,14 +20,21 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="space-y-6">
-    <NuxtLink class="text-sm text-slate-400 hover:text-white" to="/apis/rick-morty">
-      Back to explorer
-    </NuxtLink>
+  <v-container class="pa-0 d-flex flex-column ga-5">
+    <div>
+      <v-btn prepend-icon="mdi-arrow-left" slim variant="text" to="/apis/rick-morty">
+        Back to explorer
+      </v-btn>
+    </div>
 
     <CommonSectionHeader title="Character Detail" subtitle="Rick and Morty" />
 
-    <div v-if="pending" class="h-64 animate-pulse rounded-3xl border border-slate-800 bg-slate-900/40" />
+    <v-skeleton-loader
+      v-if="pending"
+      class="rounded-xl"
+      color="surface-variant"
+      type="image, article"
+    />
 
     <CommonErrorState
       v-else-if="error || !data"
@@ -36,42 +43,46 @@ useSeoMeta({
       @retry="refresh"
     />
 
-    <div v-else class="grid gap-6 lg:grid-cols-[1.2fr,1fr]">
-      <div class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/60">
-        <img v-if="data.image" :src="data.image" :alt="data.name" class="h-full w-full object-cover" />
-        <div v-else class="flex h-64 items-center justify-center text-xs uppercase tracking-[0.3em] text-slate-500">
-          No image
-        </div>
-      </div>
+    <v-row v-else>
+      <v-col cols="12" lg="7">
+        <v-card color="surface" rounded="xl" class="overflow-hidden fill-height">
+          <v-img v-if="data.image" :src="data.image" :alt="data.name" cover min-height="420" />
+          <div v-else class="pa-16 text-center text-overline text-medium-emphasis">No image</div>
+        </v-card>
+      </v-col>
 
-      <div class="space-y-4">
-        <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-slate-500">ID {{ data.id }}</p>
-          <h1 class="text-3xl font-semibold text-white">{{ data.name }}</h1>
-        </div>
+      <v-col cols="12" lg="5">
+        <v-card color="surface" rounded="xl" class="pa-6">
+          <div class="text-overline text-medium-emphasis">ID {{ data.id }}</div>
+          <h1 class="text-h4 font-weight-bold mb-4">{{ data.name }}</h1>
 
-        <div class="flex flex-wrap gap-2 text-xs text-slate-300">
-          <span class="rounded-full border border-slate-800 px-3 py-1 capitalize">{{ data.status }}</span>
-          <span class="rounded-full border border-slate-800 px-3 py-1 capitalize">{{ data.species }}</span>
-          <span class="rounded-full border border-slate-800 px-3 py-1 capitalize">{{ data.gender }}</span>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div class="rounded-2xl border border-slate-800 px-4 py-3">
-            <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">Origin</p>
-            <p class="text-sm text-slate-100">{{ data.origin }}</p>
+          <div class="d-flex flex-wrap ga-2 mb-4">
+            <v-chip color="primary" variant="outlined">{{ data.status }}</v-chip>
+            <v-chip color="secondary" variant="outlined">{{ data.species }}</v-chip>
+            <v-chip color="info" variant="outlined">{{ data.gender }}</v-chip>
           </div>
-          <div class="rounded-2xl border border-slate-800 px-4 py-3">
-            <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">Location</p>
-            <p class="text-sm text-slate-100">{{ data.location }}</p>
-          </div>
-        </div>
 
-        <div class="rounded-2xl border border-slate-800 px-4 py-3">
-          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">Episodes</p>
-          <p class="text-lg text-slate-100">{{ data.episodeCount }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+          <v-row class="mb-1">
+            <v-col cols="12" sm="6">
+              <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+                <div class="text-overline text-medium-emphasis">Origin</div>
+                <div class="text-body-1">{{ data.origin }}</div>
+              </v-sheet>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+                <div class="text-overline text-medium-emphasis">Location</div>
+                <div class="text-body-1">{{ data.location }}</div>
+              </v-sheet>
+            </v-col>
+          </v-row>
+
+          <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+            <div class="text-overline text-medium-emphasis">Episodes</div>
+            <div class="text-h6">{{ data.episodeCount }}</div>
+          </v-sheet>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

@@ -38,7 +38,7 @@ Use:
 - Nuxt 4
 - Vue 3
 - TypeScript
-- Tailwind CSS
+- Vuetify
 - Composition API
 - `useFetch` / `$fetch`
 - Nuxt server routes when useful
@@ -393,7 +393,7 @@ A page that only fetches and dumps raw JSON is not acceptable.
 
 ## Styling Rules
 
-* Use Tailwind consistently
+* Use Vuetify consistently
 * Maintain spacing rhythm across pages
 * Avoid one-off styles that break visual consistency
 * Responsive behavior is required

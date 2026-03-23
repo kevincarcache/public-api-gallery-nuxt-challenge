@@ -1,9 +1,11 @@
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100">
+  <v-app>
     <LayoutAppHeader />
-    <LayoutPageContainer>
-      <NuxtPage />
-    </LayoutPageContainer>
+    <v-main>
+      <LayoutPageContainer>
+        <NuxtPage />
+      </LayoutPageContainer>
+    </v-main>
     <LayoutAppFooter />
-  </div>
+  </v-app>
 </template>

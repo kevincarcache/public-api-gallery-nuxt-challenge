@@ -27,23 +27,25 @@ const submitSearch = () => {
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="TheMealDB" subtitle="Recipe Search" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Search by meal name, compare visual recipe cards, and open a detail view with parsed ingredients and steps.
       </p>
     </div>
 
     <CommonFilterBar>
-      <form class="flex w-full flex-col gap-3 md:flex-row" @submit.prevent="submitSearch">
+      <form class="w-100 d-flex flex-column flex-md-row ga-3" @submit.prevent="submitSearch">
         <CommonSearchBar v-model="search" placeholder="Search meals like pasta, curry, or soup" />
-        <button
-          class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 transition hover:border-slate-600"
+        <v-btn
+          color="primary"
+          prepend-icon="mdi-silverware-fork-knife"
           type="submit"
+          variant="tonal"
         >
           Search recipes
-        </button>
+        </v-btn>
       </form>
     </CommonFilterBar>
 
@@ -64,24 +66,24 @@ const submitSearch = () => {
       action-to="/apis/meals"
     />
 
-    <div v-else class="space-y-4">
-      <div class="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-400">
-        <p>Showing {{ data.items.length }} recipes for <span class="text-slate-100">{{ data.query }}</span>.</p>
+    <div v-else class="d-flex flex-column ga-4">
+      <div class="text-body-2 text-medium-emphasis">
+        Showing {{ data.items.length }} recipes for <span class="font-weight-bold text-high-emphasis">{{ data.query }}</span>.
       </div>
 
-      <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        <CardsRecipeCard
-          v-for="meal in data.items"
-          :key="meal.id"
-          :title="meal.name"
-          :image="meal.image"
-          :category="meal.category"
-          :area="meal.area"
-          :tags="meal.tags"
-          :description="meal.instructionsPreview"
-          :to="`/apis/meals/${meal.id}`"
-        />
-      </div>
+      <v-row>
+        <v-col v-for="meal in data.items" :key="meal.id" cols="12" sm="6" xl="4">
+          <CardsRecipeCard
+            :title="meal.name"
+            :image="meal.image"
+            :category="meal.category"
+            :area="meal.area"
+            :tags="meal.tags"
+            :description="meal.instructionsPreview"
+            :to="`/apis/meals/${meal.id}`"
+          />
+        </v-col>
+      </v-row>
     </div>
-  </div>
+  </v-container>
 </template>

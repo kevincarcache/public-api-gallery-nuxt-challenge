@@ -44,23 +44,25 @@ watch(
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="Open Library API" subtitle="Book Search" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Search for books by title or author, keep covers optional, and inspect a focused detail panel without leaving the page.
       </p>
     </div>
 
     <CommonFilterBar>
-      <form class="flex w-full flex-col gap-3 md:flex-row" @submit.prevent="submitSearch">
+      <form class="w-100 d-flex flex-column flex-md-row ga-3" @submit.prevent="submitSearch">
         <CommonSearchBar v-model="search" placeholder="Search books by title or author" />
-        <button
-          class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 transition hover:border-slate-600"
+        <v-btn
+          color="primary"
+          prepend-icon="mdi-magnify"
           type="submit"
+          variant="tonal"
         >
           Search books
-        </button>
+        </v-btn>
       </form>
     </CommonFilterBar>
 
@@ -79,87 +81,95 @@ watch(
       message="Try a broader author or title search to get more matches."
     />
 
-    <div v-else class="grid gap-6 xl:grid-cols-[1.1fr,0.9fr]">
-      <div class="grid gap-4 sm:grid-cols-2">
-        <button
-          v-for="book in data.items"
-          :key="book.workId"
-          class="overflow-hidden rounded-3xl border text-left transition"
-          :class="selectedBook?.workId === book.workId ? 'border-amber-300 bg-slate-900' : 'border-slate-800 bg-slate-900/60 hover:border-slate-600'"
-          type="button"
-          @click="selectedWorkId = book.workId"
-        >
-          <div class="flex h-56 items-center justify-center bg-slate-950">
-            <img
-              v-if="book.coverUrl"
-              :src="book.coverUrl"
-              :alt="book.title"
-              class="h-full w-full object-cover"
-              loading="lazy"
-            />
-            <div v-else class="flex h-full w-full items-center justify-center px-6 text-center text-xs uppercase tracking-[0.3em] text-slate-500">
-              Cover unavailable
-            </div>
-          </div>
-
-          <div class="space-y-3 p-4">
-            <div>
-              <p class="text-[10px] uppercase tracking-[0.22em] text-slate-500">{{ book.firstPublishYear }}</p>
-              <h3 class="text-lg font-semibold text-white">{{ book.title }}</h3>
-              <p class="text-sm text-slate-400">{{ book.author }}</p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2 text-xs text-slate-300">
-              <div class="rounded-2xl border border-slate-800 px-3 py-2">
-                <p class="text-[10px] uppercase tracking-[0.22em] text-slate-500">Publisher</p>
-                <p>{{ book.publisher }}</p>
-              </div>
-              <div class="rounded-2xl border border-slate-800 px-3 py-2">
-                <p class="text-[10px] uppercase tracking-[0.22em] text-slate-500">Editions</p>
-                <p>{{ book.editions }}</p>
-              </div>
-            </div>
-          </div>
-        </button>
-      </div>
-
-      <div v-if="selectedBook" class="rounded-[2rem] border border-slate-800 bg-slate-950/80 p-6">
-        <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Selected book</p>
-        <h3 class="mt-3 text-3xl font-semibold text-white">{{ selectedBook.title }}</h3>
-        <p class="mt-2 text-sm text-slate-300">
-          {{ selectedBook.author }} · First published {{ selectedBook.firstPublishYear }}
-        </p>
-
-        <div class="mt-6 grid gap-3 sm:grid-cols-2">
-          <div class="rounded-2xl border border-slate-800 px-4 py-3">
-            <p class="text-[10px] uppercase tracking-[0.22em] text-slate-500">Publisher</p>
-            <p class="text-sm text-slate-100">{{ selectedBook.publisher }}</p>
-          </div>
-          <div class="rounded-2xl border border-slate-800 px-4 py-3">
-            <p class="text-[10px] uppercase tracking-[0.22em] text-slate-500">Editions tracked</p>
-            <p class="text-sm text-slate-100">{{ selectedBook.editions }}</p>
-          </div>
-        </div>
-
-        <div class="mt-6">
-          <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Subjects</p>
-          <div class="mt-3 flex flex-wrap gap-2">
-            <span
-              v-for="subject in selectedBook.subjects"
-              :key="subject"
-              class="rounded-full border border-slate-800 px-3 py-1 text-xs text-slate-300"
+    <v-row v-else>
+      <v-col cols="12" xl="7">
+        <v-row>
+          <v-col v-for="book in data.items" :key="book.workId" cols="12" sm="6">
+            <v-card
+              :color="selectedBook?.workId === book.workId ? 'surface-bright' : 'surface'"
+              rounded="xl"
+              class="overflow-hidden cursor-pointer"
+              @click="selectedWorkId = book.workId"
             >
-              {{ subject }}
-            </span>
-            <span
-              v-if="!selectedBook.subjects.length"
-              class="rounded-full border border-slate-800 px-3 py-1 text-xs text-slate-500"
-            >
-              No subjects listed
-            </span>
+              <v-img
+                v-if="book.coverUrl"
+                :src="book.coverUrl"
+                :alt="book.title"
+                height="224"
+                cover
+              />
+              <div v-else class="d-flex align-center justify-center text-overline text-medium-emphasis" style="height: 224px;">
+                Cover unavailable
+              </div>
+
+              <div class="pa-4 d-flex flex-column ga-3">
+                <div>
+                  <div class="text-overline text-medium-emphasis">{{ book.firstPublishYear }}</div>
+                  <h3 class="text-h6 font-weight-bold">{{ book.title }}</h3>
+                  <div class="text-body-2 text-medium-emphasis">{{ book.author }}</div>
+                </div>
+
+                <v-row>
+                  <v-col cols="6">
+                    <v-sheet color="surface-container-high" rounded="lg" class="pa-3">
+                      <div class="text-overline text-medium-emphasis">Publisher</div>
+                      <div class="text-body-2">{{ book.publisher }}</div>
+                    </v-sheet>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-sheet color="surface-container-high" rounded="lg" class="pa-3">
+                      <div class="text-overline text-medium-emphasis">Editions</div>
+                      <div class="text-body-2">{{ book.editions }}</div>
+                    </v-sheet>
+                  </v-col>
+                </v-row>
+              </div>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
+
+      <v-col cols="12" xl="5">
+        <v-card v-if="selectedBook" color="surface" rounded="xl" class="pa-6">
+          <div class="text-overline text-medium-emphasis">Selected book</div>
+          <h3 class="text-h4 font-weight-bold mt-3">{{ selectedBook.title }}</h3>
+          <p class="text-body-2 text-medium-emphasis mt-2">
+            {{ selectedBook.author }} · First published {{ selectedBook.firstPublishYear }}
+          </p>
+
+          <v-row class="mt-4">
+            <v-col cols="12" sm="6">
+              <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+                <div class="text-overline text-medium-emphasis">Publisher</div>
+                <div class="text-body-1">{{ selectedBook.publisher }}</div>
+              </v-sheet>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+                <div class="text-overline text-medium-emphasis">Editions tracked</div>
+                <div class="text-body-1">{{ selectedBook.editions }}</div>
+              </v-sheet>
+            </v-col>
+          </v-row>
+
+          <div class="mt-6">
+            <div class="text-overline text-medium-emphasis mb-3">Subjects</div>
+            <div class="d-flex flex-wrap ga-2">
+              <v-chip
+                v-for="subject in selectedBook.subjects"
+                :key="subject"
+                color="secondary"
+                variant="outlined"
+              >
+                {{ subject }}
+              </v-chip>
+              <v-chip v-if="!selectedBook.subjects.length" color="secondary" variant="tonal">
+                No subjects listed
+              </v-chip>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

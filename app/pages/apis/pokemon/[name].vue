@@ -25,14 +25,21 @@ const formatLabel = (value: string) => value.replace('-', ' ')
 </script>
 
 <template>
-  <div class="space-y-6">
-    <NuxtLink class="text-sm text-slate-400 hover:text-white" to="/apis/pokemon">
-      Back to Pokedex
-    </NuxtLink>
+  <v-container class="pa-0 d-flex flex-column ga-5">
+    <div>
+      <v-btn prepend-icon="mdi-arrow-left" slim variant="text" to="/apis/pokemon">
+        Back to Pokedex
+      </v-btn>
+    </div>
 
     <CommonSectionHeader title="Pokemon Detail" subtitle="PokeAPI" />
 
-    <div v-if="pending" class="h-64 animate-pulse rounded-3xl border border-slate-800 bg-slate-900/40" />
+    <v-skeleton-loader
+      v-if="pending"
+      class="rounded-xl"
+      color="surface-variant"
+      type="image, article"
+    />
 
     <CommonErrorState
       v-else-if="error || !data"
@@ -41,71 +48,75 @@ const formatLabel = (value: string) => value.replace('-', ' ')
       @retry="refresh"
     />
 
-    <div v-else class="grid gap-6 lg:grid-cols-[1.2fr,1fr]">
-      <div class="flex items-center justify-center rounded-3xl border border-slate-800 bg-slate-900/60 p-6">
-        <img
-          v-if="data.image"
-          :src="data.image"
-          :alt="data.name"
-          class="h-72 w-full object-contain"
-        />
-        <div v-else class="text-xs uppercase tracking-[0.3em] text-slate-500">No image</div>
-      </div>
+    <template v-else>
+      <v-row>
+        <v-col cols="12" lg="7">
+          <v-card color="surface" rounded="xl" class="pa-6 d-flex align-center justify-center fill-height">
+            <v-img
+              v-if="data.image"
+              :src="data.image"
+              :alt="data.name"
+              max-height="320"
+              contain
+            />
+            <div v-else class="text-overline text-medium-emphasis">No image</div>
+          </v-card>
+        </v-col>
 
-      <div class="space-y-4">
-        <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-slate-500">{{ data.id }}</p>
-          <h1 class="text-3xl font-semibold text-white">{{ data.name }}</h1>
-        </div>
+        <v-col cols="12" lg="5">
+          <v-card color="surface" rounded="xl" class="pa-6">
+            <div class="text-overline text-medium-emphasis">{{ data.id }}</div>
+            <h1 class="text-h4 font-weight-bold mb-4">{{ data.name }}</h1>
 
-        <div class="flex flex-wrap gap-2 text-xs text-slate-300">
-          <span
-            v-for="type in data.types"
-            :key="type"
-            class="rounded-full border border-slate-800 px-3 py-1 capitalize"
-          >
-            {{ type }}
-          </span>
-        </div>
+            <div class="d-flex flex-wrap ga-2 mb-4">
+              <v-chip v-for="type in data.types" :key="type" color="primary" variant="outlined">
+                {{ type }}
+              </v-chip>
+            </div>
 
-        <div class="grid grid-cols-2 gap-3">
-          <div class="rounded-2xl border border-slate-800 px-4 py-3">
-            <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">Height</p>
-            <p class="text-lg text-slate-100">{{ data.height }}</p>
-          </div>
-          <div class="rounded-2xl border border-slate-800 px-4 py-3">
-            <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">Weight</p>
-            <p class="text-lg text-slate-100">{{ data.weight }}</p>
-          </div>
-        </div>
+            <v-row class="mb-1">
+              <v-col cols="6">
+                <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+                  <div class="text-overline text-medium-emphasis">Height</div>
+                  <div class="text-h6">{{ data.height }}</div>
+                </v-sheet>
+              </v-col>
+              <v-col cols="6">
+                <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+                  <div class="text-overline text-medium-emphasis">Weight</div>
+                  <div class="text-h6">{{ data.weight }}</div>
+                </v-sheet>
+              </v-col>
+            </v-row>
 
-        <div class="rounded-2xl border border-slate-800 px-4 py-4">
-          <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Abilities</p>
-          <div class="mt-2 flex flex-wrap gap-2 text-sm text-slate-200">
-            <span
-              v-for="ability in data.abilities"
-              :key="ability"
-              class="rounded-full border border-slate-800 px-3 py-1 capitalize"
-            >
-              {{ formatLabel(ability) }}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+            <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+              <div class="text-overline text-medium-emphasis mb-2">Abilities</div>
+              <div class="d-flex flex-wrap ga-2">
+                <v-chip
+                  v-for="ability in data.abilities"
+                  :key="ability"
+                  color="secondary"
+                  variant="tonal"
+                >
+                  {{ formatLabel(ability) }}
+                </v-chip>
+              </div>
+            </v-sheet>
+          </v-card>
+        </v-col>
+      </v-row>
 
-    <div v-if="data" class="space-y-3">
-      <h2 class="text-lg font-semibold text-white">Base stats</h2>
-      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <div
-          v-for="stat in data.stats"
-          :key="stat.label"
-          class="rounded-2xl border border-slate-800 px-4 py-3"
-        >
-          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">{{ formatLabel(stat.label) }}</p>
-          <p class="text-lg text-slate-100">{{ stat.value }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+      <section>
+        <h2 class="text-h6 font-weight-bold mb-3">Base stats</h2>
+        <v-row>
+          <v-col v-for="stat in data.stats" :key="stat.label" cols="12" sm="6" lg="4">
+            <v-sheet color="surface" rounded="lg" class="pa-4">
+              <div class="text-overline text-medium-emphasis">{{ formatLabel(stat.label) }}</div>
+              <div class="text-h6">{{ stat.value }}</div>
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </section>
+    </template>
+  </v-container>
 </template>

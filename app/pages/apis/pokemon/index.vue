@@ -36,10 +36,10 @@ const statPreview = (stats: PokemonListResponse['items'][number]['stats']) => {
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="PokeAPI" subtitle="Pokedex" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Search Pokemon by name, scan their types and stats, and open a full detail view.
       </p>
     </div>
@@ -63,18 +63,18 @@ const statPreview = (stats: PokemonListResponse['items'][number]['stats']) => {
       message="Try a different name or clear the search."
     />
 
-    <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <CardsCharacterCard
-        v-for="pokemon in data.items"
-        :key="pokemon.id"
-        :title="pokemon.name"
-        :subtitle="`#${pokemon.id}`"
-        :image="pokemon.image"
-        :badges="pokemon.types"
-        :stats="statPreview(pokemon.stats)"
-        :to="`/apis/pokemon/${pokemon.name}`"
-      />
-    </div>
+    <v-row v-else>
+      <v-col v-for="pokemon in data.items" :key="pokemon.id" cols="12" sm="6" lg="4">
+        <CardsCharacterCard
+          :title="pokemon.name"
+          :subtitle="`#${pokemon.id}`"
+          :image="pokemon.image"
+          :badges="pokemon.types"
+          :stats="statPreview(pokemon.stats)"
+          :to="`/apis/pokemon/${pokemon.name}`"
+        />
+      </v-col>
+    </v-row>
 
     <CommonPaginationControls
       v-if="data.totalPages > 1"
@@ -82,5 +82,5 @@ const statPreview = (stats: PokemonListResponse['items'][number]['stats']) => {
       :total-pages="data.totalPages"
       @update:page="page = $event"
     />
-  </div>
+  </v-container>
 </template>

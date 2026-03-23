@@ -8,28 +8,24 @@ defineProps<{
 </script>
 
 <template>
-  <article class="flex h-full flex-col rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
-    <div class="flex items-center gap-4">
-      <div class="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-slate-800 bg-slate-950">
-        <img
-          v-if="avatar"
-          :src="avatar"
-          :alt="name"
-          class="h-full w-full object-cover"
-          loading="lazy"
-        />
-        <span v-else class="text-[10px] uppercase tracking-[0.2em] text-slate-500">No image</span>
+  <v-card color="surface" border class="h-100">
+    <v-card-text class="d-flex flex-column ga-4">
+      <div class="d-flex align-center ga-4">
+        <v-avatar size="64" color="surface-light">
+          <v-img v-if="avatar" :src="avatar" :alt="name" cover />
+          <span v-else class="text-caption text-medium-emphasis">N/A</span>
+        </v-avatar>
+
+        <div class="min-w-0">
+          <div class="text-h6 font-weight-bold text-high-emphasis">{{ name }}</div>
+          <div class="text-body-2 text-medium-emphasis text-truncate">{{ email }}</div>
+        </div>
       </div>
 
-      <div class="min-w-0">
-        <h3 class="text-lg font-semibold text-white">{{ name }}</h3>
-        <p class="truncate text-sm text-slate-400">{{ email }}</p>
-      </div>
-    </div>
-
-    <div class="mt-4 rounded-xl border border-slate-800 px-3 py-3">
-      <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">Location</p>
-      <p class="mt-1 text-sm text-slate-200">{{ location }}</p>
-    </div>
-  </article>
+      <v-sheet color="surface-light" border rounded="lg" class="pa-3">
+        <div class="text-caption text-medium-emphasis">Location</div>
+        <div class="text-body-2 text-high-emphasis mt-1">{{ location }}</div>
+      </v-sheet>
+    </v-card-text>
+  </v-card>
 </template>

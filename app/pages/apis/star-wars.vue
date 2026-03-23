@@ -31,27 +31,31 @@ const resources: Array<{ label: string; value: StarWarsResource }> = [
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="SWAPI" subtitle="Galaxy Explorer" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Jump across key Star Wars resources, search live results, and compare the most useful details in a readable card grid.
       </p>
     </div>
 
     <CommonFilterBar>
-      <div class="flex flex-wrap gap-2">
-        <button
+      <v-btn-toggle
+        v-model="resource"
+        color="primary"
+        mandatory
+        rounded="pill"
+        selected-class="text-on-primary"
+      >
+        <v-btn
           v-for="item in resources"
           :key="item.value"
-          class="rounded-full border px-4 py-2 text-sm transition"
-          :class="resource === item.value ? 'border-amber-300 bg-amber-300 text-slate-950' : 'border-slate-800 text-slate-200 hover:border-slate-600'"
-          type="button"
+          :value="item.value"
           @click="resource = item.value"
         >
           {{ item.label }}
-        </button>
-      </div>
+        </v-btn>
+      </v-btn-toggle>
 
       <CommonSearchBar v-model="search" :placeholder="`Search ${resource}`" />
     </CommonFilterBar>
@@ -71,15 +75,15 @@ const resources: Array<{ label: string; value: StarWarsResource }> = [
       message="This search did not return results for the selected resource."
     />
 
-    <div v-else class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      <CardsCharacterCard
-        v-for="item in data.items"
-        :key="item.id"
-        :title="item.name"
-        :subtitle="item.subtitle"
-        :description="item.description"
-        :stats="item.stats"
-      />
-    </div>
-  </div>
+    <v-row v-else>
+      <v-col v-for="item in data.items" :key="item.id" cols="12" sm="6" xl="4">
+        <CardsCharacterCard
+          :title="item.name"
+          :subtitle="item.subtitle"
+          :description="item.description"
+          :stats="item.stats"
+        />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

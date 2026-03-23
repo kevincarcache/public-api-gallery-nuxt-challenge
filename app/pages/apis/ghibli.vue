@@ -36,27 +36,27 @@ const featuredFilm = computed<GhibliFilm | null>(() => filteredFilms.value[0] ??
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="Studio Ghibli API" subtitle="Film Library" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Search the Ghibli catalog, sort the library, and compare each film’s team, release year, and synopsis.
       </p>
     </div>
 
     <CommonFilterBar>
       <CommonSearchBar v-model="search" placeholder="Search by title, director, or producer" />
-
-      <label class="flex items-center gap-3 text-sm text-slate-300">
-        <span class="text-xs uppercase tracking-[0.25em] text-slate-500">Sort</span>
-        <select
-          v-model="sort"
-          class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100"
-        >
-          <option value="year">Release year</option>
-          <option value="title">Title</option>
-        </select>
-      </label>
+      <v-select
+        v-model="sort"
+        :items="[
+          { title: 'Release year', value: 'year' },
+          { title: 'Title', value: 'title' }
+        ]"
+        hide-details
+        label="Sort"
+        variant="outlined"
+        density="comfortable"
+      />
     </CommonFilterBar>
 
     <CommonLoadingGrid v-if="pending" :count="6" />
@@ -74,52 +74,64 @@ const featuredFilm = computed<GhibliFilm | null>(() => filteredFilms.value[0] ??
       message="Try a different title or clear the search to browse the full catalog."
     />
 
-    <div v-else class="space-y-6">
-      <div
+    <div v-else class="d-flex flex-column ga-6">
+      <v-card
         v-if="featuredFilm"
-        class="overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-950/80 lg:grid lg:grid-cols-[1.2fr,0.8fr]"
+        color="surface"
+        rounded="xl"
+        class="overflow-hidden"
       >
-        <img
-          v-if="featuredFilm.banner"
-          :src="featuredFilm.banner"
-          :alt="featuredFilm.title"
-          class="h-full min-h-64 w-full object-cover"
-        />
-        <div v-else class="flex min-h-64 items-center justify-center bg-slate-900 text-xs uppercase tracking-[0.3em] text-slate-500">
-          No banner
-        </div>
-
-        <div class="space-y-4 p-6">
-          <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Featured film</p>
-          <h3 class="text-3xl font-semibold text-white">{{ featuredFilm.title }}</h3>
-          <p class="text-sm text-slate-300">{{ featuredFilm.description }}</p>
-          <div class="grid gap-3 sm:grid-cols-2">
-            <div class="rounded-2xl border border-slate-800 px-4 py-3">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-slate-500">Director</p>
-              <p class="text-sm text-slate-100">{{ featuredFilm.director }}</p>
+        <v-row no-gutters>
+          <v-col cols="12" lg="7">
+            <v-img
+              v-if="featuredFilm.banner"
+              :src="featuredFilm.banner"
+              :alt="featuredFilm.title"
+              cover
+              min-height="320"
+            />
+            <div v-else class="d-flex align-center justify-center text-overline text-medium-emphasis" style="min-height: 320px;">
+              No banner
             </div>
-            <div class="rounded-2xl border border-slate-800 px-4 py-3">
-              <p class="text-[10px] uppercase tracking-[0.22em] text-slate-500">Producer</p>
-              <p class="text-sm text-slate-100">{{ featuredFilm.producer }}</p>
+          </v-col>
+          <v-col cols="12" lg="5">
+            <div class="pa-6 d-flex flex-column ga-4">
+              <div class="text-overline text-medium-emphasis">Featured film</div>
+              <h3 class="text-h4 font-weight-bold">{{ featuredFilm.title }}</h3>
+              <p class="text-body-2 text-medium-emphasis">{{ featuredFilm.description }}</p>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+                    <div class="text-overline text-medium-emphasis">Director</div>
+                    <div class="text-body-1">{{ featuredFilm.director }}</div>
+                  </v-sheet>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-sheet color="surface-bright" rounded="lg" class="pa-4">
+                    <div class="text-overline text-medium-emphasis">Producer</div>
+                    <div class="text-body-1">{{ featuredFilm.producer }}</div>
+                  </v-sheet>
+                </v-col>
+              </v-row>
             </div>
-          </div>
-        </div>
-      </div>
+          </v-col>
+        </v-row>
+      </v-card>
 
-      <div class="grid gap-4 xl:grid-cols-2">
-        <CardsMovieCard
-          v-for="film in filteredFilms"
-          :key="film.id"
-          :title="film.title"
-          :description="film.description"
-          :image="film.image"
-          :release-year="film.releaseYear"
-          :director="film.director"
-          :producer="film.producer"
-          :runtime="film.runtime"
-          :score="film.score"
-        />
-      </div>
+      <v-row>
+        <v-col v-for="film in filteredFilms" :key="film.id" cols="12" xl="6">
+          <CardsMovieCard
+            :title="film.title"
+            :description="film.description"
+            :image="film.image"
+            :release-year="film.releaseYear"
+            :director="film.director"
+            :producer="film.producer"
+            :runtime="film.runtime"
+            :score="film.score"
+          />
+        </v-col>
+      </v-row>
     </div>
-  </div>
+  </v-container>
 </template>

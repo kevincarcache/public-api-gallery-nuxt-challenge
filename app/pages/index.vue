@@ -8,21 +8,23 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="space-y-10">
+  <v-container class="pa-0 d-flex flex-column ga-8">
     <SectionsHeroSection :total="apiCatalog.length" />
 
-    <section class="space-y-4">
-      <div class="flex flex-wrap items-end justify-between gap-3">
+    <section>
+      <div class="d-flex flex-wrap align-end justify-space-between ga-3 mb-4">
         <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-slate-500">Catalog</p>
-          <h2 class="text-2xl font-semibold text-white">API Demos</h2>
+          <div class="text-overline text-medium-emphasis">Catalog</div>
+          <h2 class="text-h4 font-weight-bold">API Demos</h2>
         </div>
-        <p class="text-sm text-slate-400">{{ apiCatalog.length }} experiences</p>
+        <div class="text-body-2 text-medium-emphasis">{{ apiCatalog.length }} experiences</div>
       </div>
 
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <CardsApiCard v-for="item in apiCatalog" :key="item.slug" :item="item" />
-      </div>
+      <v-row>
+        <v-col v-for="item in apiCatalog" :key="item.slug" cols="12" sm="6" lg="4">
+          <CardsApiCard :item="item" />
+        </v-col>
+      </v-row>
     </section>
-  </div>
+  </v-container>
 </template>

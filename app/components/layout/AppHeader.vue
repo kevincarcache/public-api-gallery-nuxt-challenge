@@ -1,17 +1,19 @@
 <template>
-  <header class="border-b border-slate-900/60 bg-slate-950/80 backdrop-blur">
-    <div class="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-5 sm:flex-row sm:items-center sm:justify-between">
+  <v-app-bar color="background" flat border="b" height="92">
+    <v-container class="d-flex flex-column flex-sm-row align-start align-sm-center justify-space-between ga-3">
       <div>
-        <NuxtLink class="text-lg font-semibold text-white" to="/">
+        <NuxtLink class="text-h6 font-weight-bold text-high-emphasis" to="/">
           Public API Gallery
         </NuxtLink>
-        <p class="text-sm text-slate-400">10 real-data demos built as one Nuxt product.</p>
+        <div class="text-body-2 text-medium-emphasis">
+          10 real-data demos built as one Nuxt product.
+        </div>
       </div>
 
-      <div class="flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-slate-400">
-        <span class="rounded-full border border-slate-800 px-3 py-1">Nuxt 4</span>
-        <span class="rounded-full border border-slate-800 px-3 py-1">TypeScript</span>
+      <div class="d-flex align-center ga-2 flex-wrap justify-start justify-sm-end">
+        <v-chip color="surface-light" variant="tonal" label size="small">Nuxt 4</v-chip>
+        <v-chip color="surface-light" variant="tonal" label size="small">TypeScript</v-chip>
       </div>
-    </div>
-  </header>
+    </v-container>
+  </v-app-bar>
 </template>

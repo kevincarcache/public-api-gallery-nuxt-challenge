@@ -6,15 +6,17 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-wrap items-end justify-between gap-3">
-    <div>
-      <p v-if="props.subtitle" class="text-xs uppercase tracking-[0.3em] text-slate-500">
+  <v-row align="end" justify="space-between" class="ga-3">
+    <v-col cols="12" sm="auto">
+      <div v-if="props.subtitle" class="text-overline text-medium-emphasis">
         {{ props.subtitle }}
-      </p>
-      <h2 class="text-2xl font-semibold text-white">{{ props.title }}</h2>
-    </div>
-    <div>
+      </div>
+      <div class="text-h4 font-weight-bold text-high-emphasis">
+        {{ props.title }}
+      </div>
+    </v-col>
+    <v-col cols="12" sm="auto" class="d-flex justify-start justify-sm-end">
       <slot />
-    </div>
-  </div>
+    </v-col>
+  </v-row>
 </template>

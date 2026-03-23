@@ -16,14 +16,16 @@ const props = withDefaults(
 </script>
 
 <template>
-  <div class="rounded-2xl border border-slate-800 bg-slate-900/60 px-6 py-5">
-    <h3 class="text-base font-semibold text-white">{{ props.title }}</h3>
-    <p class="mt-2 text-sm text-slate-300">{{ props.message }}</p>
-    <NuxtLink
-      class="mt-4 inline-flex rounded-full border border-slate-700 px-4 py-2 text-sm text-slate-200 transition hover:border-slate-500"
+  <v-sheet color="surface" border rounded="xl" class="pa-6">
+    <div class="text-h6 font-weight-semibold text-high-emphasis">{{ props.title }}</div>
+    <p class="mt-2 text-body-2 text-medium-emphasis">{{ props.message }}</p>
+    <v-btn
+      class="mt-4"
+      color="primary"
+      variant="outlined"
       :to="props.actionTo"
     >
       {{ props.actionLabel }}
-    </NuxtLink>
-  </div>
+    </v-btn>
+  </v-sheet>
 </template>

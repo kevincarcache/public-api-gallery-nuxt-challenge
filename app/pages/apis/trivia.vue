@@ -119,10 +119,10 @@ watch(selectedAnswerId, (value, previousValue) => {
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="Open Trivia DB" subtitle="Quiz Mode" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Tune the quiz, answer one question at a time, and see how many points you can keep on the board.
       </p>
     </div>
@@ -134,202 +134,209 @@ watch(selectedAnswerId, (value, previousValue) => {
       @retry="refreshCategories"
     />
 
-    <div
+    <v-card
       v-else-if="stage === 'setup'"
-      class="grid gap-6 rounded-[2rem] border border-slate-800 bg-slate-950/80 p-6 lg:grid-cols-[1.2fr_0.8fr]"
+      color="surface"
+      rounded="xl"
+      class="pa-6"
     >
-      <div class="space-y-6">
-        <div class="space-y-2">
-          <h3 class="text-xl font-semibold text-white">Build your quiz</h3>
-          <p class="text-sm text-slate-300">
+      <v-row>
+        <v-col cols="12" lg="7">
+          <div class="d-flex flex-column ga-6">
+            <div class="d-flex flex-column ga-2">
+              <h3 class="text-h5 font-weight-bold">Build your quiz</h3>
+              <p class="text-body-2 text-medium-emphasis">
             Pick a question count, optional category, and difficulty level before the first round begins.
-          </p>
-        </div>
+              </p>
+            </div>
 
-        <div class="grid gap-4 md:grid-cols-2">
-          <label class="space-y-2 text-sm text-slate-300">
-            <span class="text-xs uppercase tracking-[0.25em] text-slate-500">Questions</span>
-            <select
-              v-model="config.amount"
-              class="w-full rounded-2xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-100"
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-select
+                  v-model="config.amount"
+                  :items="questionOptions.map((option) => ({ title: `${option} questions`, value: option }))"
+                  hide-details
+                  label="Questions"
+                  variant="outlined"
+                  density="comfortable"
+                />
+              </v-col>
+
+              <v-col cols="12" md="6">
+                <v-select
+                  v-model="config.difficulty"
+                  :items="[
+                    { title: 'Any difficulty', value: undefined },
+                    { title: 'Easy', value: 'easy' },
+                    { title: 'Medium', value: 'medium' },
+                    { title: 'Hard', value: 'hard' }
+                  ]"
+                  hide-details
+                  label="Difficulty"
+                  variant="outlined"
+                  density="comfortable"
+                />
+              </v-col>
+            </v-row>
+
+            <v-select
+              v-model="config.category"
+              :disabled="categoriesPending"
+              :items="[
+                { title: 'Any category', value: undefined },
+                ...categoriesData.items.map((category) => ({ title: category.name, value: category.id }))
+              ]"
+              hide-details
+              label="Category"
+              variant="outlined"
+              density="comfortable"
+            />
+
+            <CommonErrorState
+              v-if="quizError"
+              title="Quiz setup needs a tweak"
+              :message="quizError"
+              :show-retry="false"
+            />
+
+            <v-btn
+              color="primary"
+              prepend-icon="mdi-play-circle"
+              :disabled="quizPending || categoriesPending"
+              @click="startQuiz"
             >
-              <option
-                v-for="option in questionOptions"
-                :key="option"
-                :value="option"
-              >
-                {{ option }} questions
-              </option>
-            </select>
-          </label>
+              {{ quizPending ? 'Starting quiz...' : 'Start quiz' }}
+            </v-btn>
+          </div>
+        </v-col>
 
-          <label class="space-y-2 text-sm text-slate-300">
-            <span class="text-xs uppercase tracking-[0.25em] text-slate-500">Difficulty</span>
-            <select
-              v-model="config.difficulty"
-              class="w-full rounded-2xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-100"
-            >
-              <option :value="undefined">Any difficulty</option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </label>
-        </div>
-
-        <label class="space-y-2 text-sm text-slate-300">
-          <span class="text-xs uppercase tracking-[0.25em] text-slate-500">Category</span>
-          <select
-            v-model="config.category"
-            :disabled="categoriesPending"
-            class="w-full rounded-2xl border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-100 disabled:opacity-50"
-          >
-            <option :value="undefined">Any category</option>
-            <option
-              v-for="category in categoriesData.items"
-              :key="category.id"
-              :value="category.id"
-            >
-              {{ category.name }}
-            </option>
-          </select>
-        </label>
-
-        <CommonErrorState
-          v-if="quizError"
-          title="Quiz setup needs a tweak"
-          :message="quizError"
-          show-retry="false"
-        />
-
-        <button
-          class="inline-flex items-center justify-center rounded-full bg-amber-300 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-200 disabled:cursor-not-allowed disabled:opacity-60"
-          type="button"
-          :disabled="quizPending || categoriesPending"
-          @click="startQuiz"
-        >
-          {{ quizPending ? 'Starting quiz...' : 'Start quiz' }}
-        </button>
-      </div>
-
-      <div class="rounded-[1.75rem] border border-slate-800 bg-slate-900/80 p-5">
-        <p class="text-xs uppercase tracking-[0.3em] text-slate-500">What you get</p>
-        <ul class="mt-4 space-y-3 text-sm text-slate-300">
-          <li>One-question-at-a-time flow that works well on mobile.</li>
-          <li>Instant scoring after you lock an answer.</li>
-          <li>Reset-friendly rounds so you can replay with new settings.</li>
-        </ul>
-      </div>
-    </div>
+        <v-col cols="12" lg="5">
+          <v-sheet color="surface-bright" rounded="xl" class="pa-5 fill-height">
+            <div class="text-overline text-medium-emphasis">What you get</div>
+            <v-list bg-color="transparent" density="comfortable">
+              <v-list-item title="One-question-at-a-time flow that works well on mobile." />
+              <v-list-item title="Instant scoring after you lock an answer." />
+              <v-list-item title="Reset-friendly rounds so you can replay with new settings." />
+            </v-list>
+          </v-sheet>
+        </v-col>
+      </v-row>
+    </v-card>
 
     <CommonLoadingGrid v-else-if="quizPending" :count="config.amount" />
 
-    <div
+    <v-card
       v-else-if="stage === 'playing' && currentQuestion"
-      class="space-y-6 rounded-[2rem] border border-slate-800 bg-slate-950/80 p-6"
+      color="surface"
+      rounded="xl"
+      class="pa-6"
     >
-      <div class="space-y-3">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-          <div class="space-y-1">
-            <p class="text-xs uppercase tracking-[0.25em] text-slate-500">
-              Question {{ currentIndex + 1 }} of {{ quiz.total }}
-            </p>
-            <h3 class="text-xl font-semibold text-white">{{ currentQuestion.prompt }}</h3>
+      <div class="d-flex flex-column ga-5">
+        <div class="d-flex flex-column ga-3">
+          <div class="d-flex flex-wrap align-center justify-space-between ga-3">
+            <div class="d-flex flex-column ga-1">
+              <div class="text-overline text-medium-emphasis">
+                Question {{ currentIndex + 1 }} of {{ quiz.total }}
+              </div>
+              <h3 class="text-h5 font-weight-bold">{{ currentQuestion.prompt }}</h3>
+            </div>
+
+            <v-chip color="success" variant="tonal" size="large">
+              Score: {{ score }}
+            </v-chip>
           </div>
 
-          <div class="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-200">
-            Score: {{ score }}
+          <v-progress-linear :model-value="progressValue" color="primary" rounded height="10" />
+
+          <div class="d-flex flex-wrap ga-2">
+            <v-chip color="secondary" variant="outlined">{{ currentQuestion.category }}</v-chip>
+            <v-chip color="secondary" variant="outlined">{{ currentQuestion.difficulty }}</v-chip>
+            <v-chip color="secondary" variant="outlined">
+              {{ currentQuestion.type === 'boolean' ? 'True / False' : 'Multiple choice' }}
+            </v-chip>
           </div>
         </div>
 
-        <div class="h-2 overflow-hidden rounded-full bg-slate-900">
-          <div class="h-full rounded-full bg-amber-300 transition-all duration-300" :style="{ width: `${progressValue}%` }" />
+        <div class="d-flex flex-column ga-3">
+          <v-btn
+            v-for="answer in currentQuestion.answers"
+            :key="answer.id"
+            block
+            class="justify-start"
+            size="large"
+            :color="
+              selectedAnswerId === answer.id
+                ? answer.id === currentQuestion.correctAnswerId
+                  ? 'success'
+                  : 'error'
+                : hasAnswered && answer.id === currentQuestion.correctAnswerId
+                  ? 'success'
+                  : undefined
+            "
+            :disabled="hasAnswered"
+            :variant="
+              selectedAnswerId === answer.id || (hasAnswered && answer.id === currentQuestion.correctAnswerId)
+                ? 'tonal'
+                : 'outlined'
+            "
+            @click="selectedAnswerId = answer.id"
+          >
+            {{ answer.label }}
+          </v-btn>
         </div>
 
-        <div class="flex flex-wrap gap-3 text-xs uppercase tracking-[0.22em] text-slate-500">
-          <span>{{ currentQuestion.category }}</span>
-          <span>{{ currentQuestion.difficulty }}</span>
-          <span>{{ currentQuestion.type === 'boolean' ? 'True / False' : 'Multiple choice' }}</span>
+        <div class="d-flex flex-wrap align-center justify-space-between ga-3">
+          <p class="text-body-2 text-medium-emphasis">
+            {{
+              !hasAnswered
+                ? 'Choose the best answer to lock it in.'
+                : answeredCorrectly
+                  ? 'Nice one. That answer was correct.'
+                  : 'That was not the right pick, but the next question is ready.'
+            }}
+          </p>
+
+          <v-btn
+            color="primary"
+            :disabled="!hasAnswered"
+            @click="goToNextQuestion"
+          >
+            {{ currentIndex === quiz.total - 1 ? 'See results' : 'Next question' }}
+          </v-btn>
         </div>
       </div>
+    </v-card>
 
-      <div class="grid gap-3">
-        <button
-          v-for="answer in currentQuestion.answers"
-          :key="answer.id"
-          class="rounded-2xl border px-4 py-4 text-left text-sm transition"
-          :class="[
-            selectedAnswerId === answer.id
-              ? answer.id === currentQuestion.correctAnswerId
-                ? 'border-emerald-400 bg-emerald-500/15 text-emerald-100'
-                : 'border-rose-400 bg-rose-500/10 text-rose-100'
-              : 'border-slate-800 bg-slate-900 text-slate-100 hover:border-slate-600',
-            hasAnswered && answer.id === currentQuestion.correctAnswerId ? 'border-emerald-400 bg-emerald-500/15 text-emerald-100' : ''
-          ]"
-          type="button"
-          :disabled="hasAnswered"
-          @click="selectedAnswerId = answer.id"
-        >
-          {{ answer.label }}
-        </button>
-      </div>
-
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <p class="text-sm text-slate-300">
-          {{
-            !hasAnswered
-              ? 'Choose the best answer to lock it in.'
-              : answeredCorrectly
-                ? 'Nice one. That answer was correct.'
-                : 'That was not the right pick, but the next question is ready.'
-          }}
-        </p>
-
-        <button
-          class="rounded-full border border-slate-700 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
-          type="button"
-          :disabled="!hasAnswered"
-          @click="goToNextQuestion"
-        >
-          {{ currentIndex === quiz.total - 1 ? 'See results' : 'Next question' }}
-        </button>
-      </div>
-    </div>
-
-    <div
+    <v-card
       v-else-if="stage === 'results'"
-      class="space-y-6 rounded-[2rem] border border-slate-800 bg-slate-950/80 p-6"
+      color="surface"
+      rounded="xl"
+      class="pa-6"
     >
-      <div class="space-y-3">
-        <p class="text-xs uppercase tracking-[0.3em] text-slate-500">Round complete</p>
-        <h3 class="text-3xl font-semibold text-white">{{ score }} / {{ quiz.total }}</h3>
-        <p class="max-w-2xl text-sm text-slate-300">
-          {{
-            score === quiz.total
-              ? 'Perfect score. Every answer landed.'
-              : score >= Math.ceil(quiz.total / 2)
-                ? 'Strong run. Try a harder setting if you want another challenge.'
-                : 'Good warm-up. Restart with a new category and see if the next round clicks.'
-          }}
-        </p>
-      </div>
+      <div class="d-flex flex-column ga-5">
+        <div class="d-flex flex-column ga-3">
+          <div class="text-overline text-medium-emphasis">Round complete</div>
+          <h3 class="text-h3 font-weight-bold">{{ score }} / {{ quiz.total }}</h3>
+          <p class="text-body-2 text-medium-emphasis">
+            {{
+              score === quiz.total
+                ? 'Perfect score. Every answer landed.'
+                : score >= Math.ceil(quiz.total / 2)
+                  ? 'Strong run. Try a harder setting if you want another challenge.'
+                  : 'Good warm-up. Restart with a new category and see if the next round clicks.'
+            }}
+          </p>
+        </div>
 
-      <div class="flex flex-wrap gap-3">
-        <button
-          class="rounded-full bg-amber-300 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-200"
-          type="button"
-          @click="startQuiz"
-        >
-          Play again
-        </button>
-        <button
-          class="rounded-full border border-slate-700 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-slate-500"
-          type="button"
-          @click="resetQuiz"
-        >
-          Change setup
-        </button>
+        <div class="d-flex flex-wrap ga-3">
+          <v-btn color="primary" prepend-icon="mdi-refresh" @click="startQuiz">
+            Play again
+          </v-btn>
+          <v-btn variant="outlined" @click="resetQuiz">
+            Change setup
+          </v-btn>
+        </div>
       </div>
-    </div>
-  </div>
+    </v-card>
+  </v-container>
 </template>

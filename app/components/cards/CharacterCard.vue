@@ -25,91 +25,107 @@ const props = withDefaults(
   <NuxtLink
     v-if="props.to"
     :to="props.to"
-    class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition hover:border-slate-600"
+    class="d-block h-100"
   >
-    <div class="flex h-44 items-center justify-center bg-slate-900">
-      <img
+    <v-card color="surface" border class="h-100 d-flex flex-column" hover>
+      <v-img
         v-if="props.image"
         :src="props.image"
         :alt="props.title"
-        class="h-full w-full object-contain p-4"
-        loading="lazy"
+        cover
+        height="220"
       />
-      <div v-else class="flex h-full w-full items-center justify-center text-xs uppercase tracking-[0.3em] text-slate-500">
+      <v-sheet
+        v-else
+        color="surface-light"
+        height="220"
+        class="d-flex align-center justify-center text-overline text-medium-emphasis"
+      >
         No image
-      </div>
-    </div>
+      </v-sheet>
 
-    <div class="flex flex-1 flex-col gap-3 p-4">
-      <div>
-        <h3 class="text-lg font-semibold text-white">{{ props.title }}</h3>
-        <p v-if="props.subtitle" class="text-sm text-slate-400">{{ props.subtitle }}</p>
-        <p v-if="props.description" class="mt-2 text-sm text-slate-300">
-          {{ props.description }}
-        </p>
-      </div>
-
-      <div v-if="props.badges.length" class="flex flex-wrap gap-2 text-xs text-slate-300">
-        <span
-          v-for="badge in props.badges"
-          :key="badge"
-          class="rounded-full border border-slate-800 px-2 py-1 capitalize"
-        >
-          {{ badge }}
-        </span>
-      </div>
-
-      <div v-if="props.stats.length" class="mt-auto grid grid-cols-2 gap-2 text-xs text-slate-300">
-        <div v-for="stat in props.stats" :key="stat.label" class="rounded-lg border border-slate-800 px-2 py-2">
-          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">{{ stat.label }}</p>
-          <p class="text-sm text-slate-100">{{ stat.value }}</p>
+      <v-card-text class="d-flex flex-column ga-3 fill-height">
+        <div>
+          <div class="text-h6 font-weight-bold text-high-emphasis">{{ props.title }}</div>
+          <div v-if="props.subtitle" class="text-body-2 text-medium-emphasis">{{ props.subtitle }}</div>
+          <div v-if="props.description" class="text-body-2 text-medium-emphasis mt-2">
+            {{ props.description }}
+          </div>
         </div>
-      </div>
-    </div>
+
+        <div v-if="props.badges.length" class="d-flex flex-wrap ga-2">
+          <v-chip
+            v-for="badge in props.badges"
+            :key="badge"
+            size="small"
+            variant="outlined"
+          >
+            {{ badge }}
+          </v-chip>
+        </div>
+
+        <v-row v-if="props.stats.length" class="mt-auto" density="comfortable">
+          <v-col v-for="stat in props.stats" :key="stat.label" cols="6">
+            <v-sheet color="surface-light" border rounded="lg" class="pa-3">
+              <div class="text-caption text-medium-emphasis">{{ stat.label }}</div>
+              <div class="text-body-2 text-high-emphasis">{{ stat.value }}</div>
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
   </NuxtLink>
 
   <div
     v-else
-    class="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 transition hover:border-slate-600"
+    class="h-100"
   >
-    <div class="flex h-44 items-center justify-center bg-slate-900">
-      <img
+    <v-card color="surface" border class="h-100 d-flex flex-column">
+      <v-img
         v-if="props.image"
         :src="props.image"
         :alt="props.title"
-        class="h-full w-full object-contain p-4"
-        loading="lazy"
+        cover
+        height="220"
       />
-      <div v-else class="flex h-full w-full items-center justify-center text-xs uppercase tracking-[0.3em] text-slate-500">
+      <v-sheet
+        v-else
+        color="surface-light"
+        height="220"
+        class="d-flex align-center justify-center text-overline text-medium-emphasis"
+      >
         No image
-      </div>
-    </div>
+      </v-sheet>
 
-    <div class="flex flex-1 flex-col gap-3 p-4">
-      <div>
-        <h3 class="text-lg font-semibold text-white">{{ props.title }}</h3>
-        <p v-if="props.subtitle" class="text-sm text-slate-400">{{ props.subtitle }}</p>
-        <p v-if="props.description" class="mt-2 text-sm text-slate-300">
-          {{ props.description }}
-        </p>
-      </div>
-
-      <div v-if="props.badges.length" class="flex flex-wrap gap-2 text-xs text-slate-300">
-        <span
-          v-for="badge in props.badges"
-          :key="badge"
-          class="rounded-full border border-slate-800 px-2 py-1 capitalize"
-        >
-          {{ badge }}
-        </span>
-      </div>
-
-      <div v-if="props.stats.length" class="mt-auto grid grid-cols-2 gap-2 text-xs text-slate-300">
-        <div v-for="stat in props.stats" :key="stat.label" class="rounded-lg border border-slate-800 px-2 py-2">
-          <p class="text-[10px] uppercase tracking-[0.2em] text-slate-500">{{ stat.label }}</p>
-          <p class="text-sm text-slate-100">{{ stat.value }}</p>
+      <v-card-text class="d-flex flex-column ga-3 fill-height">
+        <div>
+          <div class="text-h6 font-weight-bold text-high-emphasis">{{ props.title }}</div>
+          <div v-if="props.subtitle" class="text-body-2 text-medium-emphasis">{{ props.subtitle }}</div>
+          <div v-if="props.description" class="text-body-2 text-medium-emphasis mt-2">
+            {{ props.description }}
+          </div>
         </div>
-      </div>
-    </div>
+
+        <div v-if="props.badges.length" class="d-flex flex-wrap ga-2">
+          <v-chip
+            v-for="badge in props.badges"
+            :key="badge"
+            size="small"
+            variant="outlined"
+          >
+            {{ badge }}
+          </v-chip>
+        </div>
+
+        <v-row v-if="props.stats.length" class="mt-auto" density="comfortable">
+          <v-col v-for="stat in props.stats" :key="stat.label" cols="6">
+            <v-sheet color="surface-light" border rounded="lg" class="pa-3">
+              <div class="text-caption text-medium-emphasis">{{ stat.label }}</div>
+              <div class="text-body-2 text-high-emphasis">{{ stat.value }}</div>
+            </v-sheet>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
   </div>
 </template>

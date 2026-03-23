@@ -9,32 +9,27 @@ defineProps<{
 <template>
   <NuxtLink
     :to="item.route"
-    class="group flex h-full flex-col justify-between rounded-2xl border border-slate-800 bg-slate-900/60 p-5 transition hover:border-slate-600 hover:bg-slate-900"
+    class="d-block h-100"
   >
-    <div class="space-y-3">
-      <div class="flex items-start justify-between gap-4">
-        <h3 class="text-lg font-semibold text-white">
-          {{ item.name }}
-        </h3>
-        <span class="rounded-full border border-slate-700 px-2 py-1 text-[11px] uppercase tracking-[0.2em] text-slate-400">
-          P{{ item.priority }}
-        </span>
-      </div>
-      <p class="text-sm text-slate-300">
-        {{ item.description }}
-      </p>
-    </div>
+    <v-card color="surface" border class="h-100 d-flex flex-column" hover>
+      <v-card-text class="d-flex flex-column fill-height ga-4">
+        <div class="d-flex align-start justify-space-between ga-4">
+          <div class="text-h6 font-weight-bold text-high-emphasis">
+            {{ item.name }}
+          </div>
+          <v-chip color="surface-light" size="small" label>P{{ item.priority }}</v-chip>
+        </div>
 
-    <div class="mt-4 flex flex-wrap gap-2 text-xs text-slate-300">
-      <span class="rounded-full border border-slate-800 px-2 py-1">
-        {{ item.category }}
-      </span>
-      <span class="rounded-full border border-slate-800 px-2 py-1">
-        Auth: {{ item.auth }}
-      </span>
-      <span class="rounded-full border border-slate-800 px-2 py-1 capitalize">
-        {{ item.status }}
-      </span>
-    </div>
+        <div class="text-body-2 text-medium-emphasis">
+          {{ item.description }}
+        </div>
+
+        <div class="mt-auto d-flex flex-wrap ga-2">
+          <v-chip size="small" variant="outlined">{{ item.category }}</v-chip>
+          <v-chip size="small" variant="outlined">Auth: {{ item.auth }}</v-chip>
+          <v-chip size="small" variant="outlined">{{ item.status }}</v-chip>
+        </div>
+      </v-card-text>
+    </v-card>
   </NuxtLink>
 </template>

@@ -55,33 +55,35 @@ watch(
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div class="space-y-3">
+  <v-container class="pa-0 d-flex flex-column ga-6">
+    <div class="d-flex flex-column ga-3">
       <CommonSectionHeader title="Dog API" subtitle="Breed Picker" />
-      <p class="max-w-2xl text-sm text-slate-300">
+      <p class="text-body-2 text-medium-emphasis">
         Select a breed and regenerate a new image whenever you want a different pup on screen.
       </p>
     </div>
 
     <CommonFilterBar>
-      <select
+      <v-select
         v-model="selectedBreed"
-        class="min-w-52 rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm capitalize text-slate-100"
-      >
-        <option value="" disabled>Select a breed</option>
-        <option v-for="breed in breeds" :key="breed.value" :value="breed.value">
-          {{ breed.label }}
-        </option>
-      </select>
+        :items="breeds"
+        item-title="label"
+        item-value="value"
+        hide-details
+        label="Breed"
+        variant="outlined"
+        density="comfortable"
+      />
 
-      <button
-        class="rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-100 transition hover:border-slate-600 disabled:opacity-50"
-        type="button"
+      <v-btn
+        color="primary"
+        prepend-icon="mdi-image-refresh"
+        variant="tonal"
         :disabled="!selectedBreed || imagePending"
         @click="refreshImage"
       >
         New image
-      </button>
+      </v-btn>
     </CommonFilterBar>
 
     <CommonErrorState
@@ -91,7 +93,7 @@ watch(
       @retry="refreshBreeds"
     />
 
-    <div v-else-if="breedsPending && !breeds.length" class="max-w-3xl">
+    <div v-else-if="breedsPending && !breeds.length">
       <CommonLoadingGrid :count="1" />
     </div>
 
@@ -108,25 +110,34 @@ watch(
       @retry="refreshImage"
     />
 
-    <div
+    <v-card
       v-else
-      class="overflow-hidden rounded-3xl border border-slate-800 bg-gradient-to-br from-amber-100 via-orange-50 to-rose-100 p-4 shadow-[0_30px_80px_rgba(15,23,42,0.25)]"
+      color="surface"
+      rounded="xl"
+      class="pa-4"
     >
-      <div class="flex min-h-[24rem] items-center justify-center rounded-[1.5rem] bg-white/70 p-4">
-        <div
+      <v-sheet
+        rounded="xl"
+        color="surface-bright"
+        class="d-flex align-center justify-center pa-4"
+        min-height="420"
+      >
+        <v-skeleton-loader
           v-if="imagePending && !dogImage?.image"
-          class="h-80 w-full animate-pulse rounded-[1.25rem] bg-slate-200"
+          class="w-100"
+          type="image"
         />
-        <img
+        <v-img
           v-else-if="dogImage?.image"
           :src="dogImage.image"
           :alt="selectedBreed"
-          class="max-h-[32rem] w-full rounded-[1.25rem] object-contain"
+          max-height="520"
+          contain
         />
-        <div v-else class="text-sm text-slate-500">
+        <div v-else class="text-body-2 text-medium-emphasis">
           Choose a breed to see a dog image.
         </div>
-      </div>
-    </div>
-  </div>
+      </v-sheet>
+    </v-card>
+  </v-container>
 </template>

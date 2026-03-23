@@ -47,7 +47,7 @@ Create the initial Nuxt project foundation and ensure the repository is runnable
 ## Tasks
 
 - initialize Nuxt project with TypeScript
-- configure Tailwind CSS
+- configure Vuetify and the shared theme foundation
 - verify base app runs locally
 - create top-level folder structure
 - create placeholder route structure for all API pages
@@ -73,7 +73,7 @@ Create the initial Nuxt project foundation and ensure the repository is runnable
 ## Acceptance Criteria
 
 - Nuxt app boots successfully
-- Tailwind is working
+- Vuetify is configured and rendering correctly
 - all required route files exist
 - the app is navigable and does not crash
 - no route returns an unhandled runtime error
