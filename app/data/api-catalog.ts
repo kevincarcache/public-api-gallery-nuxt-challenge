@@ -92,24 +92,6 @@ export const apiCatalog: ApiCatalogItem[] = [
     status: 'active'
   },
   {
-    slug: 'star-wars',
-    name: 'SWAPI',
-    category: 'Space',
-    auth: 'None',
-    priority: 4,
-    description: 'Permite cambiar de recurso, buscar en vivo y comparar personas, planetas y naves desde un mismo flujo.',
-    interaction: 'Conmutador de recurso y busqueda',
-    challenge: 'Unificar estructuras distintas de SWAPI en una sola UI reutilizable y legible.',
-    coverImage: '/images/catalog/raw/star-wars.svg',
-    coverAlt: 'Logo de Star Wars sobre fondo espacial',
-    coverMode: 'contain',
-    coverBackground: 'radial-gradient(circle at 75% 24%, rgba(245,223,118,0.16), transparent 20%), linear-gradient(135deg, #090d14 0%, #111a2a 52%, #2a1e18 100%)',
-    coverPosition: 'center',
-    route: '/apis/star-wars',
-    docsUrl: 'https://swapi.dev/documentation',
-    status: 'active'
-  },
-  {
     slug: 'trivia',
     name: 'Open Trivia DB',
     category: 'Trivia',

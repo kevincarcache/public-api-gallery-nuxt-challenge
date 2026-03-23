@@ -6,7 +6,7 @@ Build a **Nuxt website** that acts as a **gallery of public API demos**.
 
 The app must include:
 
-- a homepage with 10 API cards
+- a homepage with 9 API cards
 - one dedicated page per API
 - real API consumption
 - consistent UI/UX
@@ -64,7 +64,6 @@ Create the initial Nuxt project foundation and ensure the repository is runnable
 - `app/pages/apis/harry-potter.vue`
 - `app/pages/apis/ghibli.vue`
 - `app/pages/apis/dogs.vue`
-- `app/pages/apis/star-wars.vue`
 - `app/pages/apis/trivia.vue`
 - `app/pages/apis/random-users.vue`
 - `app/pages/apis/meals/index.vue`
@@ -101,7 +100,7 @@ Build the shared product shell and the homepage grid driven by a central API cat
 - create shared layout components
 - create central `api-catalog` data source
 - build homepage hero/intro section
-- render a responsive grid of 10 API cards
+- render a responsive grid of 9 API cards
 - make each card navigate to its demo page
 - display API metadata on each card:
   - name
@@ -122,7 +121,7 @@ Build the shared product shell and the homepage grid driven by a central API cat
 
 ## Acceptance Criteria
 
-- homepage renders 10 cards from catalog data
+- homepage renders 9 cards from catalog data
 - card rendering is not hardcoded inline per API
 - layout is responsive
 - navigation from cards works
@@ -446,26 +445,17 @@ Completion: 2026-03-20 — feature/m8-mealdb-demo — commit TBD
 
 ---
 
-# Milestone 9 — Studio Ghibli, SWAPI, and Open Library
+# Milestone 9 — Studio Ghibli and Open Library
 
 ## Goal
 
-Complete the remaining three APIs with clean, useful demos.
+Complete the remaining APIs with clean, useful demos.
 
 ## Tasks — Studio Ghibli
 - fetch films
 - display film list/grid
 - show title, image or fallback, year, director, producer
 - show detailed description
-
-## Tasks — SWAPI
-- build resource selector or tabs
-- implement at least two resource categories well, preferably:
-  - people
-  - planets
-  - starships
-- support search
-- display readable details
 
 ## Tasks — Open Library
 - implement book search by title and/or author
@@ -477,18 +467,15 @@ Complete the remaining three APIs with clean, useful demos.
 ## Recommended Files
 
 - `app/pages/apis/ghibli.vue`
-- `app/pages/apis/star-wars.vue`
 - `app/pages/apis/books.vue`
 - `server/api/ghibli/*`
-- `server/api/star-wars/*`
 - `server/api/books/*`
 - `app/shared/types/ghibli.ts`
-- `app/shared/types/star-wars.ts`
 - `app/shared/types/books.ts`
 
 ## Acceptance Criteria
 
-- all three demos consume real data
+- both demos consume real data
 - each has at least one meaningful interaction
 - shared states are used consistently
 - layout remains coherent across pages
@@ -571,8 +558,8 @@ Completion: 2026-03-20 — feature/m10-final-polish — commit TBD
 
 The project is done when:
 
-- `/` shows 10 cards
-- all 10 demo routes work
+- `/` shows 9 cards
+- all 9 demo routes work
 - each demo consumes real API data
 - each demo has loading, error, and empty states
 - each demo has at least one useful interaction
@@ -593,5 +580,5 @@ The project is done when:
 7. Milestone 6 — Dog API and Random User Demos
 8. Milestone 7 — Open Trivia DB Demo
 9. Milestone 8 — TheMealDB Demo
-10. Milestone 9 — Studio Ghibli, SWAPI, and Open Library
+10. Milestone 9 — Studio Ghibli and Open Library
 11. Milestone 10 — Polish, Refactor, and Portfolio Readiness

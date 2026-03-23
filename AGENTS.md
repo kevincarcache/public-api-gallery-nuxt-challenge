@@ -16,18 +16,17 @@ It must feel like **one product** with shared UX, shared architecture, and consi
 
 ## Product Scope
 
-The app must include demos for these 10 APIs:
+The app must include demos for these 9 APIs:
 
 1. PokéAPI
 2. Rick and Morty API
 3. Harry Potter API
 4. Studio Ghibli API
 5. Dog API
-6. SWAPI
-7. Open Trivia DB
-8. Random User Generator
-9. TheMealDB
-10. Open Library API
+6. Open Trivia DB
+7. Random User Generator
+8. TheMealDB
+9. Open Library API
 
 ---
 
@@ -209,7 +208,6 @@ Implement these routes:
 - `/apis/harry-potter`
 - `/apis/ghibli`
 - `/apis/dogs`
-- `/apis/star-wars`
 - `/apis/trivia`
 - `/apis/random-users`
 - `/apis/meals`
@@ -254,7 +252,6 @@ The project should converge toward this structure:
 │   │       ├── harry-potter.vue
 │   │       ├── ghibli.vue
 │   │       ├── dogs.vue
-│   │       ├── star-wars.vue
 │   │       ├── trivia.vue
 │   │       ├── random-users.vue
 │   │       ├── meals/
@@ -429,8 +426,8 @@ A page that only fetches and dumps raw JSON is not acceptable.
 
 The repository is done when:
 
-* homepage renders 10 API cards
-* all 10 demo routes exist and work
+* homepage renders 9 API cards
+* all 9 demo routes exist and work
 * each demo consumes real remote data
 * each demo has loading, error, and empty states
 * the design is visually consistent
