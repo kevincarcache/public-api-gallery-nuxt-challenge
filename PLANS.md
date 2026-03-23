@@ -1,4 +1,4 @@
-# PLAN.md
+# PLANS.md
 
 ## Objective
 
@@ -6,7 +6,7 @@ Build a **Nuxt website** that acts as a **gallery of public API demos**.
 
 The app must include:
 
-- a homepage with 11 API cards
+- a homepage with 10 API cards
 - one dedicated page per API
 - real API consumption
 - consistent UI/UX
@@ -15,6 +15,26 @@ The app must include:
 - loading, error, and empty states across demos
 
 This plan is organized as executable milestones for an implementation agent.
+
+## Nuxt Component Naming
+
+With the current `app/components/*` folder structure, Nuxt auto-imports components using directory-based prefixes by default.
+Use names such as:
+
+- `LayoutAppHeader`
+- `LayoutPageContainer`
+- `CommonSearchBar`
+- `CommonFilterBar`
+- `CommonSectionHeader`
+- `CommonLoadingGrid`
+- `CommonErrorState`
+- `CommonEmptyState`
+- `CommonPaginationControls`
+- `CardsApiCard`
+- `CardsCharacterCard`
+- `SectionsHeroSection`
+
+If this naming is changed in the future, it must be done explicitly via Nuxt component configuration rather than by assuming flat component names.
 
 ---
 
@@ -27,7 +47,7 @@ Create the initial Nuxt project foundation and ensure the repository is runnable
 ## Tasks
 
 - initialize Nuxt project with TypeScript
-- configure Tailwind CSS
+- configure Vuetify and the shared theme foundation
 - verify base app runs locally
 - create top-level folder structure
 - create placeholder route structure for all API pages
@@ -37,27 +57,32 @@ Create the initial Nuxt project foundation and ensure the repository is runnable
 
 - `package.json`
 - `nuxt.config.ts`
-- `app.vue`
-- `pages/index.vue`
-- `pages/apis/simpsons.vue`
-- `pages/apis/pokemon.vue`
-- `pages/apis/rick-morty.vue`
-- `pages/apis/harry-potter.vue`
-- `pages/apis/ghibli.vue`
-- `pages/apis/dogs.vue`
-- `pages/apis/star-wars.vue`
-- `pages/apis/trivia.vue`
-- `pages/apis/random-users.vue`
-- `pages/apis/meals.vue`
-- `pages/apis/books.vue`
+- `app/app.vue`
+- `app/pages/index.vue`
+- `app/pages/apis/pokemon/index.vue`
+- `app/pages/apis/rick-morty/index.vue`
+- `app/pages/apis/harry-potter.vue`
+- `app/pages/apis/ghibli.vue`
+- `app/pages/apis/dogs.vue`
+- `app/pages/apis/star-wars.vue`
+- `app/pages/apis/trivia.vue`
+- `app/pages/apis/random-users.vue`
+- `app/pages/apis/meals/index.vue`
+- `app/pages/apis/books.vue`
 
 ## Acceptance Criteria
 
 - Nuxt app boots successfully
-- Tailwind is working
+- Vuetify is configured and rendering correctly
 - all required route files exist
 - the app is navigable and does not crash
 - no route returns an unhandled runtime error
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m0-project-scaffold — commit TBD
 
 ## Notes
 
@@ -76,7 +101,7 @@ Build the shared product shell and the homepage grid driven by a central API cat
 - create shared layout components
 - create central `api-catalog` data source
 - build homepage hero/intro section
-- render a responsive grid of 11 API cards
+- render a responsive grid of 10 API cards
 - make each card navigate to its demo page
 - display API metadata on each card:
   - name
@@ -87,21 +112,27 @@ Build the shared product shell and the homepage grid driven by a central API cat
 
 ## Files to create or modify
 
-- `data/api-catalog.ts`
-- `components/layout/AppHeader.vue`
-- `components/layout/AppFooter.vue`
-- `components/layout/PageContainer.vue`
-- `components/cards/ApiCard.vue`
-- `components/sections/HeroSection.vue`
-- `pages/index.vue`
+- `app/data/api-catalog.ts`
+- `app/components/layout/AppHeader.vue`
+- `app/components/layout/AppFooter.vue`
+- `app/components/layout/PageContainer.vue`
+- `app/components/cards/ApiCard.vue`
+- `app/components/sections/HeroSection.vue`
+- `app/pages/index.vue`
 
 ## Acceptance Criteria
 
-- homepage renders 11 cards from catalog data
+- homepage renders 10 cards from catalog data
 - card rendering is not hardcoded inline per API
 - layout is responsive
 - navigation from cards works
 - app has a coherent header/footer/page shell
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m1-homepage-layout-catalog — commit TBD
 
 ## Notes
 
@@ -128,16 +159,16 @@ Create reusable UI primitives and basic fetch-state patterns used across demo pa
 
 ## Files to create or modify
 
-- `components/common/SearchBar.vue`
-- `components/common/FilterBar.vue`
-- `components/common/PaginationControls.vue`
-- `components/common/LoadingGrid.vue`
-- `components/common/ErrorState.vue`
-- `components/common/EmptyState.vue`
-- `components/common/SectionHeader.vue`
-- `composables/useSafeFetch.ts` or equivalent
-- `types/api-catalog.ts`
-- `types/shared.ts`
+- `app/components/common/SearchBar.vue`
+- `app/components/common/FilterBar.vue`
+- `app/components/common/PaginationControls.vue`
+- `app/components/common/LoadingGrid.vue`
+- `app/components/common/ErrorState.vue`
+- `app/components/common/EmptyState.vue`
+- `app/components/common/SectionHeader.vue`
+- `app/composables/useSafeFetch.ts` or equivalent
+- `app/shared/types/api-catalog.ts`
+- `app/shared/types/shared.ts`
 
 ## Acceptance Criteria
 
@@ -145,6 +176,12 @@ Create reusable UI primitives and basic fetch-state patterns used across demo pa
 - components are usable by multiple pages
 - loading/error/empty states are available for all later milestones
 - the codebase is more prepared for rapid page implementation
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m2-shared-ui — commit TBD
 
 ## Notes
 
@@ -171,12 +208,12 @@ Implement a full Pokédex experience.
 
 ## Recommended Files
 
-- `pages/apis/pokemon.vue`
-- `pages/apis/pokemon/[name].vue` optional but recommended
-- `components/cards/CharacterCard.vue` or Pokémon-specific card if needed
+- `app/pages/apis/pokemon/index.vue`
+- `app/pages/apis/pokemon/[name].vue` recommended
+- `app/components/cards/CharacterCard.vue` or Pokémon-specific card if needed
 - `server/api/pokemon/*` if encapsulation is useful
-- `types/pokemon.ts`
-- `utils/mappers/pokemon.ts`
+- `app/shared/types/pokemon.ts`
+- `app/shared/utils/mappers/pokemon.ts`
 
 ## Acceptance Criteria
 
@@ -186,6 +223,12 @@ Implement a full Pokédex experience.
 - types and stats are visible
 - page is responsive
 - fetch states are handled explicitly
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m3-pokemon-demo — commit TBD
 
 ## Notes
 
@@ -211,11 +254,11 @@ Implement a character explorer with search and filters.
 
 ## Recommended Files
 
-- `pages/apis/rick-morty.vue`
-- `pages/apis/rick-morty/character/[id].vue` optional
+- `app/pages/apis/rick-morty/index.vue`
+- `app/pages/apis/rick-morty/character/[id].vue` optional
 - `server/api/rick-morty/*`
-- `types/rick-morty.ts`
-- `utils/mappers/rick-morty.ts`
+- `app/shared/types/rick-morty.ts`
+- `app/shared/utils/mappers/rick-morty.ts`
 
 ## Acceptance Criteria
 
@@ -225,20 +268,19 @@ Implement a character explorer with search and filters.
 - pagination works or navigation between result sets is clear
 - UI is consistent with rest of app
 
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m4-rick-morty-demo — commit TBD
+
 ---
 
-# Milestone 5 — Simpsons and Harry Potter Demos
+# Milestone 5 — Harry Potter Demo
 
 ## Goal
 
-Implement two entertainment-focused demos with filtering and gallery behavior.
-
-## Tasks — Simpsons
-- fetch Simpsons characters
-- show image-based gallery
-- support search by name
-- show brief character details
-- optionally include episodes if cleanly feasible
+Implement an entertainment-focused demo with filtering and gallery behavior.
 
 ## Tasks — Harry Potter
 - fetch characters
@@ -249,20 +291,23 @@ Implement two entertainment-focused demos with filtering and gallery behavior.
 
 ## Recommended Files
 
-- `pages/apis/simpsons.vue`
-- `pages/apis/harry-potter.vue`
-- `server/api/simpsons/*`
+- `app/pages/apis/harry-potter.vue`
 - `server/api/harry-potter/*`
-- `types/simpsons.ts`
-- `types/harry-potter.ts`
+- `app/shared/types/harry-potter.ts`
 
 ## Acceptance Criteria
 
-- both pages consume real API data
-- both pages provide useful interaction
-- both pages use shared UI patterns
+- page consumes real API data
+- page provides useful interaction
+- page uses shared UI patterns
 - missing images or fields do not break rendering
-- both pages are responsive
+- page is responsive
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m5-harry-potter-demo — commit TBD
 
 ---
 
@@ -287,13 +332,13 @@ Implement two lighter but highly visual demos.
 
 ## Recommended Files
 
-- `pages/apis/dogs.vue`
-- `pages/apis/random-users.vue`
-- `components/cards/UserCard.vue`
+- `app/pages/apis/dogs.vue`
+- `app/pages/apis/random-users.vue`
+- `app/components/cards/UserCard.vue`
 - `server/api/dogs/*`
 - `server/api/random-users/*`
-- `types/dogs.ts`
-- `types/random-user.ts`
+- `app/shared/types/dogs.ts`
+- `app/shared/types/random-user.ts`
 
 ## Acceptance Criteria
 
@@ -302,6 +347,12 @@ Implement two lighter but highly visual demos.
 - random users reload cleanly
 - cards are consistent and responsive
 - empty/loading/error states are implemented
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m6-dogs-random-users — commit TBD
 
 ---
 
@@ -328,9 +379,9 @@ Implement a complete interactive quiz flow.
 
 ## Recommended Files
 
-- `pages/apis/trivia.vue`
+- `app/pages/apis/trivia.vue`
 - `server/api/trivia/*`
-- `types/trivia.ts`
+- `app/shared/types/trivia.ts`
 - quiz-specific components if needed
 
 ## Acceptance Criteria
@@ -345,6 +396,12 @@ Implement a complete interactive quiz flow.
 ## Notes
 
 This is one of the most interactive demos and should feel complete.
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m7-trivia-demo — commit TBD
 
 ---
 
@@ -366,12 +423,12 @@ Implement a recipe search and detail experience.
 
 ## Recommended Files
 
-- `pages/apis/meals.vue`
-- `pages/apis/meals/[id].vue` optional but recommended
-- `components/cards/RecipeCard.vue`
+- `app/pages/apis/meals/index.vue`
+- `app/pages/apis/meals/[id].vue` recommended
+- `app/components/cards/RecipeCard.vue`
 - `server/api/meals/*`
-- `types/meals.ts`
-- `utils/mappers/meals.ts`
+- `app/shared/types/meals.ts`
+- `app/shared/utils/mappers/meals.ts`
 
 ## Acceptance Criteria
 
@@ -380,6 +437,12 @@ Implement a recipe search and detail experience.
 - details are readable and complete
 - ingredients are parsed safely
 - null/incomplete fields do not break UI
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m8-mealdb-demo — commit TBD
 
 ---
 
@@ -413,15 +476,15 @@ Complete the remaining three APIs with clean, useful demos.
 
 ## Recommended Files
 
-- `pages/apis/ghibli.vue`
-- `pages/apis/star-wars.vue`
-- `pages/apis/books.vue`
+- `app/pages/apis/ghibli.vue`
+- `app/pages/apis/star-wars.vue`
+- `app/pages/apis/books.vue`
 - `server/api/ghibli/*`
 - `server/api/star-wars/*`
 - `server/api/books/*`
-- `types/ghibli.ts`
-- `types/star-wars.ts`
-- `types/books.ts`
+- `app/shared/types/ghibli.ts`
+- `app/shared/types/star-wars.ts`
+- `app/shared/types/books.ts`
 
 ## Acceptance Criteria
 
@@ -430,6 +493,12 @@ Complete the remaining three APIs with clean, useful demos.
 - shared states are used consistently
 - layout remains coherent across pages
 - fallbacks exist for missing media/data
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m9-remaining-api-demos — commit TBD
 
 ---
 
@@ -453,12 +522,18 @@ Bring the whole project to a consistent, presentable, portfolio-quality finish.
 
 ## Files to review
 
-- all pages
-- shared components
-- composables
+- all pages under `app/pages`
+- shared components under `app/components`
+- composables under `app/composables`
 - server routes
-- `data/api-catalog.ts`
+- `app/data/api-catalog.ts`
 - `nuxt.config.ts`
+
+## Status
+
+Completed ✅
+
+Completion: 2026-03-20 — feature/m10-final-polish — commit TBD
 
 ## Acceptance Criteria
 
@@ -496,8 +571,8 @@ Bring the whole project to a consistent, presentable, portfolio-quality finish.
 
 The project is done when:
 
-- `/` shows 11 cards
-- all 11 demo routes work
+- `/` shows 10 cards
+- all 10 demo routes work
 - each demo consumes real API data
 - each demo has loading, error, and empty states
 - each demo has at least one useful interaction
@@ -514,7 +589,7 @@ The project is done when:
 3. Milestone 2 — Shared UI Infrastructure
 4. Milestone 3 — PokéAPI Demo
 5. Milestone 4 — Rick and Morty Demo
-6. Milestone 5 — Simpsons and Harry Potter Demos
+6. Milestone 5 — Harry Potter Demo
 7. Milestone 6 — Dog API and Random User Demos
 8. Milestone 7 — Open Trivia DB Demo
 9. Milestone 8 — TheMealDB Demo

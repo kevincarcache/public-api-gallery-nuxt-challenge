@@ -16,19 +16,18 @@ It must feel like **one product** with shared UX, shared architecture, and consi
 
 ## Product Scope
 
-The app must include demos for these 11 APIs:
+The app must include demos for these 10 APIs:
 
-1. The Simpsons API
-2. PokéAPI
-3. Rick and Morty API
-4. Harry Potter API
-5. Studio Ghibli API
-6. Dog API
-7. SWAPI
-8. Open Trivia DB
-9. Random User Generator
-10. TheMealDB
-11. Open Library API
+1. PokéAPI
+2. Rick and Morty API
+3. Harry Potter API
+4. Studio Ghibli API
+5. Dog API
+6. SWAPI
+7. Open Trivia DB
+8. Random User Generator
+9. TheMealDB
+10. Open Library API
 
 ---
 
@@ -39,7 +38,7 @@ Use:
 - Nuxt 4
 - Vue 3
 - TypeScript
-- Tailwind CSS
+- Vuetify
 - Composition API
 - `useFetch` / `$fetch`
 - Nuxt server routes when useful
@@ -78,7 +77,13 @@ Do not optimize for:
 ## Autonomy Rules
 
 ### 1. Act autonomously by default
-Do not stop for confirmation unless blocked by a real ambiguity that prevents safe progress.
+Default to autonomous execution.
+
+Do not stop for confirmation for normal Git, implementation, verification, or commit steps unless blocked by:
+- a real ambiguity that prevents safe progress
+- missing required secrets or environment configuration
+- unsafe unrelated local changes
+- missing project artifacts required for the workflow
 
 If multiple reasonable implementation options exist:
 - choose the simpler option
@@ -94,12 +99,15 @@ Examples:
 - use responsive card-based layouts
 - use safe fallbacks for missing API data
 
-### 3. Work milestone by milestone
-Implement the repository in the order defined in `PLAN.md`.
+### 3. Prefer repo skills for repeatable workflows
+When a relevant skill exists in `.agents/skills/`, prefer using that skill instead of re-deriving the workflow from scratch.
 
-Do not jump ahead unless:
-- the current milestone requires a shared dependency from a later one
-- a small preparatory refactor clearly improves the current milestone
+This applies especially to:
+- milestone execution
+- Gitflow workflows
+- API integration patterns
+- fetch state handling
+- final polish and verification
 
 ### 4. Finish functional slices
 Prefer completing one functional slice at a time over scattering partial scaffolding across many files.
@@ -112,6 +120,33 @@ Do not leave behind:
 
 ### 5. Keep the app runnable
 At the end of each milestone, the app must still run and remain navigable.
+
+---
+
+## Planning Source of Truth
+
+Use `PLANS.md` as the execution roadmap for the repository.
+
+Rules:
+- execute milestones sequentially from `PLANS.md`
+- complete one milestone at a time, but continue to the next pending milestone when an autonomous roadmap skill explicitly defines a continuous execution loop
+- use the milestone scope, acceptance criteria, and verification steps defined in `PLANS.md`
+- update milestone status in `PLANS.md` when milestone-based workflows require it
+- do not invent milestone scope outside `PLANS.md` unless required to fix blocking issues
+
+---
+
+## Gitflow Integration Policy
+
+Autonomous milestone workflows may:
+- create feature branches from `develop`
+- commit completed milestone work
+- merge completed milestones back into `develop` after successful verification
+
+Autonomous workflows must never:
+- merge into `main` unless explicitly instructed
+- discard unrelated local changes
+- push unless explicitly instructed
 
 ---
 
@@ -169,7 +204,6 @@ Never assume:
 Implement these routes:
 
 - `/`
-- `/apis/simpsons`
 - `/apis/pokemon`
 - `/apis/rick-morty`
 - `/apis/harry-potter`
@@ -196,36 +230,45 @@ The project should converge toward this structure:
 
 ```bash
 /
-├── app.vue
+├── app/
+│   ├── app.vue
+│   ├── assets/
+│   ├── components/
+│   │   ├── layout/
+│   │   ├── cards/
+│   │   ├── common/
+│   │   └── sections/
+│   ├── composables/
+│   ├── data/
+│   │   └── api-catalog.ts
+│   ├── pages/
+│   │   ├── index.vue
+│   │   └── apis/
+│   │       ├── pokemon/
+│   │       │   ├── index.vue
+│   │       │   └── [name].vue
+│   │       ├── rick-morty/
+│   │       │   ├── index.vue
+│   │       │   └── character/
+│   │       │       └── [id].vue
+│   │       ├── harry-potter.vue
+│   │       ├── ghibli.vue
+│   │       ├── dogs.vue
+│   │       ├── star-wars.vue
+│   │       ├── trivia.vue
+│   │       ├── random-users.vue
+│   │       ├── meals/
+│   │       │   ├── index.vue
+│   │       │   └── [id].vue
+│   │       └── books.vue
+│   └── shared/
+│       ├── types/
+│       └── utils/
 ├── nuxt.config.ts
-├── pages/
-│   ├── index.vue
-│   └── apis/
-│       ├── simpsons.vue
-│       ├── pokemon.vue
-│       ├── rick-morty.vue
-│       ├── harry-potter.vue
-│       ├── ghibli.vue
-│       ├── dogs.vue
-│       ├── star-wars.vue
-│       ├── trivia.vue
-│       ├── random-users.vue
-│       ├── meals.vue
-│       └── books.vue
-├── components/
-│   ├── layout/
-│   ├── cards/
-│   ├── common/
-│   └── sections/
-├── composables/
 ├── server/
 │   └── api/
-├── types/
-├── utils/
-├── data/
-│   └── api-catalog.ts
-└── assets/
-````
+└── public/
+```
 
 ---
 
@@ -233,7 +276,7 @@ The project should converge toward this structure:
 
 Create and use a central catalog file:
 
-* `data/api-catalog.ts`
+* `app/data/api-catalog.ts`
 
 Each item should include:
 
@@ -255,29 +298,38 @@ The homepage must render from this catalog, not from duplicated inline content.
 
 At minimum, implement these reusable components or equivalents if naming differs consistently:
 
+Nuxt auto-import naming must follow directory-based prefixes unless `pathPrefix` is explicitly disabled.
+For example:
+
+* `app/components/layout/AppHeader.vue` is used as `LayoutAppHeader`
+* `app/components/layout/PageContainer.vue` is used as `LayoutPageContainer`
+* `app/components/common/SearchBar.vue` is used as `CommonSearchBar`
+* `app/components/cards/ApiCard.vue` is used as `CardsApiCard`
+* `app/components/sections/HeroSection.vue` is used as `SectionsHeroSection`
+
 ### Layout
 
-* `AppHeader.vue`
-* `AppFooter.vue`
-* `PageContainer.vue`
+* `app/components/layout/AppHeader.vue` -> `LayoutAppHeader`
+* `app/components/layout/AppFooter.vue` -> `LayoutAppFooter`
+* `app/components/layout/PageContainer.vue` -> `LayoutPageContainer`
 
 ### Cards
 
-* `ApiCard.vue`
-* `CharacterCard.vue`
-* `MovieCard.vue`
-* `RecipeCard.vue`
-* `UserCard.vue`
+* `app/components/cards/ApiCard.vue` -> `CardsApiCard`
+* `app/components/cards/CharacterCard.vue` -> `CardsCharacterCard`
+* `app/components/cards/MovieCard.vue` -> `CardsMovieCard`
+* `app/components/cards/RecipeCard.vue` -> `CardsRecipeCard`
+* `app/components/cards/UserCard.vue` -> `CardsUserCard`
 
 ### Common
 
-* `SearchBar.vue`
-* `FilterBar.vue`
-* `PaginationControls.vue`
-* `LoadingGrid.vue`
-* `ErrorState.vue`
-* `EmptyState.vue`
-* `SectionHeader.vue`
+* `app/components/common/SearchBar.vue` -> `CommonSearchBar`
+* `app/components/common/FilterBar.vue` -> `CommonFilterBar`
+* `app/components/common/PaginationControls.vue` -> `CommonPaginationControls`
+* `app/components/common/LoadingGrid.vue` -> `CommonLoadingGrid`
+* `app/components/common/ErrorState.vue` -> `CommonErrorState`
+* `app/components/common/EmptyState.vue` -> `CommonEmptyState`
+* `app/components/common/SectionHeader.vue` -> `CommonSectionHeader`
 
 Equivalent alternatives are acceptable if they are clearly named and consistently used.
 
@@ -341,7 +393,7 @@ A page that only fetches and dumps raw JSON is not acceptable.
 
 ## Styling Rules
 
-* Use Tailwind consistently
+* Use Vuetify consistently
 * Maintain spacing rhythm across pages
 * Avoid one-off styles that break visual consistency
 * Responsive behavior is required
@@ -377,8 +429,8 @@ A page that only fetches and dumps raw JSON is not acceptable.
 
 The repository is done when:
 
-* homepage renders 11 API cards
-* all 11 demo routes exist and work
+* homepage renders 10 API cards
+* all 10 demo routes exist and work
 * each demo consumes real remote data
 * each demo has loading, error, and empty states
 * the design is visually consistent
